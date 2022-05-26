@@ -1,0 +1,929 @@
+﻿@model WebApplication4.Models.Item
+
+@{
+        Layout = "~/Views/Shared/fr/_Layoutfr.cshtml";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var usersRole = '@Model.FullNamePlusRank';
+        if (usersRole.indexOf("Team Creator") < 0) {
+            $("#menuItemCreateNewMember").addClass("btn disabled");
+            $("#menuItemCreateNewTeam").addClass("btn disabled");
+        }
+
+        @*var uid = '@Model.LoggedInUser';
+        $("#meId").val(uid);*@
+    });
+
+</script>
+
+<!-- Page Content -->
+<div class="container">
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="page-header">
+                <div class="row">
+                    <div class="col-md-12 text-left ">
+                        <p style="font-size:xx-large;font-weight:600;float:left">Tableau Scrum&nbsp;<font style="font-size:x-small">@Model.FullNamePlusRank</font></p>
+                        <img src="@Model.PersonImagePath" width="65" height="65" alt="Logged in user image" class="rounded-circle" style="float:right">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row dt-row">
+                    <div class="col-md-3 bg-danger" style="background-image: linear-gradient(to right top, #ffd9df, #fedfe3, #fee5e7, #fcebec, #fbf1f1);">
+                        @*#FFD9DF  #FBF1F1  https://mycolor.space/gradient?ori=to+right+top&hex=%23FFD9DF&hex2=%23FBF1F1&sub=1*@
+                        <div class="panel-heading">
+                            <div class="dropdown">
+                                <div style="text-align:center">
+                                    <h3>
+                                        TÂCHES TODO
+                                        <a href="#" style="text-decoration:none;color:blue;" class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">&#10247;</a>
+                                        @*#E5E5FF   #E5E5E5  #EEEEEE   https://mycolor.space/gradient3?ori=to+right+top&hex=%23E5E5FF&hex2=%23E5E5E5&hex3=%23EEEEEE&submit=submit*@
+                                        <ul class="dropdown-menu" style="border:1px solid #808080;height:auto;width:100%;background-image: linear-gradient(to right top, #eee5ef, #eee5ea, #eee5f5, #eee5f0, #eee5eb, #eee6ea, #eee6e8, #eee7e7, #eee9e9, #e7ebea, #e7ecec, #e7eeee);" aria-labelledby="dropdownMenu1">
+                                            <li><a href="#" style="width:100%;font-size:small;border:2px solid #ffffff" data-toggle="modal" data-target="#newItemModal" onclick="SetDateForNewItem();">&#187;&nbsp;Nouveau tâche</a></li>
+                                        </ul>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group">
+                            @foreach (var item in Model.Itemlist)
+                            {
+                                if (item.ITEMLOCATION == "TODO" || item.ITEMLOCATION == "TODOQA")
+                                {
+                                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <div class="row">
+                                                <div class="col-md-12 text-left ">
+                                                    <p style="font-size:medium;font-weight:600;float:left">@item.ITEMTITLE</p>
+                                                    <p style="font-size:small;font-weight:600;float:right">@item.CREATIONDATE</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p style="font-size:small">
+                                            @Html.Raw(item.ITEMNOTES)
+                                        </p>
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <!-- Small button groups (default and split) -->
+                                                    <div class="btn-group dropup" style="float:left;">
+                                                        <div style="font-size:smaller;font-weight:600;float:right;color:blue" class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            &#10247;
+                                                            &nbsp;
+                                                            @if (item.ITEMLOCATION == "TODOQA")
+                                                            {
+                                                                <font style="font-size:x-small;color:red">qa</font>
+                                                            }
+                                                        </div>
+                                                        <ul class="dropdown-menu" style="width:100%;border:1px solid darkgrey;height:auto;background-image: linear-gradient(to right top, #eee5ef, #eee5ea, #eee5f5, #eee5f0, #eee5eb, #eee6ea, #eee6e8, #eee7e7, #eee9e9, #e7ebea, #e7ecec, #e7eeee);">
+                                                            <li class="dropdown-item" style="width:100%;font-size:small;border:2px solid #ffffff" onclick="moveToInProgress('@item.ITEMID')">&#187;&nbsp;INPROGRESS</li>
+                                                            <li class="dropdown-item" style="width:100%;font-size:small;border:2px solid #ffffff" onclick="DeleteItem('@item.ITEMID')">&#187;&nbsp;Supprimer</li>
+
+                                                        </ul>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="col-md-9">
+                                                    <p style="font-size:smaller;font-weight:600;float:right;line-height:2;color:blue" onclick="DisplayItemDetails('@item.ITEMID')">
+                                                        <u>Détails de la tâche</u>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                }
+                            }
+
+                        </div>
+                    </div>
+                    <div class="col-md-3 bg-info" id="droppable" style="background-image: linear-gradient(to right, #eceefb, #edeef8, #eeeef4, #eeeef1, #eeeeee);">
+                        @*#ECEEFB   #EEEEEE   https://mycolor.space/gradient?ori=to+right&hex=%23ECEEFB&hex2=%23EEEEEE&sub=1*@
+                        <div class="panel-heading">
+                            <h3 style="text-align:center">INPROGRESS</h3>
+                        </div>
+                        <div class="list-group">
+                            @foreach (var item in Model.Itemlist)
+                            {
+                                if (item.ITEMLOCATION == "INPROGRESS" || item.ITEMLOCATION == "INPROGQA")
+                                {
+                                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <div class="row">
+                                                <div class="col-md-12 text-left ">
+                                                    <p style="font-size:medium;font-weight:600;float:left">@item.ITEMTITLE</p>
+                                                    <p style="font-size:small;font-weight:600;float:right">@item.CREATIONDATE</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p style="font-size:small">
+                                            @Html.Raw(item.ITEMNOTES)
+                                        </p>
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <!-- Small button groups (default and split) -->
+                                                    <div class="btn-group dropup" style="float:left;">
+                                                        <div style="font-size:smaller;font-weight:600;float:right;color:blue" class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            &#10247;
+                                                            &nbsp;
+                                                            @if (item.ITEMLOCATION == "INPROGQA")
+                                                            {
+                                                                <font style="font-size:x-small;color:red">qa</font>
+                                                            }
+                                                        </div>
+                                                        <ul class="dropdown-menu" style="width:100%;border:1px solid darkgrey;height:auto;background-image: linear-gradient(to right top, #eee5ef, #eee5ea, #eee5f5, #eee5f0, #eee5eb, #eee6ea, #eee6e8, #eee7e7, #eee9e9, #e7ebea, #e7ecec, #e7eeee);">
+                                                            <li class="dropdown-item" style="width:100%;font-size:small;border:2px solid #ffffff" onclick="moveToToDo('@item.ITEMID')">&#187;&nbsp;TODO</li>
+                                                            <li class="dropdown-item" style="width:100%;font-size:small;border:2px solid #ffffff" onclick="moveToQA('@item.ITEMID')">&#187;&nbsp;QA</li>
+                                                            <li class="dropdown-item" style="width:100%;font-size:small;border:2px solid #ffffff" onclick="moveToDone('@item.ITEMID')">&#187;&nbsp;DONE</li>
+                                                            <li class="dropdown-item" style="width:100%;font-size:small;border:2px solid #ffffff" onclick="DeleteItem('@item.ITEMID')">&#187;&nbsp;Supprimer</li>
+
+                                                        </ul>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <p style="font-size:smaller;font-weight:600;float:right;line-height:2;color:blue" onclick="DisplayItemDetails('@item.ITEMID')">
+                                                        <u>Détails de la tâche</u>
+
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                }
+                            }
+                        </div>
+                    </div>
+                    <div class="col-md-3 bg-success" style="background-color: #ffffcc">
+                        @*#DAFDD6 #E1F9E1  https://mycolor.space/gradient?ori=to+right&hex=%23DAFDD6&hex2=%23E1F9E1&sub=1*@
+                        <div class="panel-heading">
+                            <h3 style="text-align:center">QA</h3>
+                        </div>
+                        <div class="list-group">
+                            @foreach (var item in Model.Itemlist)
+                            {
+                                if (item.ITEMLOCATION == "QA" || item.ITEMLOCATION == "QAQA")
+                                {
+                                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <div class="row">
+                                                <div class="col-md-12 text-left ">
+                                                    <p style="font-size:medium;font-weight:600;float:left">@item.ITEMTITLE</p>
+                                                    <p style="font-size:small;font-weight:600;float:right">@item.CREATIONDATE</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p style="font-size:small">
+                                            @Html.Raw(item.ITEMNOTES)
+                                        </p>
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <!-- Small button groups (default and split) -->
+                                                    <div class="btn-group dropup" style="float:left;">
+                                                        <div style="font-size:smaller;font-weight:600;float:right;color:blue" class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            &#10247;
+                                                            &nbsp;
+                                                            @if (item.ITEMLOCATION == "QAQA")
+                                                            {
+                                                                <font style="font-size:x-small;color:red">qa</font>
+                                                            }
+                                                        </div>
+                                                        <ul class="dropdown-menu" style="width:100%;border:1px solid darkgrey;height:auto;background-image: linear-gradient(to right top, #eee5ef, #eee5ea, #eee5f5, #eee5f0, #eee5eb, #eee6ea, #eee6e8, #eee7e7, #eee9e9, #e7ebea, #e7ecec, #e7eeee);">
+                                                            <li class="dropdown-item" style="width:100%;font-size:small;border:2px solid #ffffff" onclick="moveToInProgress('@item.ITEMID')">&#187;&nbsp;INPROGRESS</li>
+                                                            <li class="dropdown-item" style="width:100%;font-size:small;border:2px solid #ffffff" onclick="moveToDone('@item.ITEMID')">&#187;&nbsp;DONE</li>
+                                                            <li class="dropdown-item" style="width:100%;font-size:small;border:2px solid #ffffff" onclick="ChangeOwner('@item.ITEMID')">&#187;&nbsp;Changer de propriétaire</li>
+                                                            <li class="dropdown-item" style="width:100%;font-size:small;border:2px solid #ffffff" onclick="DeleteItem('@item.ITEMID')">&#187;&nbsp;Supprimer</li>
+
+
+                                                        </ul>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <p style="font-size:smaller;font-weight:600;float:right;line-height:2;color:blue" onclick="DisplayItemDetails('@item.ITEMID')">
+                                                        <u>Détails de la tâche</u>
+
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                }
+                            }
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-3 bg-success" style="background-image: linear-gradient(to right, #dafdd6, #dcfcd9, #ddfbdc, #dffade, #e1f9e1);">
+                        @*#DAFDD6 #E1F9E1  https://mycolor.space/gradient?ori=to+right&hex=%23DAFDD6&hex2=%23E1F9E1&sub=1*@
+                        <div class="panel-heading">
+                            <h3 style="text-align:center">TÂCHES DONE</h3>
+                        </div>
+                        <div class="list-group">
+                            @foreach (var item in Model.Itemlist)
+                            {
+                                if (item.ITEMLOCATION == "DONE" || item.ITEMLOCATION == "DONEQA")
+                                {
+                                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <div class="row">
+                                                <div class="col-md-12 text-left ">
+                                                    <p style="font-size:medium;font-weight:600;float:left">@item.ITEMTITLE</p>
+                                                    <p style="font-size:small;font-weight:600;float:right">@item.CREATIONDATE</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p style="font-size:small">
+                                            @Html.Raw(item.ITEMNOTES)
+                                        </p>
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <!-- Small button groups (default and split) -->
+                                                    <div class="btn-group dropup" style="float:left;">
+                                                        <div style="font-size:smaller;font-weight:600;float:right;color:blue" class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            &#10247;
+                                                            &nbsp;
+                                                            @if (item.ITEMLOCATION == "DONEQA")
+                                                            {
+                                                                <font style="font-size:x-small;color:red">qa</font>
+                                                            }
+                                                        </div>
+                                                        <ul class="dropdown-menu" style="width:100%;border:1px solid darkgrey;height:auto;background-image: linear-gradient(to right top, #eee5ef, #eee5ea, #eee5f5, #eee5f0, #eee5eb, #eee6ea, #eee6e8, #eee7e7, #eee9e9, #e7ebea, #e7ecec, #e7eeee);">
+                                                            <li class="dropdown-item" style="width:100%;font-size:small;border:2px solid #ffffff" onclick="moveToToDo('@item.ITEMID')">&#187;&nbsp;TODO</li>
+                                                            <li class="dropdown-item" style="width:100%;font-size:small;border:2px solid #ffffff" onclick="moveToInProgress('@item.ITEMID')">&#187;&nbsp;INPROGRESS</li>
+                                                            <li class="dropdown-item" style="width:100%;font-size:small;border:2px solid #ffffff" onclick="moveToQA('@item.ITEMID')">&#187;&nbsp;QA</li>
+                                                            <li class="dropdown-item" style="width:100%;font-size:small;border:2px solid #ffffff" onclick="DeleteItem('@item.ITEMID')">&#187;&nbsp;Supprimer</li>
+
+                                                        </ul>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <p style="font-size:smaller;font-weight:600;float:right;line-height:2;color:blue" onclick="DisplayItemDetails('@item.ITEMID')">
+                                                        <u>Détails de la tâche</u>
+
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- New Item Modal -->
+    <div class="modal fade" id="newItemModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
+         style="">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content" style="background-image: linear-gradient(to right top, #f2f2f2, #f2f2f2, #f2f2f2, #f2f2f2, #f2f2f2);">
+                <div class="modal-header">
+                    <div class="row">
+                        <div class="col-md-12 text-left ">
+                            <p style="font-size:x-large;font-weight:600;float:left">Nouvelle tâche</p>
+                            <p style="font-size:small;font-weight:600;float:right">
+                                <button type="button"
+                                        aria-hidden="true"
+                                        data-dismiss="modal"
+                                        aria-label="Close"
+                                        class="close"
+                                        style="width:30px;height:30px;">
+                                    &times;
+                                </button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <form id="newItem" action="/Home/AddNewItem" enctype="multipart/form-data" method="post">
+                        <div class="form-group" style="width:100%">
+                            <label for="itemTitle">Sélectionner un client</label>
+                            <select class="selectpicker" id="ClientSelect" name="ClientSelect" data-live-search="true" style="width:100%!important">
+                            </select>
+
+                            <label for="itemTitle">Sélectionnez Epic</label>
+                            <select class="selectpicker" id="EpicSelect" name="EpicSelect" data-live-search="true" style="width:100%!important">
+                            </select>
+
+                            <label for="itemTitle">Sélectionnez "Product Backlog"</label>
+                            <select class="selectpicker" id="PBelect" name="PBelect" data-live-search="true" style="width:100%!important">
+                            </select>
+
+
+                        </div>
+                        <div class="well well-lg bg-success text-info" style="background-image: linear-gradient(to left bottom, #e0eafc, #dce7fa, #d8e4f8, #d3e1f5, #cfdef3);">
+                            <span class="glyphicon glyphicon-cog"></span>
+                            Pour ajouter un nouvel article, vous devez savoir pour quel client ? -> alors pour quel client est Epic ? -> puis pour quel backlog de produits Epic vous voulez le créer.
+                            Lorsque vous sélectionnez l'une des "combo box" ci-dessus, en commençant par le client, vous obtiendrez les produits épiques correspondants, et vous sélectionnerez à votre tour les produits épiques en attente correspondants.
+                            Si l'une de ces cases est vide, veuillez vous rendre dans la section appropriée et l'y ajouter. Exemple : Si la "combo box" du client est vide, cliquez sur Client dans la section Menu de navigation, et ajouter un nouveau client, puis de là, ajouter une nouvelle Epic, et ainsi de suite.
+                        </div>
+                        <div class="form-group">
+                            <label for="itemTitle">Titre de la tâche</label>
+                            <input class="form-control" type="text" id="itemTitle" required maxlength="23" name="ItemTitle" aria-describedby="emailHelp" placeholder="Please enter item title">
+                            <small id="itemTitleHelp" class="form-text text-muted">Le titre de votre article TO DO. Une description générale.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="itemCreationDate">Date de création</label>
+                            <input class="form-control" type="text" readonly="readonly" id="itemCreationDate" name="ItemCreationDate">
+                            <small id="itemDateHelp" class="form-text text-muted">Date de création de votre tâche TO DO. Date actuelle.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="itemDescription">Description des tâches/Notes </label>
+                            <textarea class="form-control" rows="8" id="itemdescription" required name="ItemDescription"></textarea>
+                            <small id="itemDescriptionHelp" class="form-text text-muted">Description de votre tâche TO DO. Date du jour.</small>
+                        </div>
+                        <div class="shadow p-4 mb-4 bg-white">
+                            <div class="form-group">
+                                <label>Liens</label>&nbsp;<small id="itemLinkHelp" class="form-text text-muted">( Liens qui sont en grande partie liés à votre tâche TO DO.)</small>
+                                <input class="form-control" type="text" id="linkOne" name="LinkOne" aria-describedby="linkOneHelp" placeholder="Please enter item link 1">
+                                <input class="form-control" type="text" id="linkTwo" name="LinkTwo" aria-describedby="linkOneHelp" placeholder="Please enter item link 2">
+                                <input class="form-control" type="text" id="linkThree" name="LinkThree" aria-describedby="linkOneHelp" placeholder="Please enter item link 3">
+                            </div>
+                        </div>
+                        @*<input type="file" id="attachments" name="files" multiple>*@
+
+                        @*<div class="form-group">
+                                <label for="attachments">Attachments</label>
+                                <input type="file" id="attachments" name="Attachments" multiple class="btn-warning" style="float:right;line-height: 0.5;" size="10">
+                                <button type="button" class="btn btn-warning" id="detailsResetButton" onclick="ResetNewItem();">Reset</button>
+                            </div>*@
+
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Pièces jointes
+                                <input type="file" id="attachments" class="btn-warning" name="Attachments" multiple style="float:right;line-height: 0.5;" size="10">
+                                <button type="button" class="btn btn-warning" id="detailsResetButton" style="float:right;line-height: 0.5;" onclick="ResetNewItem();">Réinitialiser</button>
+
+                            </li>
+                        </ul>
+                        <div class="well well-lg bg-success text-info" style="background-image: linear-gradient(to left bottom, #e0eafc, #dce7fa, #d8e4f8, #d3e1f5, #cfdef3);">
+                            <span class="glyphicon glyphicon-cog"></span>
+                            Vous pouvez ajouter des pièces jointes de grande taille, jusqu'à 200 Mo. Pour les connexions lentes, le téléchargement des pièces jointes attendra 4 minutes, après quoi, si le téléchargement n'est pas terminé, ou si la taille téléchargée est supérieure à 200 Mo, la demande sera interrompue et vous serez redirigé. Elle peut être modifiée facilement.
+                        </div>
+
+
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+                            <button type="submit" class="btn btn-primary" id="btnSubmitNewItem">Enregistrer les modifications</button>
+                        </div>
+                        <input type="hidden" id="hyujkzsaa" name="hyujkzsaa" value="@Model.LoggedInUser" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Item Details Modal -->
+    <div class="modal fade" id="itemDetailsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
+         style="">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content" style="background-image: linear-gradient(to right top, #f2f2f2, #f2f2f2, #f2f2f2, #f2f2f2, #f2f2f2);">
+                <div class="modal-header">
+                    <div class="row">
+                        <div class="col-md-12 text-left ">
+                            <p style="font-size:x-large;font-weight:600;float:left">Nouveaux détails</p>
+                            <p style="font-size:small;font-weight:600;float:right">
+                                <button type="button"
+                                        aria-hidden="true"
+                                        data-dismiss="modal"
+                                        aria-label="Close"
+                                        class="close"
+                                        style="width:30px;height:30px;">
+                                    &times;
+                                </button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <form id="newItem" action="/Home/UpdateExistingItem" enctype="multipart/form-data" method="post">
+                        <input type="hidden" id="existingItemIdToUpdate" name="ItemId" />
+                        <div class="form-group">
+                            <label for="itemTitle">Titre de la tâche</label>
+                            <input class="form-control" type="text" id="ditemTitle" required maxlength="23" name="ItemTitle" aria-describedby="emailHelp" placeholder="Please enter item title">
+                            <small id="itemTitleHelp" class="form-text text-muted">Le titre de votre tâche TO DO. Une description générale.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="itemCreationDate">Date de création</label>
+                            <input class="form-control" type="text" readonly="readonly" id="ditemCreationDate" name="ItemCreationDate">
+                            <small id="itemDateHelp" class="form-text text-muted">Date de création de votre article à faire. Date du jour.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="itemDescription">Description des tâches/Notes</label>
+                            <textarea class="form-control" rows="8" id="ditemdescription" required name="ItemDescription"></textarea>
+                            <small id="itemDescriptionHelp" class="form-text text-muted">Description de votre tâche TO DO. Date du jour.</small>
+                        </div>
+                        <div class="shadow p-4 mb-4 bg-white">
+                            <div class="form-group">
+                                <label>Liens</label>&nbsp;<small id="itemLinkHelp" class="form-text text-muted">( Liens qui sont en grande partie liés à votre tâche TO DO.)</small>
+                                <input class="form-control" type="text" id="dlinkOne" name="LinkOne" aria-describedby="linkOneHelp" placeholder="Please enter item link 1">
+                                <input class="form-control" type="text" id="dlinkTwo" name="LinkTwo" aria-describedby="linkOneHelp" placeholder="Please enter item link 2">
+                                <input class="form-control" type="text" id="dlinkThree" name="LinkThree" aria-describedby="linkOneHelp" placeholder="Please enter item link 3">
+                            </div>
+                        </div>
+                        <label>Pièces jointes</label>
+                        <ul class="list-group" id="dAttachmentDetails">
+
+                            @*<li class="list-group-item d-flex justify-content-between align-items-center">Attachment name<a class="badge badge-primary badge-pill">delete</a></li>*@
+                        </ul>
+
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Ajouter des pièces jointes
+                                <input type="file" id="dattachments" class="btn-warning" name="Attachments" multiple style="float:right;line-height: 0.5;" size="10">
+                                <button type="button" class="btn btn-warning" id="detailsResetButton" style="float:right;line-height: 0.5;" onclick="ResetFileUpload($(this).val());">Réinitialiser</button>
+
+                            </li>
+                        </ul>
+                        @*<div class="form-group">
+                                <label for="attachments">Add Attachments</label>
+                                <input type="file" id="dattachments" name="Attachments" multiple>
+                                <button type="button" class="btn btn-warning" id="detailsResetButton" onclick="ResetFileUpload($(this).val());">Reset</button>
+
+                            </div>*@
+
+
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+                            <button type="submit" class="btn btn-primary" id="btnUpdateExistingItem">Mise à jour des changements</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- /.container -->
+<!-- Quotes Modal -->
+<div class="modal" id="quotesModal">
+    <div class="modal-dialog modal-lg" style="width:100%;height:100%">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <div class="row">
+                    <div class="col-md-12 text-left ">
+                        <p style="font-size:x-large;font-weight:600;float:left">Quelques citations intéressantes</p>
+                        <p style="font-size:small;font-weight:600;float:right">
+                            <button type="button"
+                                    aria-hidden="true"
+                                    data-dismiss="modal"
+                                    aria-label="Close"
+                                    class="close"
+                                    style="width:30px;height:30px;">
+                                &times;
+                            </button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="container" style="width:100%">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="card" style="width:100%;margin:20px 0 24px 0;">
+                                <img class="card-img-top img-responsive" src="~/Images/c1.JPG" alt="image" style="width:100%">
+                                <div class="card-body">
+                                    <h4 class="card-title">L'avenir de Scrum - 2005</h4>
+                                    <p class="card-text">Scrum a créé un environnement stable qui s'adapte très bien au changement.</p>
+                                    @*<a href="javascript:void(0)" class="btn btn-primary">See Profile</a>*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="card" style="width:100%;margin:20px 0 24px 0">
+                                <img class="card-img-top" src="~/Images/c2.JPG" alt="image" style="width:100%">
+                                <div class="card-body">
+                                    <h4 class="card-title">Product Backlog</h4>
+                                    <p class="card-text">
+                                        Les articles de la liste des produits en attente doivent être effectués un par un
+                                        par toute l'équipe, de haut en bas, et ne passer à la suivante que lorsqu'elle est testée.
+                                    </p>
+                                    @*<a href="javascript:void(0)" class="btn btn-primary">See Profile</a>*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="card" style="width:100%;margin:20px 0 24px 0">
+                                <img class="card-img-top" src="~/Images/c3.JPG" alt="image" style="width:100%">
+                                <div class="card-body">
+                                    <h4 class="card-title">Sprint Backlog</h4>
+                                    <p class="card-text">Rendre visible tout le travail que l'équipe de développement identifie</p>
+                                    @*<a href="javascript:void(0)" class="btn btn-primary">See Profile</a>*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="card" style="width:100%;margin:20px 0 24px 0">
+                                <img class="card-img-top" src="~/Images/c4.JPG" alt="image" style="width:100%">
+                                <div class="card-body">
+                                    <h4 class="card-title">Les cases horaires(Time Boxes)</h4>
+                                    <p class="card-text">Les cases de temps sont le temps "le PLUS" ou "le MAXIMUM" alloué pour terminer.</p>
+                                    @*<a href="javascript:void(0)" class="btn btn-primary">See Profile</a>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container p-3 my-3 bg-dark text-white">
+                    <h1>Le problème de l'arrêt cosmique</h1>
+                    <blockquote class="blockquote text-left">
+                        <p class="mb-0">
+                            Si l'arriéré de Scrum n'est pas clair, arrêtez-le. C'est la même chose qu'un problème qui s'est produit dans le passé dans l'une des
+                            des universités où 300 mhz perturbent un ordinateur toutes les deux semaines. Ils ne savaient pas pourquoi. Finalement, ils ont découvert qu'il
+                            était due à une tension de bascule, qui était dans un état indéterminé.
+                        </p>
+                        <footer class="blockquote-footer">Source: Google Tech Talks - Jeff Sutherland</footer>
+                    </blockquote>
+                </div>
+                <div class="container p-3 my-3 bg-dark text-white">
+                    <h1>Obstacles</h1>
+                    <blockquote class="blockquote text-left">
+                        <p class="mb-0">
+                            Un bon Scrum Master élimine très rapidement tous les obstacles d'une équipe. Les petits et moyens obstacles peuvent prendre jusqu'à une heure
+                            . Gros obstacles un jour maximum.
+                        </p>
+                        <footer class="blockquote-footer">Source: Google Tech Talks - Jeff Sutherland</footer>
+                    </blockquote>
+
+
+                </div>
+                <div class="container p-3 my-3 bg-dark text-white">
+                    <h1>Hyperproductivité</h1>
+
+                    <blockquote class="blockquote text-left">
+                        Scrum Board
+                        <p class="mb-0">
+                            L'hyperproductivité est une cible. Les équipes qui utilisent l'approche de démarrage rapide, augmentent la vitesse de l'équipe.
+                        </p>
+                        <footer class="blockquote-footer">Source: Google Tech Talks - Jeff Sutherland</footer>
+                    </blockquote>
+
+                </div>
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- New Team Modal -->
+<div class="modal" id="newTeamModal">
+    <div class="modal-dialog modal-lg>
+        <div class="modal-content" style="        background-image: linear-gradient(to right top, #f2f2f2, #f2f2f2, #f2f2f2, #f2f2f2, #f2f2f2);
+        width: 100%;
+        min-height: 100%
+">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <div class="row">
+                    <div class="col-md-12 text-left ">
+                        <p style="font-size:x-large;font-weight:600;float:left">Créer une nouvelle équipe</p>
+
+                        <p style="font-size:small;font-weight:600;float:right">
+                            <button type="button"
+                                    aria-hidden="true"
+                                    data-dismiss="modal"
+                                    aria-label="Close"
+                                    class="close"
+                                    style="width:30px;height:30px;">
+                                &times;
+                            </button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="container" style="width:100%">
+
+                    <div class="well well-lg bg-success text-info" style="background-image: linear-gradient(to left bottom, #e0eafc, #dce7fa, #d8e4f8, #d3e1f5, #cfdef3);">
+                        <span class="glyphicon glyphicon-cog"></span>
+                        Lorsque vous créez une nouvelle équipe, et que vous devez y ajouter des membres, créez d'abord des membres en allant dans Équipe -> Créer un nouveau membre. Vous les verrez ensuite dans le tableau des membres de cette section.
+                    </div>
+
+                    <div class="row" style="">
+                        <div class="col-sm-12">
+                            <label style="color:indianred;font-weight:bold;">NOM DE L'ÉQUIPE</label>
+                            <div class="row" style="">
+                                <div class="col-sm-12">
+
+                                    <div class="form-group" style="width:100%;padding:10px">
+
+                                        <input class="form-control" type="text" id="teamName" style="width:100%;font-weight:bold" required name="teamName" aria-describedby="teamNameHelp" placeholder="Team Name">
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" style="">
+                                <div class="col-sm-12">
+                                    <div class="form-group" style="width:100%;padding:10px">
+                                        <button type="button" class="btn btn-success" style="width:100%;" disabled id="btnCreateTeam" onclick="CreateTeamWithMembers();">Créer une équipe</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <label style="color:indianred;font-weight:bold;">MEMBRES D'ÉQUIPE SÉLECTIONNÉS (ajoutés automatiquement)</label>
+
+                    <div class="row" style="border:1px solid indianred;padding:10px">
+                        <div class="col-sm-12">
+                            <table class="table table-striped table-bordered table-sm" style="padding:7px;width:100%">
+                                <thead>
+                                    <tr>
+                                        <th style="width:25%">PRÉNOM</th>
+                                        <th style="width:25%">NOM DE FAMILLE</th>
+                                        <th style="width:25%">COURRIEL</th>
+                                        <th style="width:25%">
+                                            Options
+                                        </th>
+                                    </tr>
+
+                                </thead>
+                                <tbody id="selectedTeamMembers"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+
+
+                    <label style="color:indianred;font-weight:bold;">PERSONNES</label>
+                    <div class="row" style="border:1px solid indianred;padding:10px">
+                        <div class="col-sm-12">
+                            <table class="table table-bordered table-striped" id="tblTeams" style="width:100%;padding:7px;">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">PRÉNOM</th>
+                                        <th scope="col">NOM DE FAMILLE</th>
+                                        <th scope="col">COURRIEL</th>
+                                        <th scope="col">&nbsp;</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- New Member Modal -->
+<div class="modal" id="newMemberModal">
+    <div class="modal-dialog modal-lg" style="width:100%;height:100%">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <div class="row">
+                    <div class="col-md-12 text-left ">
+                        <p style="font-size:x-large;font-weight:600;float:left">Nouveau membre</p>
+                        <p style="font-size:small;font-weight:600;float:right">
+                            <button type="button"
+                                    aria-hidden="true"
+                                    data-dismiss="modal"
+                                    aria-label="Close"
+                                    class="close"
+                                    style="width:30px;height:30px;">
+                                &times;
+                            </button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form id="registrationForm" action="/Home/RegisterNewUser" enctype="multipart/form-data" method="post">
+                    <div class="form-group">
+                        <label for="TeamSelect">Choisissez une équipe</label>
+                        <select class="selectpicker" id="TeamSelect" name="TEAMNAME" required data-live-search="true" style="width:100%">
+                        </select>
+                    </div>
+                    <div class="well well-lg bg-success text-info" style="background-image: linear-gradient(to left bottom, #e0eafc, #dce7fa, #d8e4f8, #d3e1f5, #cfdef3);">
+                        <span class="glyphicon glyphicon-cog"></span>
+                        Si vous ne sélectionnez pas une équipe ci-dessus, une équipe par défaut sera sélectionnée.
+                    </div>
+
+                    <div class="form-group">
+                        <label for="firstName">Pseudonyme</label>
+                        <input class="form-control" type="text" id="nickName" required maxlength="23" name="NICKNAME" aria-describedby="emailHelp" placeholder="Pseudonyme" onblur="CheckNickName(this.value);">
+                        <small id="itemTitleHelp1" class="form-text text-muted">Veuillez entrer votre pseudonyme.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="firstName">Mot de passe</label>
+                        <input class="form-control" type="password" id="PASSWORD" required name="PASSWORD" aria-describedby="emailHelp" placeholder="Mot de passe">
+                        <small id="itemTitleHelp1" class="form-text text-muted">Veuillez entrer votre mot de passe</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="firstName">Confirmer le mot de passe</label>
+                        <input class="form-control" type="password" onblur="CheckEnteredPasswords();" id="CONFIRMPASSWORD" required name="CONFIRMPASSWORD" aria-describedby="emailHelp" placeholder="Confirmer le mot de passe">
+                        <small id="itemTitleHelp1" class="form-text text-muted">Veuillez confirmer votre mot de passe</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="firstName">Prénom</label>
+                        <input class="form-control" type="text" id="firstName" required name="FIRSTNAME" aria-describedby="emailHelp" placeholder="Prénom">
+                        <small id="itemTitleHelp2" class="form-text text-muted">Veuillez entrer votre prénom.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Nom de famille</label>
+                        <input class="form-control" type="text" id="lastName" required name="LASTNAME" placeholder="Nom de famille">
+                        <small id="itemDateHelp3" class="form-text text-muted">Veuillez entrer votre nom de famille.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Courriel</label>
+                        <input class="form-control" type="text" required id="email" name="EMAIL" placeholder="Courriel">
+                        <small id="itemDateHelp4" class="form-text text-muted">Veuillez entrer votre courriel.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemCreationDate">Date d'enregistrement</label>
+                        <input class="form-control" type="text" readonly="readonly" id="registrationDate" name="REGISTRATIONDATE">
+                        <small id="itemDateHelp5" class="form-text text-muted">Date d'enregistrement</small>
+                    </div>
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Photo de profil
+                            <input type="file" id="regattachments" class="btn-warning" name="PROFILEPICTURE" style="float:right;line-height: 0.5;" size="10">
+                            <button type="button" class="btn btn-warning" id="detailsResetButton" style="float:right;line-height: 0.5;" onclick="ResetRegistrationUpload();">Réinitialiser</button>
+
+                        </li>
+                    </ul>
+
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="ReturnToLogin();">Annuler</button>
+                        <button class="btn btn-danger" onclick="ResetRegForm();">Réinitialiser</button>
+                        <button type="submit" class="btn btn-primary" id="btnSubmitNewRegItem">Enregistrer les modifications</button>
+                    </div>
+                </form>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+<!-- User Details Modal -->
+<div class="modal fade" id="UserDetailsModal" tabindex="-1" role="dialog" aria-labelledby="userDetailslabelledby" aria-hidden="true" style="">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" style="background-image: linear-gradient(to right top, #f2f2f2, #f2f2f2, #f2f2f2, #f2f2f2, #f2f2f2);">
+            <div class="modal-header">
+                <div class="row">
+                    <div class="col-md-12 text-left ">
+                        <p style="font-size:x-large;font-weight:600;float:left">Détails de l'utilisateur</p>
+                        <p style="font-size:small;font-weight:600;float:right">
+                            <button type="button"
+                                    aria-hidden="true"
+                                    data-dismiss="modal"
+                                    aria-label="Close"
+                                    class="close"
+                                    style="width:30px;height:30px;">
+                                &times;
+                            </button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <form id="newItem" action="/Home/EditExistingUser" enctype="multipart/form-data" method="post">
+                    <div class="form-group">
+                        <label for="itemTitle">Pseudonyme</label>
+                        <input class="form-control" type="text" id="dUserNickname" required maxlength="23" name="NICKNAME" aria-describedby="emailHelp" placeholder="Please enter item title">
+                        <small id="itemTitleHelp" class="form-text text-muted">Le pseudonyme d'un utilisateur.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemTitle">Prénom</label>
+                        <input class="form-control" type="text" id="uFirstName" name="FIRSTNAME" aria-describedby="emailHelp" placeholder="Please enter item title">
+                        <small id="itemTitleHelp" class="form-text text-muted">Prénom de l'utilisateur.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="itemDescription">Nom de famille</label>
+                        <input class="form-control" rows="6" cols="5" id="userLastName" name="LASTNAME">
+                        <small id="itemDescriptionHelp" class="form-text text-muted">Nom de famille de l'utilisateur.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="itemDescription">Courriel</label>
+                        <input class="form-control" rows="6" cols="5" id="userEmail" name="EMAIL">
+                        <small id="itemDescriptionHelp" class="form-text text-muted">Courriel de l'utilisateur.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="itemDescription">Date d'enregistrement</label>
+                        <input class="form-control" rows="6" cols="5" id="userRegistrationDate" readonly name="REGISTRATIONDATE">
+                        <small id="itemDescriptionHelp" class="form-text text-muted">Date d'enregistrement de l'utilisateur.</small>
+                    </div>
+
+
+
+                    <div class="text-center">
+                        <img width="200" height="200" src="" id="usersPhoto" class="rounded">
+                    </div>
+
+
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Photo de l'utilisateur
+                            <input type="file" id="dattachments" class="btn-warning" name="Attachments" style="float:right;line-height: 0.5;" size="10">
+                            <button type="button" class="btn btn-warning" id="ddetailsResetButton" style="float:right;line-height: 0.5;" onclick="ResetNewItem();">Réinitialiser</button>
+
+                        </li>
+                    </ul>
+
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-primary" id="btnSubmitNewItem">Enregistrer les modifications</button>
+                    </div>
+                    <input type="hidden" id="uhyujkzsaa" name="uhyujkzsaa" value="" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Change Owner Modal -->
+<div class="modal fade" id="changeOwnerModal" tabindex="-1" role="dialog" aria-labelledby="exampleChangeOwnerLabel" aria-hidden="true"
+     style="">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" style="background-image: linear-gradient(to right top, #f2f2f2, #f2f2f2, #f2f2f2, #f2f2f2, #f2f2f2);">
+            <div class="modal-header">
+                <div class="row">
+                    <div class="col-md-12 text-left ">
+                        <p id="changeItemOwnerHeader" style="font-size:x-large;font-weight:600;float:left">Changer le propriétaire de la tâche</p>
+                        <p style="font-size:small;font-weight:600;float:right">
+                            <button type="button"
+                                    aria-hidden="true"
+                                    data-dismiss="modal"
+                                    aria-label="Close"
+                                    class="close"
+                                    style="width:30px;height:30px;">
+                                &times;
+                            </button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <form id="changeOwnerFrm" action="/Home/ChangeItemsOwner" enctype="multipart/form-data" method="post">
+
+                    <label>Affecter à la personne</label>
+                    <select class="selectpicker" id="PeopleSelect" name="PERSONID" data-live-search="true" style="width:100%" required>
+                    </select>
+
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-primary" id="btnSubmitNewItem">Enregistrer les modifications</button>
+                    </div>
+                    <input type="hidden" id="itemIdToChangeOwner" name="ITEMID" value="" />
+                    <input type="hidden" id="customLocation" name="CustomLocation" value="" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

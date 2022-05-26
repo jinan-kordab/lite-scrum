@@ -1,0 +1,547 @@
+﻿@model WebApplication4.Models.ProductBacklog
+
+@{
+    Layout = "~/Views/Shared/_LayoutSprintArchiveBacklog.cshtml";
+}
+
+<style type="text/css">
+    /* These apply across all breakpoints because they are outside of a media query */
+    /* Make the labels light gray all caps across the board */
+    .sBacklog thead th,
+    .sBacklog tbody th .ui-table-cell-label,
+    .sBacklog tbody td .ui-table-cell-label {
+        text-transform: uppercase;
+        font-size: .7em;
+        color: rgba(0,0,0,0.5);
+        font-weight: normal;
+    }
+    /* White bg, large blue text for rank and title */
+    .sBacklog tbody th {
+        font-size: 1.2em;
+        background-color: #fff;
+        color: #77bbff;
+        text-align: center;
+    }
+    /*  Add a bit of extra left padding for the title */
+    .sBacklog tbody td.title {
+        padding-left: .8em;
+    }
+    /*  Custom stacked styles for mobile sizes */
+    /*  Use a max-width media query so we don't have to undo these styles */
+    @@media (max-width: 40em) {
+        .sBacklog {
+            border-collapse: unset;
+            padding-left: 0px;
+            width: 100%;
+        }
+
+            .sBacklog tr td {
+                width: 100% !important;
+            }
+
+            .sBacklog td {
+                width: 550px;
+                border-collapse: unset;
+            }
+            /*  Negate the margin between sections */
+            .sBacklog tbody th {
+                margin-top: 0;
+                text-align: left;
+                width: 100%;
+            }
+            /*  White bg, large blue text for rank and title */
+            .sBacklog tbody th,
+            .sBacklog tbody td.title {
+                display: block;
+                font-size: 1.2em;
+                line-height: 110%;
+                padding: .5em .5em;
+                background-color: #fff;
+                color: #77bbff;
+                -moz-box-shadow: 0 1px 6px rgba(0,0,0,.1);
+                -webkit-box-shadow: 0 1px 6px rgba(0,0,0,.1);
+                box-shadow: 0 1px 6px rgba(0,0,0,.1);
+            }
+                /*  Hide labels for rank and title */
+                .sBacklog tbody th .ui-table-cell-label,
+                .sBacklog tbody td.title .ui-table-cell-label {
+                    display: none;
+                }
+            /*  Position the title next to the rank, pad to the left */
+            .sBacklog tbody td.title {
+                margin-top: -2.1em;
+                padding-left: 2.2em;
+                border-bottom: 1px solid rgba(0,0,0,.15);
+            }
+            /*  Make the data bold */
+            .sBacklog th,
+            .sBacklog td {
+                font-weight: bold;
+            }
+                /* Make the label elements a percentage width */
+                .sBacklog td .ui-table-cell-label,
+                .sBacklog th .ui-table-cell-label {
+                    min-width: 20%;
+                }
+    }
+    /* Media query to show as a standard table at wider widths */
+    @@media ( min-width: 40em ) {
+        /* Show the table header rows */
+        .sBacklog td,
+        .sBacklog th,
+        .sBacklog tbody th,
+        .sBacklog tbody td,
+        .sBacklog thead td,
+        .sBacklog thead th {
+            display: table-cell;
+            margin: 0;
+        }
+            /* Hide the labels in each cell */
+            .sBacklog td .ui-table-cell-label,
+            .sBacklog th .ui-table-cell-label {
+                display: none;
+            }
+    }
+    /* Hack to make IE9 and WP7.5 treat cells like block level elements */
+    /* Applied in a max-width media query up to the table layout breakpoint so we don't need to negate this */
+    @@media ( max-width: 40em ) {
+
+        .sBacklog td,
+        .sBacklog th {
+            width: 100%;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            float: left;
+            clear: left;
+        }
+    }
+
+
+    .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
+        width: 100%;
+    }
+</style>
+
+
+@*<script src="~/Scripts/jquery.mobile.min.js"></script>*@
+
+
+<div class="container">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="page-header">
+                <div class="row">
+                    <div class="col-md-12 text-left ">
+                        <form style="float:left" class="form-inline" action="/Sprint/ArchiveSprint" enctype="multipart/form-data" method="post">
+                            <div class="form-group">
+                                <p style="font-size:xx-large;font-weight:600;float:left">Archived Sprint&nbsp;<font style="font-size:x-small">@Model.FullNamePlusRank</font></p>
+                            </div>
+                            <div class="form-group" style="padding-left:15px">
+                                <label for="sprintStartDate">&nbsp;From:</label>
+                                <input type="text" class="form-control" id="sprintStartDate" name="SPRINTARCHIVESTARTDATE" value="@Model.SPRINTARCHIVESTARTDATE" disabled>
+                            </div>
+                            <div class="form-group" style="padding-left:15px">
+                                <label for="sprintEndDate">To:</label>
+                                <input type="text" class="form-control" id="sprintEndDate" name="SPRINTARCHIVEENDDATE" value="@Model.SPRINTARCHIVEENDDATE" disabled>
+                            </div>
+                            @*<button type="submit" class="btn btn-default">Archive Sprint</button>*@
+                        </form>
+                        <img src="@Model.PersonImagePath" width="40" height="40" alt="Logged in user image" class="rounded-circle" style="float:right">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="width:100%">
+    <table data-role="table" id="movie-table-custom" data-mode="reflow" class="sBacklog table-stroke" style="overflow: scroll;table-layout: fixed;width:100%">
+        <thead>
+            <tr>
+                @for (int ic = 0; ic < Model.cIndividualItemsColumnCount + 1; ic++)
+                {
+                    @Html.Raw("<th></th>")
+                }
+
+            </tr>
+        </thead>
+        <tbody style="border-top: 3px solid #913d88">
+            @for (int i = 0; i < Model.Itemlist.Count; i++)
+            {
+                <tr>
+                    <td style="border: 3px solid #913d88;width: 200px;">
+                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" style="background-image: linear-gradient(to right, #eceefb, #edeef8, #eeeef4, #eeeef1, #eeeeee);
+        min-height: 275px;
+        max-height: 250px;
+        height: 250px;
+">
+                            <div class="d-flex w-300 justify-content-between">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p style="font-size: x-small;color: darkblue;font-weight: 600;float: left;line-height: 1.3;height: 25px;">
+                                            <span style="border:1px dotted silver">@Html.Raw(Model.Itemlist[i].ITEMTITLE)</span><br />
+                                            <span style="border:1px dotted silver">@Html.Raw(Model.Itemlist[i].CREATIONDATE.Date.Day)/@Html.Raw(Model.Itemlist[i].CREATIONDATE.Date.Month)/@Html.Raw(Model.Itemlist[i].CREATIONDATE.Date.Year)</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <p style="font-size:x-small;height:140px;overflow:auto;color:darkblue;border:1px dotted silver">
+                                @Html.Raw(Model.Itemlist[i].ITEMNOTES)
+                            </p>
+                            <div class="d-flex w-100 justify-content-between">
+                                <div class="row">
+                                    <div class="col-md-3 text-left ">
+                                        <!-- Small button groups (default and split) -->
+                                        @*<div class="btn-group dropup" style="float:left;font-size:x-small;color:darkblue">
+                                                <div style="font-size:smaller;font-weight:600;float:right;color:darkblue" class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    &#10247;
+                                                </div>
+                                                <ul class="dropdown-menu" style="width:100%;border:1px solid darkgrey;height:auto;background-image: linear-gradient(to right top, #eee5ef, #eee5ea, #eee5f5, #eee5f0, #eee5eb, #eee6ea, #eee6e8, #eee7e7, #eee9e9, #e7ebea, #e7ecec, #e7eeee);">
+                                                    <li class="dropdown-item" style="width:100%;font-size:small;border:2px solid #ffffff;color:black;cursor:hand" data-toggle="modal" data-target="#newItemModal" onclick="SetDateForNewItem('@Html.Raw(Model.Itemlist[i].ITEMID)');">&#187;&nbsp;New Sprint Item</li>
+                                                    <li class="dropdown-item" style="width:100%;font-size:small;border:2px solid #ffffff;color:black;" onclick="DeleteItem('')">&#187;&nbsp;Delete</li>
+
+                                                </ul>
+                                            </div>*@
+
+                                    </div>
+                                    <div class="col-md-9">
+                                        <p style="font-size:x-small;font-weight:600;float:right;line-height:2;color:darkblue" onclick="DisplayItemDetails('@Model.Itemlist[i].ITEMID')">
+                                            <u>Details</u>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </td>
+
+                    @foreach (var item in Model.Itemlist[i].IndividualItems)
+                    {
+
+
+
+                        <td style="line-height:0.7em;">
+
+
+                            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" style="        min-height: 275px;
+        max-height: 250px;
+        height: 250px;
+        background-image: @(item.ITEMLOCATION == "DONE" ? "linear-gradient(to right, #dafdd6, #dcfcd9, #ddfbdc, #dffade, #e1f9e1);" : (item.ITEMLOCATION == "INPROGRESS" ? "linear-gradient(to right, #eceefb, #edeef8, #eeeef4, #eeeef1, #eeeeee);" : "linear-gradient(to right top, #ffd9df, #fedfe3, #fee5e7, #fcebec, #fbf1f1);") )">
+
+                                <div class="d-flex w-100 justify-content-between">
+                                    <div class="row">
+                                        <div class="col-md-12 text-left">
+                                            <p style="font-size: x-small;font-weight: 600;overflow-wrap:break-word;">@item.ITEMTITLE</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12 text-left ">
+                                            <p style="font-size:x-small;font-weight:600;float:left">@item.CREATIONDATE.Date.Day/@item.CREATIONDATE.Date.Month/@item.CREATIONDATE.Date.Year</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p style="font-size:x-small;height:100px;overflow:auto;border:1px dotted silver">
+                                    @Html.Raw(item.ITEMNOTES)
+                                </p>
+                                <div class="d-flex w-100 justify-content-between">
+                                    <div class="row">
+                                        <div class="col-md-3 text-left ">
+                                            <!-- Small button groups (default and split) -->
+                                            <div class="btn-group dropup" style="float:left;">
+                                                <div style="font-size:x-small;float:right;color:blue">
+                                                    <img class="img-circle" src="@item.PersonImagePath" width="15" height="15" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-9 text-right">
+                                            <p style="font-size:x-small;font-weight:600;float:right;line-height:2;color:blue">
+                                                @item.FullName
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3 text-left ">
+                                            @*<div class="btn-group dropup" style="float:left;">
+                                                    <div style="font-size:x-small;font-weight:600;float:right;color:blue" class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        &#10247;
+                                                    </div>
+                                                    <ul class="dropdown-menu" style="width:100%;border:1px solid darkgrey;height:auto;background-image: linear-gradient(to right top, #eee5ef, #eee5ea, #eee5f5, #eee5f0, #eee5eb, #eee6ea, #eee6e8, #eee7e7, #eee9e9, #e7ebea, #e7ecec, #e7eeee);">
+
+                                                        <li class="dropdown-item" style="width:100%;font-size:small;border:2px solid #ffffff" onclick="DeleteItem('@item.ITEMID')">&#187;&nbsp;Delete</li>
+                                                    </ul>
+                                                </div>*@
+                                        </div>
+
+                                        <div class="col-md-6" style="font-size:x-small;font-weight:600;padding-top:5px">
+                                            @Html.Raw(item.ITEMLOCATION.Trim() == "INPROGRESS" ? "INPROG" : item.ITEMLOCATION)
+                                        </div>
+
+
+
+                                        <div class="col-md-3">
+                                            <p style="font-size:x-small;font-weight:600;float:right;line-height:2;color:blue" onclick="DisplayItemTaskDetails('@item.ITEMID')">
+                                                <u>Details</u>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </a>
+
+
+
+                        </td>
+
+
+
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<!-- New Item Modal -->
+<div class="modal fade" id="newItemModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
+     style="">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" style="background-image: linear-gradient(to right top, #f2f2f2, #f2f2f2, #f2f2f2, #f2f2f2, #f2f2f2);">
+            <div class="modal-header">
+                <div class="row">
+                    <div class="col-md-12 text-left ">
+                        <p id="NewPbPBTitle" style="font-size:x-large;font-weight:600;float:left"></p>
+                        <p style="font-size:small;font-weight:600;float:right">
+                            <button type="button"
+                                    aria-hidden="true"
+                                    data-dismiss="modal"
+                                    aria-label="Close"
+                                    class="close"
+                                    style="width:30px;height:30px;">
+                                &times;
+                            </button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <form id="newItem" action="/Sprint/AddNewItem" enctype="multipart/form-data" method="post">
+                    <div class="form-group">
+                        <label for="itemTitle">Item title</label>
+                        <input class="form-control" type="text" id="itemTitle" required maxlength="23" name="ItemTitle" aria-describedby="emailHelp" placeholder="Please enter item title">
+                        <small id="itemTitleHelp" class="form-text text-muted">The title of your TO DO item. A general description.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemCreationDate">Creation Date</label>
+                        <input class="form-control" type="text" readonly="readonly" id="itemCreationDate" name="ItemCreationDate">
+                        <small id="itemDateHelp" class="form-text text-muted">Creation date of your TO DO item. Current date.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemDescription">Item Description/Notes</label>
+                        <textarea class="form-control" rows="8" id="itemdescription" required name="ItemDescription"></textarea>
+                        <small id="itemDescriptionHelp" class="form-text text-muted">Description of your TO DO item. Current date.</small>
+                    </div>
+                    <div class="shadow p-4 mb-4 bg-white">
+                        <div class="form-group">
+                            <label>Links</label>&nbsp;<small id="itemLinkHelp" class="form-text text-muted">( Links that are in major way related to your TO DO item.)</small>
+                            <input class="form-control" type="text" id="linkOne" name="LinkOne" aria-describedby="linkOneHelp" placeholder="Please enter item link 1">
+                            <input class="form-control" type="text" id="linkTwo" name="LinkTwo" aria-describedby="linkOneHelp" placeholder="Please enter item link 2">
+                            <input class="form-control" type="text" id="linkThree" name="LinkThree" aria-describedby="linkOneHelp" placeholder="Please enter item link 3">
+                        </div>
+                    </div>
+                    @*<input type="file" id="attachments" name="files" multiple>*@
+
+                    @*<div class="form-group">
+                            <label for="attachments">Attachments</label>
+                            <input type="file" id="attachments" name="Attachments" multiple class="btn-warning" style="float:right;line-height: 0.5;" size="10">
+                            <button type="button" class="btn btn-warning" id="detailsResetButton" onclick="ResetNewItem();">Reset</button>
+                        </div>*@
+
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Attachments
+                            <input type="file" id="attachments" class="btn-warning" name="Attachments" multiple style="float:right;line-height: 0.5;" size="10">
+                            <button type="button" class="btn btn-warning" id="detailsResetButton" style="float:right;line-height: 0.5;" onclick="ResetNewItem();">Reset</button>
+
+                        </li>
+                    </ul>
+
+                    <select class="selectpicker" id="PeopleSelect" name="PeopleSelect[]" data-live-search="true" style="width:100%">
+                        <option data-tokens="ketchup mustard">Hot Dog, Fries and a Soda</option>
+                        <option data-tokens="mustard">Burger, Shake and a Smile</option>
+                        <option data-tokens="frosting">Sugar, Spice and all things nice</option>
+                    </select>
+
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="btnSubmitNewItem">Save changes</button>
+                    </div>
+                    <input type="hidden" id="npbhyujkzsaa" name="hyujkzsaa" value="" />
+                    <input type="hidden" id="customLocation" name="CustomLocation" value="" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Item Details Modal -->
+<div class="modal fade" id="itemDetailsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
+     style="">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" style="background-image: linear-gradient(to right top, #f2f2f2, #f2f2f2, #f2f2f2, #f2f2f2, #f2f2f2);">
+            <div class="modal-header">
+                <div class="row">
+                    <div class="col-md-12 text-left ">
+                        <p style="font-size:x-large;font-weight:600;float:left">Sprint Backlog Details</p>
+                        <p style="font-size:small;font-weight:600;float:right">
+                            <button type="button"
+                                    aria-hidden="true"
+                                    data-dismiss="modal"
+                                    aria-label="Close"
+                                    class="close"
+                                    style="width:30px;height:30px;">
+                                &times;
+                            </button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <form id="newItem" action="/ProductBacklog/UpdateExistingItem" enctype="multipart/form-data" method="post">
+                    <input type="hidden" id="existingItemIdToUpdate" name="ItemId" />
+                    <div class="form-group">
+                        <label for="itemTitle">Item title</label>
+                        <input class="form-control" type="text" id="ditemTitle" required maxlength="23" name="ItemTitle" aria-describedby="emailHelp" placeholder="Please enter item title">
+                        <small id="itemTitleHelp" class="form-text text-muted">The title of your TO DO item. A general description.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemCreationDate">Creation Date</label>
+                        <input class="form-control" type="text" readonly="readonly" id="ditemCreationDate" name="ItemCreationDate">
+                        <small id="itemDateHelp" class="form-text text-muted">Creation date of your TO DO item. Current date.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemDescription">Item Description/Notes</label>
+                        <textarea class="form-control" rows="8" id="ditemdescription" required name="ItemDescription"></textarea>
+                        <small id="itemDescriptionHelp" class="form-text text-muted">Description of your TO DO item. Current date.</small>
+                    </div>
+                    <div class="shadow p-4 mb-4 bg-white">
+                        <div class="form-group">
+                            <label>Links</label>&nbsp;<small id="itemLinkHelp" class="form-text text-muted">( Links that are in major way related to your TO DO item.)</small>
+                            <input class="form-control" type="text" id="dlinkOne" name="LinkOne" aria-describedby="linkOneHelp" placeholder="Please enter item link 1">
+                            <input class="form-control" type="text" id="dlinkTwo" name="LinkTwo" aria-describedby="linkOneHelp" placeholder="Please enter item link 2">
+                            <input class="form-control" type="text" id="dlinkThree" name="LinkThree" aria-describedby="linkOneHelp" placeholder="Please enter item link 3">
+                        </div>
+                    </div>
+                    <label>Attachments</label>
+                    <ul class="list-group" id="dAttachmentDetails">
+
+                        @*<li class="list-group-item d-flex justify-content-between align-items-center">Attachment name<a class="badge badge-primary badge-pill">delete</a></li>*@
+                    </ul>
+
+                    @*<ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Add Attachments
+                                <input type="file" id="dattachments" class="btn-warning" name="Attachments" multiple style="float:right;line-height: 0.5;" size="10">
+                                <button type="button" class="btn btn-warning" id="detailsResetButton" style="float:right;line-height: 0.5;" onclick="ResetFileUpload($(this).val());" disabled>Reset</button>
+
+                            </li>
+                        </ul>*@
+                    @*<div class="form-group">
+                            <label for="attachments">Add Attachments</label>
+                            <input type="file" id="dattachments" name="Attachments" multiple>
+                            <button type="button" class="btn btn-warning" id="detailsResetButton" onclick="ResetFileUpload($(this).val());">Reset</button>
+
+                        </div>*@
+
+
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="btnUpdateExistingItem" disabled>Update changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Item Task Details Modal -->
+<div class="modal fade" id="itemTaskDetailsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
+     style="">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" style="background-image: linear-gradient(to right top, #f2f2f2, #f2f2f2, #f2f2f2, #f2f2f2, #f2f2f2);">
+            <div class="modal-header">
+                <div class="row">
+                    <div class="col-md-12 text-left ">
+                        <p style="font-size:x-large;font-weight:600;float:left">Details</p>
+                        <p style="font-size:small;font-weight:600;float:right">
+                            <button type="button"
+                                    aria-hidden="true"
+                                    data-dismiss="modal"
+                                    aria-label="Close"
+                                    class="close"
+                                    style="width:30px;height:30px;">
+                                &times;
+                            </button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <form id="newItem" action="/Home/UpdateExistingItem" enctype="multipart/form-data" method="post">
+                    <input type="hidden" id="existingTaskItemIdToUpdate" name="ItemId" />
+                    <div class="form-group">
+                        <label for="itemTitle">Item title</label>
+                        <input class="form-control" type="text" id="dTaskitemTitle" required maxlength="23" name="ItemTitle" aria-describedby="emailHelp" placeholder="Please enter item title">
+                        <small id="itemTitleHelp" class="form-text text-muted">The title of your TO DO item. A general description.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemCreationDate">Creation Date</label>
+                        <input class="form-control" type="text" readonly="readonly" id="ditemTaskCreationDate" name="ItemCreationDate">
+                        <small id="itemDateHelp" class="form-text text-muted">Creation date of your TO DO item. Current date.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemDescription">Item Description/Notes</label>
+                        <textarea class="form-control" rows="8" id="ditemTaskdescription" required name="ItemDescription"></textarea>
+                        <small id="itemDescriptionHelp" class="form-text text-muted">Description of your TO DO item. Current date.</small>
+                    </div>
+                    <div class="shadow p-4 mb-4 bg-white">
+                        <div class="form-group">
+                            <label>Links</label>&nbsp;<small id="itemLinkHelp" class="form-text text-muted">( Links that are in major way related to your TO DO item.)</small>
+                            <input class="form-control" type="text" id="dlinktaskOne" name="LinkOne" aria-describedby="linkOneHelp" placeholder="Please enter item link 1">
+                            <input class="form-control" type="text" id="dlinkTaskTwo" name="LinkTwo" aria-describedby="linkOneHelp" placeholder="Please enter item link 2">
+                            <input class="form-control" type="text" id="dlinkTaskThree" name="LinkThree" aria-describedby="linkOneHelp" placeholder="Please enter item link 3">
+                        </div>
+                    </div>
+                    <label>Attachments</label>
+                    <ul class="list-group" id="dArchAttachmentTaskDetails">
+
+                        @*<li class="list-group-item d-flex justify-content-between align-items-center">Attachment name<a class="badge badge-primary badge-pill">delete</a></li>*@
+                    </ul>
+
+                    <ul class="list-group">
+                        @*<li class="list-group-item d-flex justify-content-between align-items-center">
+                                Add Attachments
+                                <input type="file" id="dattachments" class="btn-warning" dis name="Attachments" multiple style="float:right;line-height: 0.5;" size="10">
+                                <button type="button" class="btn btn-warning" id="detailsResetTaskButton" style="float:right;line-height: 0.5;" onclick="ResetFileUpload($(this).val());">Reset</button>
+
+                            </li>*@
+                    </ul>
+                    @*<div class="form-group">
+                            <label for="attachments">Add Attachments</label>
+                            <input type="file" id="dattachments" name="Attachments" multiple>
+                            <button type="button" class="btn btn-warning" id="detailsResetButton" onclick="ResetFileUpload($(this).val());">Reset</button>
+
+                        </div>*@
+
+
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="btnUpdateExistingItem" disabled>Update changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,412 @@
+﻿
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lite Scrum</title>
+<meta name="description" content="Lite Scrum vous permet de gagner du temps en planifiant, en préparant et en effectuant vos tâches quotidiennes, ce qui augmente l'hyperproductivité.">
+<meta name="keywords" content="scrum, sprint, velocity, équipe, individuel, logiciel, planification, tâches, to do , in progress, done, product backlog, epic, sprint backlog, sprint planning, velocity, articles, daily standup">
+<meta name="author" content="Jinan Kordab">
+<!-- Favicons -->
+<link href="~/Images/logo8C.png" rel="icon">
+<link href="~/Images/logo8C.png" rel="logo-Liteweight-scrum-sprint">
+@Scripts.Render("~/bundles/modernizr")
+<script src="~/Scripts/jquery-1.12.1.min.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+<script src="~/Scripts/popper.min.js"></script>
+<link href="~/Styles/bootstrap.min.css" rel="stylesheet" id="bootstrap-css" />
+<script src="~/Scripts/bootstrap.min.js"></script>
+<link href="~/Styles/Montserrat.css" rel="stylesheet" type='text/css' />
+<link href="~/Styles/dataTables.bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/dataTables.bootstrap.min.js"></script>
+<style type="text/css">
+    html, body {
+        min-height: 100%;
+        font-family: 'Montserrat', sans-serif;
+        border: 5px solid lightgrey;
+    }
+
+    .close {
+        font-size: 40px;
+    }
+
+    .navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form {
+        border-color: #101010;
+        height: 10px !important;
+    }
+
+    .modal.fade .modal-dialog {
+        -moz-transition: none !important;
+        -o-transition: none !important;
+        -webkit-transition: none !important;
+        transition: none !important;
+        -moz-transform: none !important;
+        -ms-transform: none !important;
+        -o-transform: none !important;
+        -webkit-transform: none !important;
+        transform: none !important;
+    }
+
+    .navbar-brand {
+        float: left;
+        height: 50px;
+        padding: 0px 0px;
+        font-size: 18px;
+        line-height: 20px;
+    }
+</style>
+<script type="text/javascript">
+		$(document).ready(function () {
+			$(".modal").on("shown.bs.modal", centerModal);
+			$(window).on("resize", function () {
+				$(".modal:visible").each(centerModal);
+			});
+            $("#FRlanguage").click(function () {
+                $("#lAction").val(this.name);
+                $("#cultureform").submit();
+            });
+            $("#ENlanguage").click(function () {
+                $("#lAction").val(this.name);
+                $("#cultureform").submit();
+            });
+			});
+
+		function centerModal() {
+			//var modalDialog = $(this).find(".modal-dialog");
+			//modalDialog.css("margin-top", Math.max(0, ($(window).height() - modalDialog.height()) / 2));
+			//modalDialog.attr('class', 'modal-dialog swing  animated');
+		}
+
+		function showDetails() {
+			alert("Details");
+		}
+		function showMenu() { alert("Menu"); }
+		function SetDateForNewItem() {
+			var today = new Date();
+			var month = (today.getMonth() + 1).toString().length == 1 ? ('0' + (today.getMonth() + 1)) : ((today.getMonth() + 1));
+			var day = today.getDate().toString().length == 1 ? ('0' + today.getDate()) : (today.getDate());
+			var date = today.getFullYear() + '-' + month + '-' + day;
+			var hours = today.getHours().toString().length == 1 ? ('0' + today.getHours()) : (today.getHours());
+			var minutes = today.getMinutes().toString().length == 1 ? ('0' + today.getMinutes()) : (today.getMinutes());
+			var seconds = today.getSeconds().toString().length == 1 ? ('0' + today.getSeconds()) : (today.getSeconds());
+			var time = hours + ":" + minutes + ":" + seconds;
+			var dateTime = date + ' ' + time;
+			$("#pbhyujkzsaa").val("PB");
+			$("#itemCreationDate").val(dateTime);
+		}
+		function getFormatteDate(today) {
+			var month = (today.getMonth() + 1).toString().length == 1 ? ('0' + (today.getMonth() + 1)) : ((today.getMonth() + 1));
+			var day = today.getDate().toString().length == 1 ? ('0' + today.getDate()) : (today.getDate());
+			var date = today.getFullYear() + '-' + month + '-' + day;
+			var hours = today.getHours().toString().length == 1 ? ('0' + today.getHours()) : (today.getHours());
+			var minutes = today.getMinutes().toString().length == 1 ? ('0' + today.getMinutes()) : (today.getMinutes());
+			var seconds = today.getSeconds().toString().length == 1 ? ('0' + today.getSeconds()) : (today.getSeconds());
+			var time = hours + ":" + minutes + ":" + seconds;
+			var dateTime = date + ' ' + time;
+			return dateTime;
+		}
+		function moveToInProgress(ItemId) {
+			$.ajax({
+				url: "/Home/MoveToInProgress",
+				type: "POST",
+				data: {
+					ItemId: ItemId
+				},
+				success: function (data) {
+					if (data == "true") {
+						location.reload();s
+					}
+				}
+				});
+		}
+		function moveToToDo(ItemId) {
+			$.ajax({
+				url: "/Home/MoveToToDo",
+				type: "POST",
+				data: {
+					ItemId: ItemId
+				},
+				success: function (data) {
+					if (data == "true") {
+						location.reload();
+					}
+				}
+			});
+		}
+		function moveToDone(ItemId) {
+			$.ajax({
+				url: "/Home/MoveToDone",
+				type: "POST",
+				data: {
+					ItemId: ItemId
+				},
+				success: function (data) {
+					if (data == "true") {
+						location.reload();
+					}
+				}
+			});
+		}
+		function DeleteThisEpic(ItemId)
+		{
+			var o = confirm("WARNING ! By deleting an Epic, you are about to delete all Product Backlogs related to it !");
+			if (o == true) {
+				$.ajax({
+					url: "/Epic/DeleteThisEpic",
+					type: "POST",
+					data: {
+						ItemId: ItemId
+					},
+					success: function (data) {
+						if (data == "true") {
+							alert("Epic successfully deleted !");
+							location.reload();
+						}
+					}
+				});
+			} else {
+				alert("You decided not to delete this epic.");
+			}
+	}
+		function CreateEpic(cid)
+		{
+			$("#epichyujkzsaa").val(cid);
+			$('#newEpicModal').modal('show');
+		}
+		function AllEpics(cid) {
+		window.location.href = "/Epic/GetAllEpics?cid="+cid;
+	}
+		function deleteAttachment(ItemId, itemdetailsid)
+		{
+			$.ajax({
+				url: "/Home/DeleteAttachment",
+				type: "POST",
+				data: {
+					ItemId: ItemId
+				},
+				success: function (data) {
+					if (data == "true") {
+						$('#dAttachmentDetails').empty();
+
+						DisplayItemDetails(itemdetailsid);
+					}
+				}
+			});
+		}
+		function ResetNewItem() {
+			$("#attachments").val(null);
+			$('#newItemModal').modal('show');
+		}
+		function ResetFileUpload(id) {
+			$("#dattachments").val(null);
+			$('#itemDetailsModal').modal('show');
+	}
+		function downloadAttachment(attId){window.location.href = '@Url.Action("GetFile", "Home")?attId=' + attId;}
+		function DisplayEpicDetails(ItemId)
+		{
+			$.ajax({
+				url: "/Epic/GetEpicDetails",
+				type: "POST",
+				data: {
+					ItemId: ItemId
+				},
+				success: function (data) {
+					var epicTitle = data.EPICTITLE;
+					var epicDescription = data.EPICDESCRIPTION;
+					var epicId = data.EPICID;
+					$('#depicTitle').val(epicTitle);
+					$('#depicDescription').val(epicDescription.replace(/<br>/g, '\r\n'));
+					$('#eepichyujkzsaa').val(epicId);
+					$('#epicDetailsModal').modal('show');
+				}
+			});
+		}
+		function showModal2() {
+			$('#quotesModal').modal('show');
+		};
+		function CreateNewteam() {
+			$('#newTeamModal').modal('show');
+		}
+		function bindDatatableTeams() {
+			datatable = $('#tblTeams')
+				.DataTable({
+					"sAjaxSource": "Home/GetPeople",
+					"bServerSide": true,
+					"bProcessing": true,
+					"bSearchable": true,
+					"order": [[1, 'asc']],
+					"language": {
+						"emptyTable": "No record found.",
+						"processing":
+							'<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#2a2b2b;"></i><span class="sr-only">Loading...</span> '
+					},
+					"columns": [
+						{
+							"data": "FIRSTNAME",
+							"autoWidth": true,
+							"searchable": true
+						},
+						{
+							"data": "LASTNAME",
+							"autoWidth": true,
+							"searchable": true
+						},
+						{
+							"data": "EMAIL",
+							"autoWidth": true,
+							"searchable": true
+						},
+						{
+							"data": "USERID",
+							"render": function (data, type, full, meta) {
+								//return '<a href="' + somUrl + "?id=" + full.memberId + '">' + data + '</a>';
+
+								return '<button style="width:100%" id="' + full.USERID + '|' + full.FIRSTNAME + '|' + full.LASTNAME + '|' + full.EMAIL + '" type="button" class="btn btn-info" value="' + full.USERID + '|' + full.FIRSTNAME + '|' + full.LASTNAME + '|' + full.EMAIL + '" onclick="AddPersonToTeam(this);">Add</button>';
+							}
+						},
+					],
+				});
+	}
+	    function AddPersonToTeam(e) {
+		var res = e.value.split("|");
+		if ($("#selectedTeamMembers > tr").length == 0) {
+			$("#selectedTeamMembers").append("<tr><td style=\"display:none\">" + res[0] + "</td><td>" + res[1] + "</td><td>" + res[2] + "</td><td>" + res[3] + "</td><td><button style=\"width: 100 %\" value=\"" + e.id + "\" type=\"button\" class=\"btn btn-info\"  onclick=\"RemoveSelectedTeamMember(this);\">Remove</button></td></tr>");
+		}
+		else {
+			var i = 0;
+			var t = document.getElementById('selectedTeamMembers');
+			var alreadyAdded = false;
+			$("#selectedTeamMembers tr").each(function () {
+				var NEW_F_NAME = res[1];
+				var NEW_L_NAME = res[2];
+				var NEW_EMAIL = res[3];
+
+				var FIRSTNAME = $(t.rows[i].cells[1]).text();
+				var LASTNAME = $(t.rows[i].cells[2]).text();
+				var EMAIL = $(t.rows[i].cells[3]).text();
+
+				if (NEW_F_NAME == FIRSTNAME && NEW_L_NAME == LASTNAME && NEW_EMAIL == EMAIL) {
+					alreadyAdded = true;
+				}
+				i++;
+			});
+			if (alreadyAdded) {
+				alert("You already selected this person !");
+			}
+			else {
+				$("#selectedTeamMembers").append("<tr><td style=\"display:none\">" + res[0] + "</td><td>" + res[1] + "</td><td>" + res[2] + "</td><td>" + res[3] + "</td><td><button style=\"width: 100 %\" value=\"" + e.id + "\" type=\"button\" class=\"btn btn-info\"  onclick=\"RemoveSelectedTeamMember(this);\">Remove</button></td></tr>");
+			}
+		}
+
+
+
+		if ($("#selectedTeamMembers > tr").length > 0) {
+			$("#btnCreateTeam").prop("disabled", false);
+		}
+
+		//$(e).prop("disabled", true);
+	}
+	    function RemoveSelectedTeamMember(e) {
+		if (document.getElementById("" + e.value + "") != null) {
+			document.getElementById("" + e.value + "").disabled = false;
+		}
+		$(e).closest("tr").remove();
+		if ($("#selectedTeamMembers > tr").length > 0) {
+			$("#btnCreateTeam").prop("disabled", false);
+		}
+		else {
+			$("#btnCreateTeam").prop("disabled", true);
+		}
+	}
+	    function Create2DArray(rows) {
+		var arr = [];
+		for (var i = 0; i < rows; i++) {
+			arr[i] = [];
+		}
+		return arr;
+	}
+	    function CreateTeamWithMembers(e)
+		{
+		if ($("#teamName").val() == "") {
+			alert("Please enter team name !");
+			return false;
+		}
+		else {
+			var i = 0;
+			var t = document.getElementById('selectedTeamMembers');
+			var numeric = Create2DArray($("#selectedTeamMembers > tr").length);
+			$("#selectedTeamMembers > tr").each(function () {
+				var PERSONSID = $(t.rows[i].cells[0]).text();
+				var TEAMNAME = $("#teamName").val();
+				var FIRSTNAME = $(t.rows[i].cells[1]).text();
+				var LASTNAME = $(t.rows[i].cells[2]).text();
+				var EMAIL = $(t.rows[i].cells[3]).text();
+				numeric[i][0] = TEAMNAME;
+				numeric[i][1] = PERSONSID;
+				i++;
+				debugger;
+			});
+			$.ajax({
+				url: "/Home/AddMembersToTeam",
+				type: "POST",
+				data: {
+					arrayofpersons: numeric
+				},
+				success: function (data) {
+					if (data == "True") {
+						location.reload();
+					}
+				}
+			});
+		}
+	}
+		function SetDateForNewItem(epicid) {
+		var today = new Date();
+		var month = (today.getMonth() + 1).toString().length == 1 ? ('0' + (today.getMonth() + 1)) : ((today.getMonth() + 1));
+		var day = today.getDate().toString().length == 1 ? ('0' + today.getDate()) : (today.getDate());
+		var date = today.getFullYear() + '-' + month + '-' + day;
+		var hours = today.getHours().toString().length == 1 ? ('0' + today.getHours()) : (today.getHours());
+		var minutes = today.getMinutes().toString().length == 1 ? ('0' + today.getMinutes()) : (today.getMinutes());
+		var seconds = today.getSeconds().toString().length == 1 ? ('0' + today.getSeconds()) : (today.getSeconds());
+		var time = hours + ":" + minutes + ":" + seconds;
+		var dateTime = date + ' ' + time;
+		$("#pbhyujkzsaa").val(epicid);
+		$("#itemCreationDate").val(dateTime);
+	}
+		function AllProductBacklogs(epicid) {
+		window.location.href = "/ProductBacklog/GetAllProductBacklogs?epicId=" + epicid;
+
+	}
+</script>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Basculer la navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"><img class="img-rounded" src="~/Images/logo8C.png" width="48" height="48" /></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/Home/Index">Accueil</a></li>
+                <li><a href="/Client/Index">Les clients</a></li>
+            </ul>
+            <form id="logoutform" action="/Login/Logout" enctype="multipart/form-data" method="post">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#" style="color:indianred" name="fr" id="FRlanguage" value="fr">FR</a></li>
+                    <li><a href="#" style="color:indianred" name="en" id="ENlanguage" value="en">EN</a></li>
+                    <li><a href="/Wiki/Index">Wiki</a></li>
+                    <li><a href="#" onclick="this.closest('form').submit();">Déconnexion</a></li>
+                </ul>
+            </form>
+            <form id="cultureform" action="/Epic/Culture" enctype="multipart/form-data" method="post">
+                <input type="hidden" name="lAction" id="lAction" />
+            </form>
+        </div>
+    </div>
+</nav>
+
+@RenderBody()
+

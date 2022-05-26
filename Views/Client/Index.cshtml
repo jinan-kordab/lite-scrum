@@ -1,0 +1,291 @@
+﻿@model WebApplication4.Models.Client
+
+@{
+
+        Layout = "../Shared/_LayoutClient.cshtml";
+}
+
+
+
+<!-- Page Content -->
+<div class="container">
+    <div class="well well-lg bg-success text-info" style="background-image: linear-gradient(to left bottom, #e0eafc, #dce7fa, #d8e4f8, #d3e1f5, #cfdef3);">
+        <span class="glyphicon glyphicon-cog"></span>
+        Once the client is created, and to add Epics to client, click on three vertical dots in the left bottom corner of each client, and you will see an option either to
+        navigate to All Epics page, where you can create an apic there, or click on Create Epic on the current page. The flow is: Client -> Epic -> Broduct Backlog -> Individual User Item
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="page-header">
+                <div class="row">
+                    <div class="col-md-6 text-left align-text-bottom">
+
+                        <div class="dropdown">
+                            <font style="font-size:xx-large">Clients</font>
+
+                            <a href="#" style="text-decoration:none;padding-top:5px;     font-size:xx-large;color:blue;" class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">&#10247;</a>
+                            @*#E5E5FF   #E5E5E5  #EEEEEE   https://mycolor.space/gradient3?ori=to+right+top&hex=%23E5E5FF&hex2=%23E5E5E5&hex3=%23EEEEEE&submit=submit*@
+                            <ul class="dropdown-menu" style="border:1px solid #808080;background-image: linear-gradient(to right top, #eee5ef, #eee5ea, #eee5f5, #eee5f0, #eee5eb, #eee6ea, #eee6e8, #eee7e7, #eee9e9, #e7ebea, #e7ecec, #e7eeee);" aria-labelledby="dropdownMenu1">
+                                <li><a href="#" style="width:100%;font-size:small;border:2px solid #ffffff" data-toggle="modal" data-target="#newItemModal" onclick="SetDateForNewItem();">&#187;&nbsp;New client</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-left">
+                        <img src="@Model.PersonImagePath" width="40" height="40" alt="Logged in user image" class="rounded-circle" style="float:right">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row" style="margin-top: 20px;">
+                    @for (int i = 0; i < Model.Clientlist.Count; i++)
+                    {
+                        if (i > 0 && i % 4 == 0)
+                        {
+                        @:</div><div class="row" style="margin-top: 20px;">
+                            // close and start new row
+                        }
+
+
+                        <div class="col-md-3 " >
+                            @*#FFD9DF  #FBF1F1  https://mycolor.space/gradient?ori=to+right+top&hex=%23FFD9DF&hex2=%23FBF1F1&sub=1*@
+
+                            <div class="card" style="        width: 100%;
+        cursor: hand;
+        background-color: #F7F2FF;
+        border: 1px dotted #663399;">
+                                <img class="card-img-top" src="@Model.Clientlist[i].ClientImagePath" alt="Card image" style="width:100%;height:200px;margin-bottom:0">
+                                <div class="card-body" style="margin:5px">
+                                    <h4 class="card-title" style="margin-top:0"> @Model.Clientlist[i].CLIENTNAME</h4>
+                                    <p class="card-text" style="height:100px;overflow:auto;">@Html.Raw(Model.Clientlist[i].CLIENTDESCRIPTION)</p>
+                                    <p><b>Location:</b>&nbsp;@Model.Clientlist[i].CLIENTLOCATION</p>
+
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <!-- Small button groups (default and split) -->
+                                                <div class="btn-group dropup" style="float:left;">
+                                                    <div style="font-size:smaller;font-weight:600;float:right;color:blue" class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        &#10247;
+                                                    </div>
+                                                    <ul class="dropdown-menu" style="width:100%;border:1px solid darkgrey;height:auto;background-image: linear-gradient(to right top, #eee5ef, #eee5ea, #eee5f5, #eee5f0, #eee5eb, #eee6ea, #eee6e8, #eee7e7, #eee9e9, #e7ebea, #e7ecec, #e7eeee);">
+
+                                                        <li class="dropdown-item" style="width:100%;font-size:small;border:2px solid #ffffff;cursor:hand" onclick="DeleteItem('@Html.Raw(Model.Clientlist[i].CLIENTID)')">&#187;&nbsp;Delete</li>
+                                                        <li class="dropdown-item" style="width:100%;font-size:small;border:2px solid #ffffff;cursor:hand" onclick="CreateEpic('@Html.Raw(Model.Clientlist[i].CLIENTID)')">&#187;&nbsp;Create Epic</li>
+                                                        <li class="dropdown-item" style="width:100%;font-size:small;border:2px solid #ffffff;cursor:hand" onclick="AllEpics('@Html.Raw(Model.Clientlist[i].CLIENTID)')">&#187;&nbsp;All Epics</li>
+                                                    </ul>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-md-9">
+                                                <p style="font-size:smaller;font-weight:600;float:right;line-height:2;color:blue" onclick="DisplayItemDetails('@Html.Raw(Model.Clientlist[i].CLIENTID)')">
+                                                    <u>Client Details</u>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- New Item Modal -->
+    <div class="modal fade" id="newItemModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
+         style="">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content" style="background-image: linear-gradient(to right top, #f2f2f2, #f2f2f2, #f2f2f2, #f2f2f2, #f2f2f2);">
+                <div class="modal-header">
+                    <div class="row">
+                        <div class="col-md-12 text-left ">
+                            <p style="font-size:x-large;font-weight:600;float:left">New Client</p>
+                            <p style="font-size:small;font-weight:600;float:right">
+                                <button type="button"
+                                        aria-hidden="true"
+                                        data-dismiss="modal"
+                                        aria-label="Close"
+                                        class="close"
+                                        style="width:30px;height:30px;">
+                                    &times;
+                                </button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <form id="newItem" action="/Client/AddNewClient" enctype="multipart/form-data" method="post">
+                        <div class="form-group">
+                            <label for="itemTitle">Client Name</label>
+                            <input class="form-control" type="text" id="clientName" required maxlength="23" name="CLIENTNAME" aria-describedby="emailHelp" placeholder="Please enter client name">
+                            <small id="itemTitleHelp" class="form-text text-muted">The name of a client.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="itemTitle">Client Location</label>
+                            <input class="form-control" type="text" id="clientLocation" name="CLIENTLOCATION" aria-describedby="emailHelp" placeholder="Please enter client location">
+                            <small id="itemTitleHelp" class="form-text text-muted">The location of a client.</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="itemDescription">Client Description</label>
+                            <textarea class="form-control" rows="6" cols="5" id="itemdescription" required name="CLIENTDESCRIPTION"></textarea>
+                            <small id="itemDescriptionHelp" class="form-text text-muted">Client's "About" section and what does it do</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="itemDescription">Client Phone Number</label>
+                            <input class="form-control" type="text" id="clientPhoneNumber" name="CLIENTPHONENUMBER">
+                            <small id="itemDescriptionHelp" class="form-text text-muted">Phone number of a client.</small>
+                        </div>
+
+
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Client Picture
+                                <input type="file" id="attachments" class="btn-warning" name="Attachments" style="float:right;line-height: 0.5;" size="10">
+                                <button type="button" class="btn btn-warning" id="detailsResetButton" style="float:right;line-height: 0.5;" onclick="ResetNewItem();">Reset</button>
+
+                            </li>
+                        </ul>
+
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary" id="btnSubmitNewItem">Save changes</button>
+                        </div>
+                        <input type="hidden" id="hyujkzsaa" name="hyujkzsaa" value="@Model.LoggedInUser" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- New Epic Modal -->
+    <div class="modal fade" id="newEpicModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
+         style="">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content" style="background-image: linear-gradient(to right top, #f2f2f2, #f2f2f2, #f2f2f2, #f2f2f2, #f2f2f2);">
+                <div class="modal-header">
+                    <div class="row">
+                        <div class="col-md-12 text-left ">
+                            <p style="font-size:x-large;font-weight:600;float:left">New Epic</p>
+                            <p style="font-size:small;font-weight:600;float:right">
+                                <button type="button"
+                                        aria-hidden="true"
+                                        data-dismiss="modal"
+                                        aria-label="Close"
+                                        class="close"
+                                        style="width:30px;height:30px;">
+                                    &times;
+                                </button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <form id="newItem" action="/Client/CreateEpic" enctype="multipart/form-data" method="post">
+                        <div class="form-group">
+                            <label for="itemTitle">Epic Title</label>
+                            <input class="form-control" type="text" id="epicTitle" required maxlength="23" name="EPICTITLE" aria-describedby="emailHelp" placeholder="Please enter epic title ">
+                            <small id="itemTitleHelp" class="form-text text-muted">The title of an Epic.</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="itemDescription">Epic Description</label>
+                            <textarea class="form-control" rows="6" cols="5" id="epicDescription" required name="EPICDESCRIPTION"></textarea>
+                            <small id="itemDescriptionHelp" class="form-text text-muted">Description of an Epic.</small>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary" id="btnSubmitNewItem">Save changes</button>
+                        </div>
+                        <input type="hidden" id="epichyujkzsaa" name="epichyujkzsaa" value="" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Client Details Modal -->
+    <div class="modal fade" id="clientDetailsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
+         style="">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content" style="background-image: linear-gradient(to right top, #f2f2f2, #f2f2f2, #f2f2f2, #f2f2f2, #f2f2f2);">
+                <div class="modal-header">
+                    <div class="row">
+                        <div class="col-md-12 text-left ">
+                            <p style="font-size:x-large;font-weight:600;float:left">Client Details</p>
+                            <p style="font-size:small;font-weight:600;float:right">
+                                <button type="button"
+                                        aria-hidden="true"
+                                        data-dismiss="modal"
+                                        aria-label="Close"
+                                        class="close"
+                                        style="width:30px;height:30px;">
+                                    &times;
+                                </button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <form id="newItem" action="/Client/EditExistingClient" enctype="multipart/form-data" method="post">
+                        <div class="form-group">
+                            <label for="itemTitle">Client Name</label>
+                            <input class="form-control" type="text" id="dclientName" required maxlength="23" name="CLIENTNAME" aria-describedby="emailHelp" placeholder="Please enter item title">
+                            <small id="itemTitleHelp" class="form-text text-muted">The name of a client.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="itemTitle">Client Location</label>
+                            <input class="form-control" type="text" id="dclientLocation" name="CLIENTLOCATION" aria-describedby="emailHelp" placeholder="Please enter client location">
+                            <small id="itemTitleHelp" class="form-text text-muted">Client location.</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="itemDescription">Client Description</label>
+                            <textarea class="form-control" rows="6" cols="5" id="dClientDescription" name="CLIENTDESCRIPTION"></textarea>
+                            <small id="itemDescriptionHelp" class="form-text text-muted">Client's "About" section and what does it do</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="itemDescription">Client Phone Number</label>
+                            <input class="form-control" type="text" id="dclientPhoneNumber" name="CLIENTPHONENUMBER">
+                            <small id="itemDescriptionHelp" class="form-text text-muted">Phone number of a client.</small>
+                        </div>
+
+                        <div class="text-center">
+                            <img width="200" height="200" src="" id="dClientImage" class="rounded">
+                        </div>
+
+
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Client Picture
+                                <input type="file" id="dattachments" class="btn-warning" name="Attachments" style="float:right;line-height: 0.5;" size="10">
+                                <button type="button" class="btn btn-warning" id="ddetailsResetButton" style="float:right;line-height: 0.5;" onclick="ResetNewItem();">Reset</button>
+
+                            </li>
+                        </ul>
+
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary" id="btnSubmitNewItem">Save changes</button>
+                        </div>
+                        <input type="hidden" id="dhyujkzsaa" name="hyujkzsaa" value="" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

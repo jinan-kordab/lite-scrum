@@ -1,0 +1,665 @@
+﻿
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Lite Scrum</title>
+<meta name="description" content="Lite Scrum saves you time planning, preparing, and doing your daily tasks, increasing hyperproductivity.Create sprints and add team members.Review sprint velocity.">
+<meta name="keywords" content="scrum, sprint, velocity, team, individual, software, planning, tasks, to do , in progress, done, product backlog, epic, sprint backlog, sprint planning, velocity, items, daily standup">
+<meta name="author" content="Jinan Kordab">
+<!-- Favicons -->
+<link href="~/Images/logo8C.png" rel="icon">
+<link href="~/Images/logo8C.png" rel="logo-Liteweight-scrum-sprint">
+@*@Scripts.Render("~/bundles/modernizr")*@
+
+
+
+<link href="~/Styles/jquery-ui.css" rel="stylesheet" />
+@*<script src="~/Scripts/jquery-1.12.1.min.js"></script>*@
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+<script src="~/Scripts/popper.min.js"></script>
+<link href="~/Styles/bootstrap.min.css" rel="stylesheet" id="bootstrap-css" />
+<script src="~/Scripts/bootstrap.min.js"></script>
+<link href="~/Styles/Montserrat.css" rel="stylesheet" type='text/css' />
+<link href="~/Styles/dataTables.bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/dataTables.bootstrap.min.js"></script>
+<link href="~/Styles/bootstrap-select.min.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap-select.min.js"></script>
+
+<style type="text/css">
+    html, body {
+        min-height: 100%;
+        font-family: 'Montserrat', sans-serif;
+        border: 5px solid lightgrey;
+    }
+
+    .navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form {
+        border-color: #101010;
+        height: 10px !important;
+    }
+
+    .close {
+        font-size: 40px;
+    }
+
+    .modal.fade .modal-dialog {
+        -moz-transition: none !important;
+        -o-transition: none !important;
+        -webkit-transition: none !important;
+        transition: none !important;
+        -moz-transform: none !important;
+        -ms-transform: none !important;
+        -o-transform: none !important;
+        -webkit-transform: none !important;
+        transform: none !important;
+    }
+
+    .navbar-brand {
+        float: left;
+        height: 50px;
+        padding: 0px 0px;
+        font-size: 18px;
+        line-height: 20px;
+    }
+</style>
+
+<script type="text/javascript">
+
+	$(document).ready(function () {
+
+
+
+			$(".modal").on("shown.bs.modal", centerModal);
+
+			$(window).on("resize", function () {
+				$(".modal:visible").each(centerModal);
+			});
+
+
+
+            $("#FRlanguage").click(function () {
+                // alert(this.name);
+                $("#lAction").val(this.name);
+                //this.closest('form').submit()
+                $("#cultureform").submit();
+            });
+            $("#ENlanguage").click(function () {
+
+                // alert(this.name);
+                $("#lAction").val(this.name);
+                //this.closest('form').submit()
+                $("#cultureform").submit();
+
+            });
+
+
+
+        $("a").on('click', function (event) {
+
+            // Make sure this.hash has a value before overriding default behavior
+            if (this.hash !== "") {
+                // Prevent default anchor click behavior
+                event.preventDefault();
+
+                // Store hash
+                var hash = this.hash;
+
+                // Using jQuery's animate() method to add smooth page scroll
+                // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+                $('html, body').animate({
+                    scrollTop: $(hash).offset().top
+                }, 900, function () {
+
+                    // Add hash (#) to URL when done scrolling (default click behavior)
+                    window.location.hash = hash;
+                });
+            } // End if
+        });
+
+
+
+
+
+
+			//Fill Drop Down People
+			$.ajax({
+				type: "GET",
+				url: "/Sprint/GetAllPeople",
+				data: "{}",
+				success: function (data) {
+					//alert(data[0].FIRSTNAME);
+                    var s = '<option value="-1">Please select a person</option>';
+					for (var i = 0; i < data.length; i++) {
+						s += '<option value="' + data[i].USERID +'">' + data[i].FIRSTNAME + ' ' + data[i].LASTNAME + '</option>';
+					}
+					$("#PeopleSelect").html(s);
+					$('#PeopleSelect').addClass("selectpicker").selectpicker('refresh');
+				}
+			});
+			$('#PeopleSelect').selectpicker('refresh');
+			$("#sprintStartDate").datepicker();
+            $("#sprintEndDate").datepicker();
+
+
+			//New item validation
+            $("#newItem").submit(function () {
+				var p = $("#PeopleSelect").val();
+				if (p == '-1') {
+					$(".bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn)").css({ "border": "2px solid red" });
+					return false;
+					event.preventDefault();
+                }
+			});
+
+			});
+
+		function centerModal() {
+			//var modalDialog = $(this).find(".modal-dialog");
+			//modalDialog.css("margin-top", Math.max(0, ($(window).height() - modalDialog.height()) / 2));
+			//modalDialog.attr('class', 'modal-dialog swing  animated');
+		}
+
+		function showDetails() {
+			alert("Details");
+		}
+		function showMenu() { alert("Menu"); }
+
+	function SetDateForNewItem(eid) {
+
+			var today = new Date();
+			var month = (today.getMonth() + 1).toString().length == 1 ? ('0' + (today.getMonth() + 1)) : ((today.getMonth() + 1));
+			var day = today.getDate().toString().length == 1 ? ('0' + today.getDate()) : (today.getDate());
+			var date = today.getFullYear() + '-' + month + '-' + day;
+
+			var hours = today.getHours().toString().length == 1 ? ('0' + today.getHours()) : (today.getHours());
+			var minutes = today.getMinutes().toString().length == 1 ? ('0' + today.getMinutes()) : (today.getMinutes());
+			var seconds = today.getSeconds().toString().length == 1 ? ('0' + today.getSeconds()) : (today.getSeconds());
+
+			var time = hours + ":" + minutes + ":" + seconds;
+			var dateTime = date + ' ' + time;
+
+
+			//NewPbPBTitle
+			$("#NewPbPBTitle").text('New Sprint Item');
+			$("#npbhyujkzsaa").val(eid);
+			$("#itemCreationDate").val(dateTime);
+
+	}
+	function SetDateForNewRefinedItem(eid) {
+
+		var today = new Date();
+		var month = (today.getMonth() + 1).toString().length == 1 ? ('0' + (today.getMonth() + 1)) : ((today.getMonth() + 1));
+		var day = today.getDate().toString().length == 1 ? ('0' + today.getDate()) : (today.getDate());
+		var date = today.getFullYear() + '-' + month + '-' + day;
+
+		var hours = today.getHours().toString().length == 1 ? ('0' + today.getHours()) : (today.getHours());
+		var minutes = today.getMinutes().toString().length == 1 ? ('0' + today.getMinutes()) : (today.getMinutes());
+		var seconds = today.getSeconds().toString().length == 1 ? ('0' + today.getSeconds()) : (today.getSeconds());
+
+		var time = hours + ":" + minutes + ":" + seconds;
+		var dateTime = date + ' ' + time;
+		$("#NewPbPBTitle").text('New Refined Product Backlog');
+		$("#npbhyujkzsaa").val(eid);
+		$("#itemCreationDate").val(dateTime);
+		$("#customLocation").val('RB');
+
+	}
+
+		function getFormatteDate(today) {
+
+			var month = (today.getMonth() + 1).toString().length == 1 ? ('0' + (today.getMonth() + 1)) : ((today.getMonth() + 1));
+			var day = today.getDate().toString().length == 1 ? ('0' + today.getDate()) : (today.getDate());
+			var date = today.getFullYear() + '-' + month + '-' + day;
+
+			var hours = today.getHours().toString().length == 1 ? ('0' + today.getHours()) : (today.getHours());
+			var minutes = today.getMinutes().toString().length == 1 ? ('0' + today.getMinutes()) : (today.getMinutes());
+			var seconds = today.getSeconds().toString().length == 1 ? ('0' + today.getSeconds()) : (today.getSeconds());
+
+			var time = hours + ":" + minutes + ":" + seconds;
+			var dateTime = date + ' ' + time;
+
+			return dateTime;
+
+		}
+
+		function moveToInProgress(ItemId) {
+			$.ajax({
+				url: "/Home/MoveToInProgress",
+				type: "POST",
+				data: {
+					ItemId: ItemId
+				},
+				success: function (data) {
+					if (data == "true") {
+						location.reload();
+					}
+				}
+				});
+		}
+
+	function moveToRefined(ItemId) {
+			$.ajax({
+				url: "/ProductBacklog/MoveToRefined",
+				type: "POST",
+				data: {
+					pbID: ItemId
+				},
+				success: function (data) {
+					if (data == "true") {
+						location.reload();
+					}
+				}
+			});
+
+		}
+
+	function MoveToSprintBacklog(ItemId) {
+			$.ajax({
+				url: "/ProductBacklog/MoveToSprintBacklog",
+				type: "POST",
+				data: {
+					pbID: ItemId
+				},
+				success: function (data) {
+					if (data == "true") {
+						location.reload();
+					}
+				}
+			});
+	}
+
+	function moveToBacklog(ItemId) {
+		$.ajax({
+			url: "/ProductBacklog/MoveToBacklog",
+			type: "POST",
+			data: {
+				pbID: ItemId
+			},
+			success: function (data) {
+				if (data == "true") {
+					location.reload();
+				}
+			}
+		});
+	}
+
+	function moveToSprintPlanning(ItemId) {
+		$.ajax({
+			url: "/ProductBacklog/MoveToSprintPlanning",
+			type: "POST",
+			data: {
+				pbID: ItemId
+			},
+			success: function (data) {
+				if (data == "true") {
+					location.reload();
+				}
+			}
+		});
+	}
+
+		function DeleteItem(ItemId)
+		{
+			$.ajax({
+				url: "/Home/DeleteItem",
+				type: "POST",
+				data: {
+					ItemId: ItemId
+				},
+				success: function (data) {
+					if (data == "true") {
+						location.reload();
+					}
+				}
+			});
+	}
+
+    function DeleteItemPB(ItemId) {
+        $.ajax({
+            url: "/ProductBacklog/DeleteItem",
+            type: "POST",
+            data: {
+                ItemId: ItemId
+            },
+            success: function (data) {
+                if (data == "true") {
+                    location.reload();
+                }
+            }
+        });
+    }
+
+		function deleteAttachment(ItemId, itemdetailsid)
+		{
+			//alert(ItemId + '' + itemdetailsid);
+
+			$.ajax({
+				url: "/ProductBacklog/DeleteAttachment",
+				type: "POST",
+				data: {
+					ItemId: ItemId
+				},
+				success: function (data) {
+					if (data == "true") {
+						//alert('#li' + ItemId + '_d');
+						$('#dAttachmentDetails').empty();
+
+						DisplayItemDetails(itemdetailsid);
+					}
+				}
+			});
+		}
+
+		function ResetNewItem() {
+			$("#attachments").val(null);
+			$('#newItemModal').modal('show');
+		}
+
+		function ResetFileUpload(id) {
+			$("#dattachments").val(null);
+			//DisplayItemDetails(id);
+			$('#itemDetailsModal').modal('show');
+		}
+
+		function downloadAttachment(attId)
+		{
+			window.location.href = '@Url.Action("GetFile", "ProductBacklog")?attId=' + attId;
+		}
+		function downloadItemTaskAttachment(attId)
+		{
+			window.location.href = '@Url.Action("GetFile", "Home")?attId=' + attId;
+		}
+
+		function DisplayItemDetails(ItemId)
+		{
+
+			$.ajax({
+				url: "/ProductBacklog/GetItemDetails",
+				type: "POST",
+				data: {
+					ItemId: ItemId
+				},
+				success: function (data) {
+					var date = data.CREATIONDATE;
+					var parsedDate = new Date(parseInt(date.substr(6)));
+					var newDate = new Date(parsedDate);
+
+					var itemid = data.ITEMID;
+					var itemtitle = data.ITEMTITLE;
+					var crationdate = getFormatteDate(newDate);
+					var attachmentcount = data.ATTACHMENTSCOUNT;
+					var linkcount = data.LINKCOUNT;
+
+					var itemnotes = data.ITEMNOTES;
+					var itemlocation = data.ITEMLOCATION;
+					var linkone = data.LINKONE;
+					var linktwo = data.LINKTWO;
+					var linkthree = data.LINKTHREE;
+
+					$('#existingItemIdToUpdate').val(ItemId);
+					$('#ditemTitle').val(itemtitle);
+					$('#ditemCreationDate').val(crationdate);
+					$('#ditemdescription').val(itemnotes.replace(/<br>/g, '\r\n'));
+
+
+					$('#dlinkOne').val(linkone);
+					$('#dlinkTwo').val(linktwo);
+					$('#dlinkThree').val(linkthree);
+					$('#detailsResetButton').val(ItemId);
+
+
+					$('#dAttachmentDetails').empty();
+
+					var allAtt = data.AttList;
+
+					for (var attItem in allAtt) {
+						//alert(allAtt[attItem].ATTACHMENTNAME);
+
+						$('#dAttachmentDetails').append('<li class="list-group-item d-flex justify-content-between align-items-center">' + allAtt[attItem].ATTACHMENTNAME + '<a class="badge badge-primary badge-pill"  onclick="downloadAttachment(' + allAtt[attItem].ATTITEMID +')">download</a><a class="badge badge-primary badge-pill" id="li"' + allAtt[attItem].ATTITEMID + '"_d" onclick="deleteAttachment(' + allAtt[attItem].ATTITEMID + ',' + ItemId+')">delete</a></li>');
+					}
+
+					$('#itemDetailsModal').modal('show');
+
+
+				}
+			});
+
+		}
+
+	function DisplayItemTaskDetails(ItemId) {
+
+		$.ajax({
+			url: "/Home/GetItemDetails",
+			type: "POST",
+			data: {
+				ItemId: ItemId
+			},
+			success: function (data) {
+				var date = data.CREATIONDATE;
+				var parsedDate = new Date(parseInt(date.substr(6)));
+				var newDate = new Date(parsedDate);
+
+				var itemid = data.ITEMID;
+				var itemtitle = data.ITEMTITLE;
+				var crationdate = getFormatteDate(newDate);
+				var attachmentcount = data.ATTACHMENTSCOUNT;
+				var linkcount = data.LINKCOUNT;
+
+				var itemnotes = data.ITEMNOTES;
+				var itemlocation = data.ITEMLOCATION;
+				var linkone = data.LINKONE;
+				var linktwo = data.LINKTWO;
+				var linkthree = data.LINKTHREE;
+
+				$('#existingTaskItemIdToUpdate').val(ItemId);
+				$('#dTaskitemTitle').val(itemtitle);
+				$('#ditemTaskCreationDate').val(crationdate);
+				$('#ditemTaskdescription').val(itemnotes.replace(/<br>/g, '\r\n'));
+
+
+				$('#dlinktaskOne').val(linkone);
+				$('#dlinkTaskTwo').val(linktwo);
+				$('#dlinkTaskThree').val(linkthree);
+				$('#detailsResetTaskButton').val(ItemId);
+
+
+				$('#dAttachmentTaskDetails').empty();
+
+				var allAtt = data.AttList;
+
+				for (var attItem in allAtt) {
+					//alert(allAtt[attItem].ATTACHMENTNAME);
+
+					$('#dAttachmentTaskDetails').append('<li class="list-group-item d-flex justify-content-between align-items-center">' + allAtt[attItem].ATTACHMENTNAME + '<a class="badge badge-primary badge-pill"  onclick="downloadItemTaskAttachment(' + allAtt[attItem].ATTITEMID + ')">download</a><a class="badge badge-primary badge-pill" id="li"' + allAtt[attItem].ATTITEMID + '"_d" onclick="deleteAttachment(' + allAtt[attItem].ATTITEMID + ',' + ItemId + ')">delete</a></li>');
+				}
+
+				$('#itemTaskDetailsModal').modal('show');
+
+
+			}
+		});
+
+	}
+
+		function showModal2() {
+			$('#quotesModal').modal('show');
+		};
+
+		function CreateNewteam() {
+
+			$('#newTeamModal').modal('show');
+		}
+
+
+
+
+
+
+	function AddPersonToTeam(e) {
+		var res = e.value.split("|");
+
+		//Check if the record already has been added - extra check
+		if ($("#selectedTeamMembers > tr").length == 0) {
+			$("#selectedTeamMembers").append("<tr><td style=\"display:none\">" + res[0] + "</td><td>" + res[1] + "</td><td>" + res[2] + "</td><td>" + res[3] + "</td><td><button style=\"width: 100 %\" value=\"" + e.id + "\" type=\"button\" class=\"btn btn-info\"  onclick=\"RemoveSelectedTeamMember(this);\">Remove</button></td></tr>");
+		}
+		else {
+			var i = 0;
+			var t = document.getElementById('selectedTeamMembers');
+			var alreadyAdded = false;
+			$("#selectedTeamMembers tr").each(function () {
+				var NEW_F_NAME = res[1];
+				var NEW_L_NAME = res[2];
+				var NEW_EMAIL = res[3];
+
+				var FIRSTNAME = $(t.rows[i].cells[1]).text();
+				var LASTNAME = $(t.rows[i].cells[2]).text();
+				var EMAIL = $(t.rows[i].cells[3]).text();
+
+				if (NEW_F_NAME == FIRSTNAME && NEW_L_NAME == LASTNAME && NEW_EMAIL == EMAIL) {
+					alreadyAdded = true;
+				}
+
+				i++;
+			});
+			if (alreadyAdded) {
+				alert("You already selected this person !");
+				//$(e).prop("disabled", true);
+			}
+			else {
+				$("#selectedTeamMembers").append("<tr><td style=\"display:none\">" + res[0] + "</td><td>" + res[1] + "</td><td>" + res[2] + "</td><td>" + res[3] + "</td><td><button style=\"width: 100 %\" value=\"" + e.id + "\" type=\"button\" class=\"btn btn-info\"  onclick=\"RemoveSelectedTeamMember(this);\">Remove</button></td></tr>");
+				//$(e).prop("disabled", true);
+			}
+		}
+
+
+
+		if ($("#selectedTeamMembers > tr").length > 0) {
+			$("#btnCreateTeam").prop("disabled", false);
+		}
+
+		//$(e).prop("disabled", true);
+	}
+	function RemoveSelectedTeamMember(e) {
+		if (document.getElementById("" + e.value + "") != null) {
+			document.getElementById("" + e.value + "").disabled = false;
+		}
+
+		$(e).closest("tr").remove();
+		if ($("#selectedTeamMembers > tr").length > 0) {
+			$("#btnCreateTeam").prop("disabled", false);
+		}
+		else {
+			$("#btnCreateTeam").prop("disabled", true);
+
+		}
+	}
+	function Create2DArray(rows) {
+		var arr = [];
+
+		for (var i = 0; i < rows; i++) {
+			arr[i] = [];
+		}
+
+		return arr;
+	}
+	function CreateTeamWithMembers(e)
+	{
+		if ($("#teamName").val() == "") {
+			alert("Please enter team name !");
+			return false;
+		}
+		else {
+			var i = 0;
+			var t = document.getElementById('selectedTeamMembers');
+
+			var numeric = Create2DArray($("#selectedTeamMembers > tr").length);
+			$("#selectedTeamMembers > tr").each(function () {
+
+				var PERSONSID = $(t.rows[i].cells[0]).text();
+				var TEAMNAME = $("#teamName").val();
+
+				var FIRSTNAME = $(t.rows[i].cells[1]).text();
+				var LASTNAME = $(t.rows[i].cells[2]).text();
+				var EMAIL = $(t.rows[i].cells[3]).text();
+				//alert("ROW:" + i + "-PERSONSID: " + PERSONSID + "-FIRSTNAME: " + FIRSTNAME + "-LASTNAME: " + LASTNAME + "-EMAIL: " + EMAIL);
+
+				numeric[i][0] = TEAMNAME;
+				numeric[i][1] = PERSONSID;
+				i++;
+				debugger;
+			});
+
+
+			$.ajax({
+				url: "/Home/AddMembersToTeam",
+				type: "POST",
+				data: {
+					arrayofpersons: numeric
+				},
+				success: function (data) {
+					if (data == "True") {
+						//alert("RELOADING");
+						location.reload();
+					}
+				}
+			});
+
+
+		}
+
+	}
+
+
+
+
+
+
+</script>
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"><img class="img-rounded" src="~/Images/logo8C.png" width="48" height="48" /></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/Home/Index">Home</a></li>
+
+                @*<li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Team <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" onclick="CreateNewteam();">Create new team</a></li>
+                            <li><a href="#" onclick="CreateNewteam();">Manage Teams</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li class="dropdown-header">Nav header</li>
+
+                        </ul>
+                    </li>*@
+                <li><a href="/Client/Index">Clients</a></li>
+            </ul>
+
+            <form id="logoutform" action="/Login/Logout" enctype="multipart/form-data" method="post">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#" style="color:indianred" name="fr" id="FRlanguage" value="fr">FR</a></li>
+                    <li><a href="#" style="color:indianred" name="en" id="ENlanguage" value="en">EN</a></li>
+                    <li><a href="#">Wiki</a></li>
+                    <li><a href="#" onclick="this.closest('form').submit();">Log out</a></li>
+                </ul>
+            </form>
+            <form id="cultureform" action="/Wiki/Culture" enctype="multipart/form-data" method="post">
+                <input type="hidden" name="lAction" id="lAction" />
+            </form>
+        </div><!--/.nav-collapse -->
+    </div><!--/.container-fluid -->
+</nav>
+
+
+
+@RenderBody()

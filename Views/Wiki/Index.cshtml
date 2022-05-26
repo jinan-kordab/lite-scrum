@@ -1,0 +1,262 @@
+﻿@model WebApplication4.Models.ProductBacklog
+
+@{
+   Layout = "~/Views/Shared/_LayoutWiki.cshtml";
+}
+
+
+
+<style type="text/css">
+    /* These apply across all breakpoints because they are outside of a media query */
+    /* Make the labels light gray all caps across the board */
+    .sBacklog thead th,
+    .sBacklog tbody th .ui-table-cell-label,
+    .sBacklog tbody td .ui-table-cell-label {
+        text-transform: uppercase;
+        font-size: .7em;
+        color: rgba(0,0,0,0.5);
+        font-weight: normal;
+    }
+    /* White bg, large blue text for rank and title */
+    .sBacklog tbody th {
+        font-size: 1.2em;
+        background-color: #fff;
+        color: #77bbff;
+        text-align: center;
+    }
+    /*  Add a bit of extra left padding for the title */
+    .sBacklog tbody td.title {
+        padding-left: .8em;
+    }
+    /*  Custom stacked styles for mobile sizes */
+    /*  Use a max-width media query so we don't have to undo these styles */
+    @@media (max-width: 40em) {
+        .sBacklog {
+            border-collapse: unset;
+            padding-left: 0px;
+            width: 100%;
+        }
+
+            .sBacklog tr td {
+                width: 100% !important;
+            }
+
+            .sBacklog td {
+                width: 550px;
+                border-collapse: unset;
+            }
+            /*  Negate the margin between sections */
+            .sBacklog tbody th {
+                margin-top: 0;
+                text-align: left;
+                width: 100%;
+            }
+            /*  White bg, large blue text for rank and title */
+            .sBacklog tbody th,
+            .sBacklog tbody td.title {
+                display: block;
+                font-size: 1.2em;
+                line-height: 110%;
+                padding: .5em .5em;
+                background-color: #fff;
+                color: #77bbff;
+                -moz-box-shadow: 0 1px 6px rgba(0,0,0,.1);
+                -webkit-box-shadow: 0 1px 6px rgba(0,0,0,.1);
+                box-shadow: 0 1px 6px rgba(0,0,0,.1);
+            }
+                /*  Hide labels for rank and title */
+                .sBacklog tbody th .ui-table-cell-label,
+                .sBacklog tbody td.title .ui-table-cell-label {
+                    display: none;
+                }
+            /*  Position the title next to the rank, pad to the left */
+            .sBacklog tbody td.title {
+                margin-top: -2.1em;
+                padding-left: 2.2em;
+                border-bottom: 1px solid rgba(0,0,0,.15);
+            }
+            /*  Make the data bold */
+            .sBacklog th,
+            .sBacklog td {
+                font-weight: bold;
+            }
+                /* Make the label elements a percentage width */
+                .sBacklog td .ui-table-cell-label,
+                .sBacklog th .ui-table-cell-label {
+                    min-width: 20%;
+                }
+    }
+    /* Media query to show as a standard table at wider widths */
+    @@media ( min-width: 40em ) {
+        /* Show the table header rows */
+        .sBacklog td,
+        .sBacklog th,
+        .sBacklog tbody th,
+        .sBacklog tbody td,
+        .sBacklog thead td,
+        .sBacklog thead th {
+            display: table-cell;
+            margin: 0;
+        }
+            /* Hide the labels in each cell */
+            .sBacklog td .ui-table-cell-label,
+            .sBacklog th .ui-table-cell-label {
+                display: none;
+            }
+    }
+    /* Hack to make IE9 and WP7.5 treat cells like block level elements */
+    /* Applied in a max-width media query up to the table layout breakpoint so we don't need to negate this */
+    @@media ( max-width: 40em ) {
+
+        .sBacklog td,
+        .sBacklog th {
+            width: 100%;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            float: left;
+            clear: left;
+        }
+    }
+
+
+    .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
+        width: 100%;
+    }
+    #tblContentWiki {
+        position:fixed;
+       
+    }
+</style>
+<script type="text/javascript">
+
+    //$(document).ready(function () {
+    //    $('body').scrollspy({
+    //        target: '#tblContentWiki',
+    //        offset: 10
+    //    });
+    //});
+
+</script>
+
+
+<div class="container">
+    
+    <div class="row">
+        <div class="col-xs-3" style="margin-top:50px">
+            <ul class="nav flex-column nav-stacked nav-pills" id="tblContentWiki">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#ONE">Where do I start ?</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#TWO">Creating a Client</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#THREE">Creating an Epic</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#FOUR">Creating a Product Backlog</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#FIVE">Creating a task</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#SIX">Moving a task to QA</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#SEVEN">Changing QA Owner</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#EIGHT">Deleting a product backlog</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#TECHNICALSPECS">Technical Specs</a>
+                </li>
+
+            </ul>
+        </div>
+        <div class="col-xs-9">
+            <h2 style="color: #1D014C;border-bottom: 3px dotted #DC81AC">How do we use Light Scrum ?</h2>
+            <div id="ONE" class="well well-lg bg-success text-info" style="background-image: linear-gradient(to left bottom, #e0eafc, #dce7fa, #d8e4f8, #d3e1f5, #cfdef3);">
+                <div style="border-bottom: 1px dotted #DC81AC"><span class="glyphicon glyphicon-cog"></span>&nbsp;Where do I start ?</div><br />
+                -Register, in order to have an account, then log in using your registration nickname and password.<br />
+                -On Scrum Board landing page, you will see four empty columns, TODO, INPROGRESS, QA, DONE<br />
+                -The first thing would be to create your first TODO task item.For that click on three vertical dots near TODO column 	 title, and click on New Item.
+                -A window apears, and the first three "must" options to select are Client, Epic, and Product Backlog. If you have not 	 created each one of them before, go ahead and create them now, in the following sequence, Client, Epic, Product 	 Backlog.This is needed to link each new task item you create to a particular client. Now since you can and will have 	 many clients, each client can have one or many epics, and in turn each epic, can or will have one or many Product 	 	 Backlogs, and finally, each Product Backlog can have one or many Task Items, which you see on the landing page.This 	 	 connection will later ve visible when you navigate to Sprint. This is done from one side to lessen the pressure on you 	 from specifying time frame for each of your items and sprints that you create, and directly jump to work, thus 		 increasing Hyperproductivity.
+
+
+            </div>
+            <div id="TWO" class="well well-lg bg-success text-info" style="background-image: linear-gradient(to left bottom, #e0eafc, #dce7fa, #d8e4f8, #d3e1f5, #cfdef3);">
+                <div style="border-bottom: 1px dotted #DC81AC"><span class="glyphicon glyphicon-cog"></span>&nbsp;Creating a Client</div><br />
+                To create a new Client, click on Clients menu at the top navigation bar. Then, next to the Clients header title, there are three vertical dots.
+                Click on them, and you will see the option New Client. Fill out the window that comes up, and save changes.
+                <br />
+                <img src="~/Images/Wiki/New_Client_En.png" style="width:100%" />
+            </div>
+            <div id="THREE" class="well well-lg bg-success text-info" style="background-image: linear-gradient(to left bottom, #e0eafc, #dce7fa, #d8e4f8, #d3e1f5, #cfdef3);">
+                <div style="border-bottom: 1px dotted #DC81AC"><span class="glyphicon glyphicon-cog"></span>&nbsp;Creating an Epic</div><br />
+                In order to create an Epic, we need to be on the selected Epics page that relate to particular Client.To create a new Epic, first navigate to all epics page by clicking on three vertical dots inside selected client on Clients page. You will see the menu pops up with the following options: All Epics, Create Epic, and Delete. If you want to see all epics, click on All Epics, if you want to create a new epic, click on Create Epic. A new window will show up, fill Epic title, Epic description, and Save Changes.You will then be redirected to the Epics page.
+            </div>
+            <div id="FOUR" class="well well-lg bg-success text-info" style="background-image: linear-gradient(to left bottom, #e0eafc, #dce7fa, #d8e4f8, #d3e1f5, #cfdef3);">
+                <div style="border-bottom: 1px dotted #DC81AC"><span class="glyphicon glyphicon-cog"></span>&nbsp;Creating a Product Backlog</div><br />
+                In order to create a New Product Backlog, you first must have and epic, and a client to which that particular epic belongs. So, on the Epics page,
+                choose particular epic, click on three vertical dots in the bottom left, and you will see the menu with three options: All Product Backlogs, New Product Backlog, and Delete.
+                Click on New Product Backlog.Fill out the window that shows up, and click on Save Shanges.<br />
+                <img src="~/Images/Wiki/Epic_New_Product_Backlog_En.png" style="width:100%" />
+
+            </div>
+            <div id="FIVE" class="well well-lg bg-success text-info" style="background-image: linear-gradient(to left bottom, #e0eafc, #dce7fa, #d8e4f8, #d3e1f5, #cfdef3);">
+                <div style="border-bottom: 1px dotted #DC81AC"><span class="glyphicon glyphicon-cog"></span>&nbsp;Creating a task</div><br />
+                You can create a task either from landing Scrum Board first page or from Sprint Backlog, after you move your Product
+                Backlog to Sprint Backlog.
+                To create a task from your landing page:<br />
+                -Click on three vertical dots near TODO column 	 title, and click on New Item.<br />
+                -A window apears, and the first three "must" options to select are Client, Epic, and Product Backlog.
+                If you 	have not created each one of them before, go ahead and create them now, in the following sequence, Client, Epic, Product Backlog. Then continue to specify task details and description.
+                <br />
+                <img src="~/Images/Wiki/LandingPage_CreateNewItem_Window.png" style="width:100%" />
+                To create a task from Scrum Board:<br />
+                -In the first column to the left you will see all the Product Backlogs that you moved from Sprint Planning.<br />
+                Pick one Product Backlog that you want to add a task to, and click on three vertical dots to the bottom left, then click on New Sprint Item.
+                <br />
+                <img src="~/Images/Wiki/ScrumBoard_New_Task.png" style="width:100%" />
+            </div>
+            <div id="SIX" class="well well-lg bg-success text-info" style="background-image: linear-gradient(to left bottom, #e0eafc, #dce7fa, #d8e4f8, #d3e1f5, #cfdef3);">
+                <div style="border-bottom: 1px dotted #DC81AC"><span class="glyphicon glyphicon-cog"></span>&nbsp;Moving a task to QA</div><br />
+                On landing Scrum Board page, click on three vertical dots on the bottom left of a task, and move it to QA accordingly. If the task is in TODO, click on INPROGRESS, and then click on QA, once it is in progress.
+            </div>
+            <div id="SEVEN" class="well well-lg bg-success text-info" style="background-image: linear-gradient(to left bottom, #e0eafc, #dce7fa, #d8e4f8, #d3e1f5, #cfdef3);">
+                <div style="border-bottom: 1px dotted #DC81AC"><span class="glyphicon glyphicon-cog"></span>&nbsp;Changing QA Owner </div><br />
+                -If you want to change the owner of QA. Once the task is in QA, click on three vertical dots at the bottom left, and then click on Change Owner.
+                A window will appear with the list of team members who are in the same team as you are.
+                <img src="~/Images/Wiki/QA_Change_Owner_En.png" style="width:100%" />
+
+
+                Select one member and click on Save Changes. He or she in his or her turn will see the task in his or her TODO items once they log in.<br />
+                <img src="~/Images/Wiki/Change_Item_Owner_Window_En.png" style="width:100%" />
+            </div>
+            <div id="EIGHT" class="well well-lg bg-success text-info" style="background-image: linear-gradient(to left bottom, #e0eafc, #dce7fa, #d8e4f8, #d3e1f5, #cfdef3);">
+                <div style="border-bottom: 1px dotted #DC81AC"><span class="glyphicon glyphicon-cog"></span>&nbsp;Deleting a Product Backlog </div><br />
+                You can delete a Product Backlog in two places. First is on the product backlog page itself. Second place is inside Scrum Board.
+                There, in bottom left corner, click on three vertical dots, and then click on delete.
+                <img src="~/Images/Wiki/ScrumBoard_Delete_ProductBacklog.png" style="width:100%" />
+            </div>
+            <div id="TECHNICALSPECS" class="well well-lg bg-success text-info" style="background-image: linear-gradient(to left bottom, #e0eafc, #dce7fa, #d8e4f8, #d3e1f5, #cfdef3);">
+                <div style="border-bottom: 1px dotted #DC81AC"><span class="glyphicon glyphicon-cog"></span>&nbsp;Technical Specifications</div><br />
+                <h4><u style="border-bottom:1px dotted grey">Application Logic</u></h4>
+                <ul>
+                    <li>IIS</li>
+                    <li>ASP.NET MVC</li>
+                </ul>
+                <h4><u style="border-bottom:1px dotted grey">Database</u></h4>
+                <ul>
+                    <li>SQL Server</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+
+
+</div>

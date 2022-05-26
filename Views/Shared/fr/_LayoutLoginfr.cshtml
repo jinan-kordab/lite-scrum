@@ -1,0 +1,283 @@
+﻿@{
+    /**/
+
+    Layout = null;
+}
+<script src="~/Scripts/jquery-1.12.1.min.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+<script src="~/Scripts/popper.min.js"></script>
+<link href="~/Styles/bootstrap.min.css" rel="stylesheet" id="bootstrap-css" />
+<script src="~/Scripts/bootstrap.min.js"></script>
+<link href="~/Styles/Montserrat.css" rel="stylesheet" type='text/css' />
+
+<style type="text/css">
+    html, body {
+        min-height: 100%;
+        font-family: 'Montserrat', sans-serif;
+        border: 5px solid lightgrey;
+    }
+
+    .navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form {
+        border-color: #101010;
+        height: 10px !important;
+    }
+
+    .close {
+        font-size: 40px;
+    }
+    /*.modal.fade {
+        opacity: 1;
+        -webkit-transition: none;
+        -moz-transition: none;
+        -ms-transition: none;
+        -o-transition: none;
+        transition: none;
+    }*/
+
+    .modal.fade .modal-dialog {
+        -moz-transition: none !important;
+        -o-transition: none !important;
+        -webkit-transition: none !important;
+        transition: none !important;
+        -moz-transform: none !important;
+        -ms-transform: none !important;
+        -o-transform: none !important;
+        -webkit-transform: none !important;
+        transform: none !important;
+    }
+
+
+    .navbar-brand {
+        float: left;
+        height: 50px;
+        padding: 0px 0px;
+        font-size: 18px;
+        line-height: 20px;
+    }
+</style>
+<script type="text/javascript">
+
+    function ResetPassword() {
+
+        $('#ResetPasswordModal').modal('show');
+    }
+
+
+    function centerModal() {
+        var modalDialog = $(this).find(".modal-dialog");
+        modalDialog.css("margin-top", Math.max(0, ($(window).height() - modalDialog.height()) / 2));
+        modalDialog.attr('class', 'modal-dialog swing  animated');
+        //$("#Console").css("height", "100%");
+    }
+    var text = 0;
+    $(document).ready(function () {
+
+        $(".modal").on("shown.bs.modal", centerModal);
+        $(window).on("resize", function () {
+            $(".modal:visible").each(centerModal);
+        });
+        $('#LoginModal').modal('show');
+
+        //Console settings
+        //var wHeight = $(window).height();
+        //$('#Console').css({ "height": wHeight - 100 + "px" });
+
+
+        $("#FRlanguage").click(function () {
+            $("#lAction").val(this.name);
+            this.closest('form').submit()
+        });
+        $("#ENlanguage").click(function () {
+
+            alert(this.name);
+            $("#lAction").val(this.name);
+            this.closest('form').submit()
+
+        });
+
+        //setInterval(displayCT, Math.floor((Math.random() * 500) + 300));
+
+        $("#registrationForm").on("submit", function (event) {
+            var firstPassword = $("#PASSWORD").val();
+            var secondPassword = $("#CONFIRMPASSWORD").val();
+            if (firstPassword.toString().trim() != secondPassword.toString().trim()) {
+                alert("Passwords donot match ! Please enter them again");
+                $(".modal-body input[name ='PASSWORD']").val("");
+                $(".modal-body input[name ='CONFIRMPASSWORD']").val("");
+                event.preventDefault();
+                return false;
+            }
+
+        })
+
+    });
+
+    function displayCT() {
+        text += 1;
+        if (text == 87) {
+            $("#Console").html("");
+            text = 0;
+        }
+        else {
+            if (text % 2 == 0) {
+                $("#Console").append("<span style='font-size:8px'>> ------Build started: Project: WebApplication4, Configuration: Debug Any CPU------</span><br>");
+            }
+            else if (text % 3 == 0) {
+                $("#Console").append("<span style='font-size:8px'>" + text + " > App -> C: \Users\a\source\repos\WebApplication4\WebApplication4\bin\WebApplication4.dll</span><br>");
+            }
+            else if (text % 4 == 0) {
+                $("#Console").append("<span style='font-size:8px'>========== Build: 1 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========</span><br>");
+            }
+
+        }
+
+
+
+    }
+    function showModal2() {
+        $('#quotesModal').modal('show');
+    };
+
+
+    function getFormatteDate(today) {
+
+        var month = (today.getMonth() + 1).toString().length == 1 ? ('0' + (today.getMonth() + 1)) : ((today.getMonth() + 1));
+        var day = today.getDate().toString().length == 1 ? ('0' + today.getDate()) : (today.getDate());
+        var date = today.getFullYear() + '-' + month + '-' + day;
+
+        var hours = today.getHours().toString().length == 1 ? ('0' + today.getHours()) : (today.getHours());
+        var minutes = today.getMinutes().toString().length == 1 ? ('0' + today.getMinutes()) : (today.getMinutes());
+        var seconds = today.getSeconds().toString().length == 1 ? ('0' + today.getSeconds()) : (today.getSeconds());
+
+        var time = hours + ":" + minutes + ":" + seconds;
+        var dateTime = date + ' ' + time;
+
+        return dateTime;
+
+    }
+
+    function NewUserRegister() {
+        var newDate = new Date();
+        var regDate = getFormatteDate(newDate);
+        $('#registrationDate').val(regDate);
+        $('#registrationModal').modal('show');
+    };
+
+    function ResetRegistrationUpload(id) {
+        $("#regattachments").val(null);
+        //DisplayItemDetails(id);
+        $('#itemDetailsModal').modal('show');
+    }
+    function ResetRegForm() {
+        $("#registrationForm").trigger("reset");
+    }
+
+    function CheckEnteredPasswords() {
+
+        var firstPassword = $("#PASSWORD").val();
+        var secondPassword = $("#CONFIRMPASSWORD").val();
+        if (firstPassword.toString().trim() != secondPassword.toString().trim()) {
+            alert("Passwords donot match ! Please enter them again");
+            $(".modal-body input[name ='PASSWORD']").val("");
+            $(".modal-body input[name ='CONFIRMPASSWORD']").val("");
+        }
+    }
+
+    function CheckNickName(nickname) {
+        $.ajax({
+            url: "/Login/CheckNickName",
+            type: "POST",
+            data: {
+                NickName: nickname
+            },
+            success: function (data) {
+                if (data == "false") {
+                    $("input[name*='NICKNAME']").val("");
+                    $("input[name*='NICKNAME']").css({ 'border': '2px solid red' });
+                }
+                else {
+                    $("input[name*='NICKNAME']").val(nickname);
+                    $("input[name*='NICKNAME']").css({ 'border': '0px solid red' });
+                }
+            }
+        });
+
+    }
+
+    function CheckTeamNameExistance(teamName) {
+        $.ajax({
+            url: "/Login/CheckTeamName",
+            type: "POST",
+            data: {
+                TeamName: teamName
+            },
+            success: function (data) {
+                if (data == "false") {
+                    $("input[name*='TEAMNAME']").val("");
+                    $("input[name*='TEAMNAME']").css({ 'border': '2px solid red' });
+                }
+                else {
+                    $("input[name*='TEAMNAME']").val(teamName);
+                    $("input[name*='TEAMNAME']").css({ 'border': '0px solid red' });
+                }
+            }
+        });
+    }
+
+
+
+
+
+    function ReturnToLogin() {
+        location.href = "/Login/Index";
+    }
+
+</script>
+
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Basculer la navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"><img class="img-rounded" src="~/Images/logo8C.png" width="48" height="48" /></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/Home/Index">Accueil</a></li>
+                <li><a href="#" onclick="showModal2();">Citations</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Équipe <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" onclick="CreateNewteam();">Créer une nouvelle équipe</a></li>
+                        <li><a href="#" onclick="CreateNewteam();">Gérer les équipes</a></li>
+                    </ul>
+                </li>
+                <li><a href="/Client/Index">Les clients</a></li>
+                <li><a href="/ProductBacklog/Index">Épiques</a></li>
+                <li><a href="/ProductBacklog/Index">Product Backlog</a></li>
+                <li><a href="/Sprint/Index">Sprint Backlog</a></li>
+            </ul>
+
+            <form id="logoutform" action="/Login/Logout" enctype="multipart/form-data" method="post">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#" style="color:indianred" name="fr" id="FRlanguage" value="fr">FR</a></li>
+                    <li><a href="#" style="color:indianred" name="en" id="ENlanguage" value="en">EN</a></li>
+                    <li><a href="#" >Wiki</a></li>
+                    <li><a href="#" onclick="this.closest('form').submit();">Déconnexion</a></li>
+                </ul>
+            </form>
+            <form id="cultureform" action="/Login/Culture" enctype="multipart/form-data" method="post">
+                <input type="hidden" name="lAction" id="lAction" />
+            </form>
+        </div><!--/.nav-collapse -->
+    </div><!--/.container-fluid -->
+</nav>
+
+
+
+@RenderBody()

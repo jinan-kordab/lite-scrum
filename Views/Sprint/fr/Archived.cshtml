@@ -1,0 +1,171 @@
+﻿@model WebApplication4.Models.ProductBacklog
+
+@{
+    if (Session["LANG"].ToString() == "fr")
+    {
+        Layout = "~/Views/Shared/fr/_LayoutSprintArchiveBacklogfr.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_LayoutSprintArchiveBacklog.cshtml";
+    }
+
+}
+
+<style type="text/css">
+    /* These apply across all breakpoints because they are outside of a media query */
+    /* Make the labels light gray all caps across the board */
+    .sBacklog thead th,
+    .sBacklog tbody th .ui-table-cell-label,
+    .sBacklog tbody td .ui-table-cell-label {
+        text-transform: uppercase;
+        font-size: .7em;
+        color: rgba(0,0,0,0.5);
+        font-weight: normal;
+    }
+    /* White bg, large blue text for rank and title */
+    .sBacklog tbody th {
+        font-size: 1.2em;
+        background-color: #fff;
+        color: #77bbff;
+        text-align: center;
+    }
+    /*  Add a bit of extra left padding for the title */
+    .sBacklog tbody td.title {
+        padding-left: .8em;
+    }
+    /*  Custom stacked styles for mobile sizes */
+    /*  Use a max-width media query so we don't have to undo these styles */
+    @@media (max-width: 40em) {
+        .sBacklog {
+            border-collapse: unset;
+            padding-left: 0px;
+            width: 100%;
+        }
+
+            .sBacklog tr td {
+                width: 100% !important;
+            }
+
+            .sBacklog td {
+                width: 550px;
+                border-collapse: unset;
+            }
+            /*  Negate the margin between sections */
+            .sBacklog tbody th {
+                margin-top: 0;
+                text-align: left;
+                width: 100%;
+            }
+            /*  White bg, large blue text for rank and title */
+            .sBacklog tbody th,
+            .sBacklog tbody td.title {
+                display: block;
+                font-size: 1.2em;
+                line-height: 110%;
+                padding: .5em .5em;
+                background-color: #fff;
+                color: #77bbff;
+                -moz-box-shadow: 0 1px 6px rgba(0,0,0,.1);
+                -webkit-box-shadow: 0 1px 6px rgba(0,0,0,.1);
+                box-shadow: 0 1px 6px rgba(0,0,0,.1);
+            }
+                /*  Hide labels for rank and title */
+                .sBacklog tbody th .ui-table-cell-label,
+                .sBacklog tbody td.title .ui-table-cell-label {
+                    display: none;
+                }
+            /*  Position the title next to the rank, pad to the left */
+            .sBacklog tbody td.title {
+                margin-top: -2.1em;
+                padding-left: 2.2em;
+                border-bottom: 1px solid rgba(0,0,0,.15);
+            }
+            /*  Make the data bold */
+            .sBacklog th,
+            .sBacklog td {
+                font-weight: bold;
+            }
+                /* Make the label elements a percentage width */
+                .sBacklog td .ui-table-cell-label,
+                .sBacklog th .ui-table-cell-label {
+                    min-width: 20%;
+                }
+    }
+    /* Media query to show as a standard table at wider widths */
+    @@media ( min-width: 40em ) {
+        /* Show the table header rows */
+        .sBacklog td,
+        .sBacklog th,
+        .sBacklog tbody th,
+        .sBacklog tbody td,
+        .sBacklog thead td,
+        .sBacklog thead th {
+            display: table-cell;
+            margin: 0;
+        }
+            /* Hide the labels in each cell */
+            .sBacklog td .ui-table-cell-label,
+            .sBacklog th .ui-table-cell-label {
+                display: none;
+            }
+    }
+    /* Hack to make IE9 and WP7.5 treat cells like block level elements */
+    /* Applied in a max-width media query up to the table layout breakpoint so we don't need to negate this */
+    @@media ( max-width: 40em ) {
+
+        .sBacklog td,
+        .sBacklog th {
+            width: 100%;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            float: left;
+            clear: left;
+        }
+    }
+
+
+    .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
+        width: 100%;
+    }
+</style>
+
+
+<div class="container">
+    <div class="container-fluid">
+        <div class="well well-lg bg-success text-info" style="background-image: linear-gradient(to left bottom, #e0eafc, #dce7fa, #d8e4f8, #d3e1f5, #cfdef3);">
+            <span class="glyphicon glyphicon-cog"></span>
+            Le titre est explicatif en lui-même. Vous pouvez ici consulter tous les sprints archivés, les visualiser, puis les imprimer.
+        </div>
+        <div class="row">
+            <div class="page-header">
+                <div class="row">
+                    <div class="col-md-12 text-left ">
+                        <form style="float:left" class="form-inline" action="/Sprint/ArchiveSprint" enctype="multipart/form-data" method="post">
+                            <div class="form-group">
+                                <p style="font-size:xx-large;font-weight:600;float:left">Sprints Archivés &nbsp;<font style="font-size:x-small">@Model.FullNamePlusRank</font></p>
+                            </div>
+
+                        </form>
+                        <img src="@Model.PersonImagePath" width="40" height="40" alt="Logged in user image" class="rounded-circle" style="float:right">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="border:1px solid indianred;padding:10px">
+            <div class="col-sm-12">
+                <table class="table table-bordered table-striped" id="tblArchivedSprints" style="width:100%;padding:7px;">
+                    <thead>
+                        <tr>
+                            <th scope="col">Date de début du sprint&nbsp;<font style="font-size:x-small">(J/M/AAAA HH)</font></th>
+                            <th scope="col">Date de fin du sprint&nbsp;<font style="font-size:x-small">(J/M/AAAA HH)</font></th>
+                            <th scope="col">&nbsp;</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>

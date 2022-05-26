@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e53d3318b5344b3d9329c3e6b88e2e81" Name="Diagram1">
+        <EntityTypeShape EntityType="SQL2012_1020727_scrumModel.ATTACHMENT" Width="1.5" PointX="9.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SQL2012_1020727_scrumModel.CLIENT" Width="1.5" PointX="0.75" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="SQL2012_1020727_scrumModel.CLIENTATTACHMENT" Width="1.5" PointX="3" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SQL2012_1020727_scrumModel.EPIC" Width="1.5" PointX="3" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SQL2012_1020727_scrumModel.HYPERLINK" Width="1.5" PointX="9.75" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SQL2012_1020727_scrumModel.ITEM" Width="1.5" PointX="7.5" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="SQL2012_1020727_scrumModel.LOG" Width="1.5" PointX="9.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SQL2012_1020727_scrumModel.PBATTACHMENT" Width="1.5" PointX="11.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SQL2012_1020727_scrumModel.PBHYPERLINK" Width="1.5" PointX="7.5" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SQL2012_1020727_scrumModel.PERSON" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SQL2012_1020727_scrumModel.PICTURE" Width="1.5" PointX="7.5" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SQL2012_1020727_scrumModel.PRODUCTBACKLOG" Width="1.5" PointX="5.25" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="SQL2012_1020727_scrumModel.RequestStat" Width="1.5" PointX="11.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SQL2012_1020727_scrumModel.SPRINTARCHIVE" Width="1.5" PointX="3" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SQL2012_1020727_scrumModel.SPRINTARCHIVEBACKLOG" Width="1.5" PointX="5.25" PointY="10.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SQL2012_1020727_scrumModel.TEAM" Width="1.5" PointX="7.5" PointY="13.875" IsExpanded="true" />
+        <AssociationConnector Association="SQL2012_1020727_scrumModel.FK_CLIENT_CLIENT" ManuallyRouted="false" />
+        <AssociationConnector Association="SQL2012_1020727_scrumModel.FK_CLIENTATTACHMENT_CLIENT" ManuallyRouted="false" />
+        <AssociationConnector Association="SQL2012_1020727_scrumModel.FK_EPIC_CLIENT" ManuallyRouted="false" />
+        <AssociationConnector Association="SQL2012_1020727_scrumModel.FK_SPRINTARCHIVE_CLIENT" ManuallyRouted="false" />
+        <AssociationConnector Association="SQL2012_1020727_scrumModel.FK_PRODUCTBACKLOG_EPIC" ManuallyRouted="false" />
+        <AssociationConnector Association="SQL2012_1020727_scrumModel.FK_HYPERLINK_ITEM" ManuallyRouted="false" />
+        <AssociationConnector Association="SQL2012_1020727_scrumModel.FK_ITEM_PERSON" ManuallyRouted="false" />
+        <AssociationConnector Association="SQL2012_1020727_scrumModel.FK_ITEM_PRODUCTBACKLOG" ManuallyRouted="false" />
+        <AssociationConnector Association="SQL2012_1020727_scrumModel.FK_PBHYPERLINK_PRODUCTBACKLOG" ManuallyRouted="false" />
+        <AssociationConnector Association="SQL2012_1020727_scrumModel.FK_PICTURE_PERSON" ManuallyRouted="false" />
+        <AssociationConnector Association="SQL2012_1020727_scrumModel.FK_TEAM_PERSON" ManuallyRouted="false" />
+        <AssociationConnector Association="SQL2012_1020727_scrumModel.FK_SPRINTARCHIVEBACKLOG_SPRINTARCHIVE" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

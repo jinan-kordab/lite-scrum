@@ -1,0 +1,380 @@
+﻿@model WebApplication4.Models.ProductBacklog
+
+@{
+  Layout = "~/Views/Shared/fr/_LayoutProductBacklogfr.cshtml";
+
+
+}
+
+
+<!-- Page Content -->
+<div class="container">
+    <div class="well well-lg bg-success text-info" style="background-image: linear-gradient(to left bottom, #e0eafc, #dce7fa, #d8e4f8, #d3e1f5, #cfdef3);">
+        <span class="glyphicon glyphicon-cog"></span>
+        Tous les arriérés de produits ici appartiennent à une seule Epic. C'est la page d'affinement des Product Backlogs, où les arriérés de produits sont créés, supprimés, déplacés vers la page d'affinement, de nouveaux arriérés de produits affinés sont également créés, et enfin ceux qui ont été choisis sont déplacés vers la réunion de planification du sprint, ou la zone de planification du sprint, où il sera décidé lesquels sont déplacés vers l'arriéré de produits.
+
+        Vous n'avez pas besoin de déplacer tous les produits en attente en une seule fois vers la Planification du sprint et le Carnet de commandes du sprint, ils peuvent attendre ici si vous n'avez pas encore décidé.
+
+
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="page-header">
+                <div class="row">
+                    <div class="col-md-12 text-left ">
+                        <p style="font-size:xx-large;font-weight:600;float:left">Product Backlog&nbsp;<span style="font-size:medium">(Préparation de Backlog)</span></p>
+                        <img src="@Model.PersonImagePath" width="40" height="40" alt="Logged in user image" class="rounded-circle" style="float:right">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row dt-row">
+                    <div class="col-md-4 bg-danger" style="background-image: linear-gradient(to right top, #ffd9df, #fedfe3, #fee5e7, #fcebec, #fbf1f1);">
+                        @*#FFD9DF  #FBF1F1  https://mycolor.space/gradient?ori=to+right+top&hex=%23FFD9DF&hex2=%23FBF1F1&sub=1*@
+                        <div class="panel-heading">
+                            <div class="dropdown">
+                                <div style="text-align:center">
+                                    <h3>
+                                        TÂCHES BACKLOG
+                                        <a href="#" style="text-decoration:none;color:blue;" class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">&#10247;</a>
+                                        @*#E5E5FF   #E5E5E5  #EEEEEE   https://mycolor.space/gradient3?ori=to+right+top&hex=%23E5E5FF&hex2=%23E5E5E5&hex3=%23EEEEEE&submit=submit*@
+                                        <ul class="dropdown-menu" style="border:1px solid #808080;height:auto;width:100%;background-image: linear-gradient(to right top, #eee5ef, #eee5ea, #eee5f5, #eee5f0, #eee5eb, #eee6ea, #eee6e8, #eee7e7, #eee9e9, #e7ebea, #e7ecec, #e7eeee);" aria-labelledby="dropdownMenu1">
+                                            <li class="dropdown-item" style="width:100%;font-size:small;border:2px solid #ffffff;cursor:hand" data-toggle="modal" data-target="#newItemModal" onclick="SetDateForNewItem('@Html.Raw(Session["EpicID"].ToString())');">&#187;&nbsp;Nouvel Product Backlog</li>
+                                        </ul>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group">
+                            @foreach (var item in Model.Itemlist)
+                            {
+                                if (item.ITEMLOCATION == "PB")
+                                {
+                                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <div class="row">
+                                                <div class="col-md-12 text-left ">
+                                                    <p style="font-size:medium;font-weight:600;float:left">@item.ITEMTITLE</p>
+                                                    <p style="font-size:small;font-weight:600;float:right">@item.CREATIONDATE</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p style="font-size:small">
+                                            @Html.Raw(item.ITEMNOTES)
+                                        </p>
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <!-- Small button groups (default and split) -->
+                                                    <div class="btn-group dropup" style="float:left;">
+                                                        <div style="font-size:smaller;font-weight:600;float:right;color:blue" class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            &#10247;
+                                                        </div>
+                                                        <ul class="dropdown-menu" style="width:100%;border:1px solid darkgrey;height:auto;background-image: linear-gradient(to right top, #eee5ef, #eee5ea, #eee5f5, #eee5f0, #eee5eb, #eee6ea, #eee6e8, #eee7e7, #eee9e9, #e7ebea, #e7ecec, #e7eeee);">
+                                                            <li class="dropdown-item" style="width:100%;font-size:small;border:2px solid #ffffff" onclick="moveToRefined('@item.ITEMID')">&#187;&nbsp;RAFFINÉ</li>
+                                                            <li class="dropdown-item" style="width:100%;font-size:small;border:2px solid #ffffff" onclick="DeleteItem('@item.ITEMID')">&#187;&nbsp;Supprimer</li>
+
+                                                        </ul>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <p style="font-size:smaller;font-weight:600;float:right;line-height:2;color:blue" onclick="DisplayItemDetails('@item.ITEMID')">
+                                                        <u>Détails de la tâche</u>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                }
+                            }
+
+                        </div>
+                    </div>
+                    <div class="col-md-4 bg-info" id="droppable" style="background-image: linear-gradient(to right, #eceefb, #edeef8, #eeeef4, #eeeef1, #eeeeee);">
+                        @*#ECEEFB   #EEEEEE   https://mycolor.space/gradient?ori=to+right&hex=%23ECEEFB&hex2=%23EEEEEE&sub=1*@
+                        <div class="panel-heading">
+
+                            <div class="dropdown">
+                                <div style="text-align:center">
+
+                                    <h3>
+                                        BACKLOG RAFFINÉ
+                                        <a href="#" style="text-decoration:none;color:blue;" class="dropdown-toggle" id="dropdownMenuri" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">&#10247;</a>
+
+                                        <ul class="dropdown-menu" style="border:1px solid #808080;height:auto;width:100%;background-image: linear-gradient(to right top, #eee5ef, #eee5ea, #eee5f5, #eee5f0, #eee5eb, #eee6ea, #eee6e8, #eee7e7, #eee9e9, #e7ebea, #e7ecec, #e7eeee);" aria-labelledby="dropdownMenuri">
+                                            <li class="dropdown-item" style="width:100%;font-size:small;border:2px solid #ffffff;cursor:hand" data-toggle="modal" data-target="#newItemModal" onclick="SetDateForNewRefinedItem('@Html.Raw(Session["EpicID"].ToString())');">&#187;&nbsp;Nouveau Backlog raffiné </li>
+                                        </ul>
+                                    </h3>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="list-group">
+                            @foreach (var item in Model.Itemlist)
+                            {
+                                if (item.ITEMLOCATION == "RB")
+                                {
+                                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <div class="row">
+                                                <div class="col-md-12 text-left ">
+                                                    <p style="font-size:medium;font-weight:600;float:left">@item.ITEMTITLE</p>
+                                                    <p style="font-size:small;font-weight:600;float:right">@item.CREATIONDATE</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p style="font-size:small">
+                                            @Html.Raw(item.ITEMNOTES)
+                                        </p>
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <!-- Small button groups (default and split) -->
+                                                    <div class="btn-group dropup" style="float:left;">
+                                                        <div style="font-size:smaller;font-weight:600;float:right;color:blue" class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            &#10247;
+                                                        </div>
+                                                        <ul class="dropdown-menu" style="width:100%;border:1px solid darkgrey;height:auto;background-image: linear-gradient(to right top, #eee5ef, #eee5ea, #eee5f5, #eee5f0, #eee5eb, #eee6ea, #eee6e8, #eee7e7, #eee9e9, #e7ebea, #e7ecec, #e7eeee);">
+                                                            <li class="dropdown-item" style="width:100%;font-size:small;border:2px solid #ffffff" onclick="moveToBacklog('@item.ITEMID')">&#187;&nbsp;BACKLOG</li>
+                                                            <li class="dropdown-item" style="width:100%;font-size:small;border:2px solid #ffffff" onclick="moveToSprintPlanning('@item.ITEMID')">&#187;&nbsp;SPR PLANIFICATION</li>
+                                                            <li class="dropdown-item" style="width:100%;font-size:small;border:2px solid #ffffff" onclick="DeleteItem('@item.ITEMID')">&#187;&nbsp;Supprimer</li>
+
+                                                        </ul>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <p style="font-size:smaller;font-weight:600;float:right;line-height:2;color:blue" onclick="DisplayItemDetails('@item.ITEMID')">
+                                                        <u>Détails de la tâche</u>
+
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                }
+                            }
+                        </div>
+                    </div>
+                    <div class="col-md-4 bg-success" style="background-image: linear-gradient(to right, #dafdd6, #dcfcd9, #ddfbdc, #dffade, #e1f9e1);">
+                        @*#DAFDD6 #E1F9E1  https://mycolor.space/gradient?ori=to+right&hex=%23DAFDD6&hex2=%23E1F9E1&sub=1*@
+                        <div class="panel-heading">
+                            <h3 style="text-align:center">SPRINT PLANIFICATION</h3>
+                        </div>
+                        <div class="list-group">
+                            @foreach (var item in Model.Itemlist)
+                            {
+                                if (item.ITEMLOCATION == "SPRPL")
+                                {
+                                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <div class="row">
+                                                <div class="col-md-12 text-left ">
+                                                    <p style="font-size:medium;font-weight:600;float:left">@item.ITEMTITLE</p>
+                                                    <p style="font-size:small;font-weight:600;float:right">@item.CREATIONDATE</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p style="font-size:small">
+                                            @Html.Raw(item.ITEMNOTES)
+                                        </p>
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <!-- Small button groups (default and split) -->
+                                                    <div class="btn-group dropup" style="float:left;">
+                                                        <div style="font-size:smaller;font-weight:600;float:right;color:blue" class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            &#10247;
+                                                        </div>
+                                                        <ul class="dropdown-menu" style="width:100%;border:1px solid darkgrey;height:auto;background-image: linear-gradient(to right top, #eee5ef, #eee5ea, #eee5f5, #eee5f0, #eee5eb, #eee6ea, #eee6e8, #eee7e7, #eee9e9, #e7ebea, #e7ecec, #e7eeee);">
+                                                            <li class="dropdown-item" style="width:100%;font-size:small;border:2px solid #ffffff" onclick="moveToBacklog('@item.ITEMID')">&#187;&nbsp;PRODUCT BACKLOG</li>
+                                                            <li class="dropdown-item" style="width:100%;font-size:small;border:2px solid #ffffff" onclick="moveToRefined('@item.ITEMID')">&#187;&nbsp;RAFFINÉ</li>
+                                                            <li class="dropdown-item" style="width:100%;font-size:small;border:2px solid #ffffff" onclick="DeleteItem('@item.ITEMID')">&#187;&nbsp;SUPPRIMER</li>
+                                                            <li class="dropdown-item" style="width:100%;font-size:small;border:2px solid #ffffff" onclick="MoveToSprintBacklog('@item.ITEMID')">&#187;&nbsp;SPRINT BACKLOG</li>
+                                                        </ul>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <p style="font-size:smaller;font-weight:600;float:right;line-height:2;color:blue" onclick="DisplayItemDetails('@item.ITEMID')">
+                                                        <u>Détails de la tâche</u>
+
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- New Item Modal -->
+    <div class="modal fade" id="newItemModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
+         style="">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content" style="background-image: linear-gradient(to right top, #f2f2f2, #f2f2f2, #f2f2f2, #f2f2f2, #f2f2f2);">
+                <div class="modal-header">
+                    <div class="row">
+                        <div class="col-md-12 text-left ">
+                            <p id="NewPbPBTitle" style="font-size:x-large;font-weight:600;float:left"></p>
+                            <p style="font-size:small;font-weight:600;float:right">
+                                <button type="button"
+                                        aria-hidden="true"
+                                        data-dismiss="modal"
+                                        aria-label="Close"
+                                        class="close"
+                                        style="width:30px;height:30px;">
+                                    &times;
+                                </button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <form id="newItem" action="/Epic/AddNewProductBacklog" enctype="multipart/form-data" method="post">
+                        <div class="form-group">
+                            <label for="itemTitle">Titre de la tâche</label>
+                            <input class="form-control" type="text" id="itemTitle" required maxlength="23" name="ItemTitle" aria-describedby="emailHelp" placeholder="Titre de la tâche">
+                            <small id="itemTitleHelp" class="form-text text-muted">Le titre de votre article. Une description générale.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="itemCreationDate">Date de création</label>
+                            <input class="form-control" type="text" readonly="readonly" id="itemCreationDate" name="ItemCreationDate">
+                            <small id="itemDateHelp" class="form-text text-muted">Creation date of your TO DO item. Current date.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="itemDescription">Point Description/Notes</label>
+                            <textarea class="form-control" rows="8" id="itemdescription" required name="ItemDescription"></textarea>
+                            <small id="itemDescriptionHelp" class="form-text text-muted">Description de votre article. Date actuelle.</small>
+                        </div>
+                        <div class="shadow p-4 mb-4 bg-white">
+                            <div class="form-group">
+                                <label>Liens</label>&nbsp;<small id="itemLinkHelp" class="form-text text-muted">( Liens qui sont en grande partie liés à votre article).</small>
+                                <input class="form-control" type="text" id="linkOne" name="LinkOne" aria-describedby="linkOneHelp" placeholder="Please enter item link 1">
+                                <input class="form-control" type="text" id="linkTwo" name="LinkTwo" aria-describedby="linkOneHelp" placeholder="Please enter item link 2">
+                                <input class="form-control" type="text" id="linkThree" name="LinkThree" aria-describedby="linkOneHelp" placeholder="Please enter item link 3">
+                            </div>
+                        </div>
+                        @*<input type="file" id="attachments" name="files" multiple>*@
+
+                        @*<div class="form-group">
+                                <label for="attachments">Attachments</label>
+                                <input type="file" id="attachments" name="Attachments" multiple class="btn-warning" style="float:right;line-height: 0.5;" size="10">
+                                <button type="button" class="btn btn-warning" id="detailsResetButton" onclick="ResetNewItem();">Reset</button>
+                            </div>*@
+
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Pièces jointes
+                                <input type="file" id="attachments" class="btn-warning" name="Attachments" multiple style="float:right;line-height: 0.5;" size="10">
+                                <button type="button" class="btn btn-warning" id="detailsResetButton" style="float:right;line-height: 0.5;" onclick="ResetNewItem();">Réinitialiser</button>
+
+                            </li>
+                        </ul>
+
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+                            <button type="submit" class="btn btn-primary" id="btnSubmitNewItem">Enregistrer les modifications</button>
+                        </div>
+                        <input type="hidden" id="npbhyujkzsaa" name="hyujkzsaa" value="" />
+                        <input type="hidden" id="customLocation" name="CustomLocation" value="" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Item Details Modal -->
+    <div class="modal fade" id="itemDetailsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
+         style="">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content" style="background-image: linear-gradient(to right top, #f2f2f2, #f2f2f2, #f2f2f2, #f2f2f2, #f2f2f2);">
+                <div class="modal-header">
+                    <div class="row">
+                        <div class="col-md-12 text-left ">
+                            <p style="font-size:x-large;font-weight:600;float:left">Nouveaux détails</p>
+                            <p style="font-size:small;font-weight:600;float:right">
+                                <button type="button"
+                                        aria-hidden="true"
+                                        data-dismiss="modal"
+                                        aria-label="Close"
+                                        class="close"
+                                        style="width:30px;height:30px;">
+                                    &times;
+                                </button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <form id="newItem" action="/ProductBacklog/UpdateExistingItem" enctype="multipart/form-data" method="post">
+                        <input type="hidden" id="existingItemIdToUpdate" name="ItemId" />
+                        <div class="form-group">
+                            <label for="itemTitle">Titre de l'article</label>
+                            <input class="form-control" type="text" id="ditemTitle" required maxlength="23" name="ItemTitle" aria-describedby="emailHelp" placeholder="Veuillez saisir le titre de la tâche">
+                            <small id="itemTitleHelp" class="form-text text-muted">Le titre de votre article. Une description générale.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="itemCreationDate">Date de création</label>
+                            <input class="form-control" type="text" readonly="readonly" id="ditemCreationDate" name="ItemCreationDate">
+                            <small id="itemDateHelp" class="form-text text-muted">Date de création de votre article. Date du jour.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="itemDescription">Point Description/Notes</label>
+                            <textarea class="form-control" rows="8" id="ditemdescription" required name="ItemDescription"></textarea>
+                            <small id="itemDescriptionHelp" class="form-text text-muted">Description de votre objet. Date actuelle.</small>
+                        </div>
+                        <div class="shadow p-4 mb-4 bg-white">
+                            <div class="form-group">
+                                <label>Liens</label>&nbsp;<small id="itemLinkHelp" class="form-text text-muted">( Liens qui sont en grande partie liés à votre article.)</small>
+                                <input class="form-control" type="text" id="dlinkOne" name="LinkOne" aria-describedby="linkOneHelp" placeholder="Please enter item link 1">
+                                <input class="form-control" type="text" id="dlinkTwo" name="LinkTwo" aria-describedby="linkOneHelp" placeholder="Please enter item link 2">
+                                <input class="form-control" type="text" id="dlinkThree" name="LinkThree" aria-describedby="linkOneHelp" placeholder="Please enter item link 3">
+                            </div>
+                        </div>
+                        <label>Pièces jointes</label>
+                        <ul class="list-group" id="dAttachmentDetails">
+
+                            @*<li class="list-group-item d-flex justify-content-between align-items-center">Attachment name<a class="badge badge-primary badge-pill">delete</a></li>*@
+                        </ul>
+
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Ajouter des pièces jointes
+                                <input type="file" id="dattachments" class="btn-warning" name="Attachments" multiple style="float:right;line-height: 0.5;" size="10">
+                                <button type="button" class="btn btn-warning" id="detailsResetButton" style="float:right;line-height: 0.5;" onclick="ResetFileUpload($(this).val());">Réinitialiser</button>
+
+                            </li>
+                        </ul>
+                        @*<div class="form-group">
+                                <label for="attachments">Add Attachments</label>
+                                <input type="file" id="dattachments" name="Attachments" multiple>
+                                <button type="button" class="btn btn-warning" id="detailsResetButton" onclick="ResetFileUpload($(this).val());">Reset</button>
+
+                            </div>*@
+
+
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+                            <button type="submit" class="btn btn-primary" id="btnUpdateExistingItem">Mise à jour des changements</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- /.container -->
+

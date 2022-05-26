@@ -1,0 +1,2026 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Lite Scrum</title>
+    <meta name="description" content="Lite Scrum vous permet de gagner du temps en planifiant, en préparant et en effectuant vos tâches quotidiennes, ce qui augmente l'hyperproductivité.">
+    <meta name="keywords" content="scrum, sprint, velocity, équipe, individuel, logiciel, planification, tâches, to do , in progress, done, product backlog, epic, sprint backlog, sprint planning, velocity, articles, daily standup">
+    <meta name="author" content="Jinan Kordab">
+
+    <!-- Favicons -->
+    <link href="~/Images/logo8C.png" rel="icon">
+    <link href="~/Images/logo8C.png" rel="logo-Liteweight-scrum-sprint">
+
+    <!-- Google Fonts -->
+    <link href="~/Styles/Montserrat.css" rel="stylesheet" type='text/css' />
+    <!-- Vendor CSS Files -->
+    @*<link href="~/Styles/bootstrap.min.css" rel="stylesheet" />*@
+    <link href="~/Styles/bootstrap.min.css" rel="stylesheet" id="bootstrap-css" />
+    <link href="~/Styles/ionicons/css/ionicons.min.css" rel="stylesheet" />
+
+    <link href="~/Styles/animate.css/animate.min.css" rel="stylesheet" />
+
+    <link href="~/Styles/venobox/venobox.css" rel="stylesheet" />
+    <!-- Template Main CSS File -->
+    <script src="~/Scripts/jquery/jquery.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
+    @*<script src="~/Scripts/bootstrap/js/bootstrap.bundle.min.js"></script>*@
+    <script src="~/Scripts/jquery.easing/jquery.easing.min.js"></script>
+    <script src="~/Scripts/wow/wow.min.js"></script>
+    <script src="~/Scripts/venobox/venobox.min.js"></script>
+    <script src="~/Scripts/Landing/main.js"></script>
+    <style type="text/css">
+
+        li > a:hover {
+            /*font-size: 17px;*/
+            font-weight: 600;
+            color: #223043;
+        }
+
+        html, body {
+            min-height: 100%;
+            font-family: 'Montserrat', sans-serif;
+            border: 5px solid Litegrey;
+        }
+
+        .navbar-brand {
+            float: left;
+            height: 50px;
+            padding: 0px 0px;
+            font-size: 18px;
+            line-height: 20px;
+        }
+
+        .scrollTop {
+            position: fixed;
+            display: none;
+            background: #5f0000;
+            color: #fff;
+            padding: 7px 5px 5px 20px;
+            font-size: 16px;
+            border-radius: 8px 8px 0 0;
+            right: 40px;
+            bottom: 15px;
+            transition: none;
+        }
+
+            .scrollTop:focus {
+                background: linear-gradient(45deg, #777, rgba(73, 78, 92, 0.15));
+                color: rgba(240,163,10,1 );
+                outline: none;
+            }
+
+            .scrollTop:hover {
+                background: #ddd;
+                color: #fff;
+            }
+
+        /*section one*/
+        #sectionOne {
+            width: 100%;
+            height: 100vh;
+            /*background: linear-gradient(45deg, rgba(29, 224, 153, 0.8), rgba(29, 200, 205, 0.8)), url('../Images/clients.jpg') center top no-repeat;*/
+            background: linear-gradient(43deg, rgba(190, 144, 212,1), rgba(115, 101, 152, 0.8)), url('../Images/Landing/2019-06-24 12-15-29.JPG') center top no-repeat;
+            background-size: cover;
+            position: relative;
+        }
+
+
+        @@media (min-width: 1025px) {
+            #sectionOne {
+                background-attachment: fixed;
+            }
+        }
+
+        #sectionOne .sectionOne-text {
+            /* position: relative;
+            left: 0;
+            top: 60px;
+            right: 0;
+            height: calc(50% - 60px);
+            display: flex;
+            align-items: center;
+                 flex-direction: column;
+            justify-content: center;*/
+            text-align: center;
+        }
+
+        #sectionOne h2 {
+            margin: 30px 0 10px 0;
+            padding: 0 15px;
+            font-size: 48px;
+            font-weight: 400;
+            line-height: 56px;
+            color: #fff;
+        }
+
+        @@media (max-width: 768px) {
+            #sectionOne h2 {
+                font-size: 28px;
+                line-height: 36px;
+            }
+        }
+
+        #sectionOne p {
+            color: #fff;
+            margin-bottom: 20px;
+            padding: 0 15px;
+            font-size: 24px;
+        }
+
+        @@media (max-width: 768px) {
+            #sectionOne p {
+                font-size: 18px;
+                line-height: 24px;
+                margin-bottom: 20px;
+            }
+        }
+
+        #sectionOne .btnLoginOrRegister {
+            font-family: "Montserrat", sans-serif;
+            font-weight: 400;
+            font-size: 16px;
+            letter-spacing: 1px;
+            display: inline-block;
+            padding: 8px 28px;
+            border-radius: 50px;
+            transition: 0.5s;
+            margin: 10px;
+            border: 2px solid #fff;
+            color: #fff;
+        }
+
+            #sectionOne .btnLoginOrRegister:hover {
+                color: #fff;
+                background: #913d88;
+            }
+
+        #sectionOne .sectiononeshowcase {
+            position: relative;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
+            text-align: center;
+            width: 100%;
+            height: 50%;
+        }
+
+            #sectionOne .sectiononeshowcase img {
+                box-shadow: 0px -2px 19px 4px rgba(0, 0, 0, 0.29);
+            }
+
+            #sectionOne .sectiononeshowcase .sectiononetodo {
+                position: absolute;
+                z-index: 30;
+                left: calc(50% + 54px);
+                bottom: 0;
+                top: 60px;
+            }
+
+            #sectionOne .sectiononeshowcase .sectiononeinprogress {
+                position: absolute;
+                z-index: 20;
+                left: calc(50% - 154px);
+                bottom: 0;
+                top: 90px;
+            }
+
+            #sectionOne .sectiononeshowcase .sectiononedone {
+                position: absolute;
+                z-index: 10;
+                left: calc(50% - 374px);
+                bottom: 0;
+                top: 150px;
+            }
+
+        @@media (max-width: 767px) {
+            #sectionOne .sectiononeshowcase .sectiononetodo {
+                position: static;
+                padding-top: 30px;
+            }
+
+            #sectionOne .sectiononeshowcase .sectiononeinprogress, #sectionOne .sectiononeshowcase .sectiononedone {
+                display: none;
+            }
+        }
+
+
+
+        /* Sections Header
+        --------------------------------*/
+        .hdrSection .section-title {
+            font-size: 32px;
+            color: #111;
+            text-align: center;
+            font-weight: 400;
+        }
+
+        .hdrSection .section-description {
+            text-align: center;
+            padding-bottom: 40px;
+            color: #777;
+            font-style: italic;
+        }
+
+        .hdrSection .section-divider {
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: #1dc8cd;
+            background: linear-gradient(0deg, #8e44ad 0%, #663399 100%);
+            margin: 0 auto;
+            margin-bottom: 20px;
+        }
+
+        /* Section with background
+        --------------------------------*/
+        .sctionwithbackground {
+            background: #f1e7fe;
+        }
+
+        /* About Us Section
+        --------------------------------*/
+        #sectionTwo {
+            padding: 60px 0;
+            overflow: hidden;
+        }
+
+            #sectionTwo .about-img {
+                height: 510px;
+                overflow: hidden;
+            }
+
+                #sectionTwo .about-img img {
+                    margin-left: -15px;
+                    max-width: 100%;
+                }
+
+        @@media (max-width: 768px) {
+            #sectionTwo .about-img {
+                height: auto;
+            }
+
+                #sectionTwo .about-img img {
+                    margin-left: 0;
+                    padding-bottom: 30px;
+                }
+        }
+
+        #sectionTwo .content .h2 {
+            color: #333;
+            font-weight: 300;
+            font-size: 24px;
+        }
+
+        #sectionTwo .content h3 {
+            color: #777;
+            font-weight: 300;
+            font-size: 18px;
+            line-height: 26px;
+            font-style: italic;
+        }
+
+        #sectionTwo .content p {
+            line-height: 26px;
+        }
+
+            #sectionTwo .content p:last-child {
+                margin-bottom: 0;
+            }
+
+        #sectionTwo .content i {
+            font-size: 20px;
+            padding-right: 4px;
+            color: #663399;
+        }
+
+        #sectionTwo .content ul {
+            list-style: none;
+            padding: 0;
+        }
+
+            #sectionTwo .content ul li {
+                padding-bottom: 10px;
+            }
+
+        /* Product Featuress Section
+        --------------------------------*/
+        #sectionThree {
+            background: #fff;
+            padding: 60px 0 0 0;
+            overflow: hidden;
+        }
+
+            #sectionThree .features-img {
+                text-align: center;
+                padding-top: 20px;
+            }
+
+        @@media (min-width: 769px) {
+            #sectionThree .features-img {
+                padding-top: 120px;
+                margin-top: -200px;
+            }
+        }
+
+        #sectionThree .features-img img {
+            max-width: 100%;
+        }
+
+        #sectionThree .box {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        #sectionThree .icon {
+            margin-bottom: 10px;
+        }
+
+            #sectionThree .icon i {
+                color: #666666;
+                font-size: 40px;
+                transition: 0.5s;
+            }
+
+                #sectionThree .icon i:before {
+                    background: #9f5afd;
+                    background: linear-gradient(45deg, #d5b8ff 0%, #9f5afd 100%);
+                    background-clip: border-box;
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                }
+
+        #sectionThree .title {
+            font-weight: 300;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+
+            #sectionThree .title a {
+                color: #111;
+            }
+
+        #sectionThree .description {
+            font-size: 14px;
+            line-height: 24px;
+            margin-bottom: 10px;
+        }
+
+        #sectionThree .section-description {
+            padding-bottom: 10px;
+        }
+
+        /* Product Advanced Featuress Section
+        --------------------------------*/
+        #sectionFour {
+            overflow: hidden;
+        }
+
+            #sectionFour .features-row {
+                padding: 60px 0 30px 0;
+            }
+
+            #sectionFour h2 {
+                font-size: 26px;
+                font-weight: 700;
+                color: #000;
+            }
+
+            #sectionFour h3 {
+                font-size: 16px;
+                line-height: 24px;
+                font-weight: 400;
+                font-style: italic;
+                color: #999;
+            }
+
+            #sectionFour p {
+                line-height: 24px;
+                color: #777;
+                margin-bottom: 30px;
+            }
+
+            #sectionFour i {
+                color: #666666;
+                font-size: 64px;
+                transition: 0.5s;
+                float: left;
+                padding: 0 15px 0px 0;
+                line-height: 1;
+            }
+
+                #sectionFour i:before {
+                    background: #9f5afd;
+                    background: linear-gradient(45deg, #d5b8ff 0%, #9f5afd 100%);
+                    background-clip: border-box;
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                }
+
+            #sectionFour .advanced-feature-img-right {
+                max-width: 100%;
+                float: right;
+                padding: 0 0 30px 30px;
+            }
+
+            #sectionFour .advanced-feature-img-left {
+                max-width: 100%;
+                float: left;
+                padding: 0 30px 30px 0;
+            }
+
+        @@media (max-width: 768px) {
+            #sectionFour .advanced-feature-img-right, #sectionFour .advanced-feature-img-left {
+                max-width: 50%;
+            }
+        }
+
+        @@media (max-width: 767px) {
+            #sectionFour .advanced-feature-img-right, #sectionFour .advanced-feature-img-left {
+                max-width: 100%;
+                float: none;
+                padding: 0 0 30px 0;
+            }
+        }
+
+        /* Call To Action Section
+        --------------------------------*/
+        #sectionFive {
+            overflow: hidden;
+            background: linear-gradient(rgba(213, 184, 255, 0.65), rgba(159, 90, 253, 0.5)), url(../img/call-to-action-bg.jpg) fixed center center;
+            background-size: cover;
+            padding: 80px 0;
+        }
+
+            #sectionFive .cta-title {
+                color: #fff;
+                font-size: 28px;
+                font-weight: 700;
+            }
+
+            #sectionFive .cta-text {
+                color: #fff;
+            }
+
+        @@media (min-width: 769px) {
+            #sectionFive .createAccountButton-container {
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+            }
+        }
+
+        #sectionFive .createAccountButton {
+            font-family: "Montserrat", sans-serif;
+            font-weight: 500;
+            font-size: 16px;
+            letter-spacing: 1px;
+            display: inline-block;
+            padding: 8px 30px;
+            border-radius: 25px;
+            transition: background 0.5s;
+            margin: 10px;
+            border: 2px solid #fff;
+            color: #fff;
+        }
+
+            #sectionFive .createAccountButton:hover {
+                background: #c9a0dc;
+                border: 2px solid #4c2882;
+            }
+
+        /* More Features Section
+        --------------------------------*/
+        #sectionSix {
+            padding: 60px 0 60px 0;
+            overflow: hidden;
+        }
+
+            #sectionSix .box {
+                padding: 40px;
+                margin-bottom: 30px;
+                box-shadow: 0px 0px 30px rgba(73, 78, 92, 0.15);
+                background: #fff;
+                transition: 0.4s;
+            }
+
+            #sectionSix .icon {
+                float: left;
+            }
+
+                #sectionSix .icon i {
+                    color: #666666;
+                    font-size: 80px;
+                    transition: 0.5s;
+                    line-height: 0;
+                }
+
+                    #sectionSix .icon i:before {
+                        background: #9f5afd;
+                        background: linear-gradient(45deg, #663399 0%, #8e44ad 100%);
+                        background-clip: border-box;
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent;
+                    }
+
+            #sectionSix h4 {
+                margin-left: 100px;
+                font-weight: 700;
+                margin-bottom: 15px;
+                font-size: 18px;
+            }
+
+                #sectionSix h4 a {
+                    color: #111;
+                }
+
+            #sectionSix p {
+                font-size: 14px;
+                margin-left: 100px;
+                margin-bottom: 0;
+                line-height: 24px;
+            }
+
+        @@media (max-width: 767px) {
+            #sectionSix .box {
+                margin-bottom: 20px;
+            }
+
+            #sectionSix .icon {
+                float: none;
+                text-align: center;
+                padding-bottom: 15px;
+            }
+
+            #sectionSix h4, #sectionSix p {
+                margin-left: 0;
+                text-align: center;
+            }
+        }
+
+
+        /*sectionArticles*/
+
+        /* Articles Section
+        --------------------------------*/
+        #sectionArticles {
+            padding: 0px 0 60px 0;
+            overflow: hidden;
+        }
+
+            #sectionArticles .box {
+                padding: 40px;
+                margin-bottom: 30px;
+                box-shadow: 0px 0px 30px rgba(73, 78, 92, 0.15);
+                background: #fff;
+                transition: 0.4s;
+            }
+
+            #sectionArticles .icon {
+                float: left;
+            }
+
+                #sectionArticles .icon i {
+                    color: #666666;
+                    font-size: 80px;
+                    transition: 0.5s;
+                    line-height: 0;
+                }
+
+                    #sectionArticles .icon i:before {
+                        background: #9f5afd;
+                        background: linear-gradient(45deg, #663399 0%, #8e44ad 100%);
+                        background-clip: border-box;
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent;
+                    }
+
+            #sectionArticles h4 {
+                margin-left: 100px;
+                font-weight: 700;
+                margin-bottom: 15px;
+                font-size: 18px;
+            }
+
+        #sectionSix h4 a {
+            color: #111;
+        }
+
+        #sectionArticles p {
+            font-size: 14px;
+            margin-left: 100px;
+            margin-bottom: 0;
+            line-height: 24px;
+        }
+
+        @@media (max-width: 767px) {
+            #sectionSix .box {
+                margin-bottom: 20px;
+            }
+
+            #sectionArticles .icon {
+                float: none;
+                text-align: center;
+                padding-bottom: 15px;
+            }
+
+            #sectionArticles h4, #sectionSix p {
+                margin-left: 0;
+                text-align: center;
+            }
+        }
+
+
+
+
+
+        /* Clients Section
+        --------------------------------*/
+        #sectionSeven {
+            padding: 30px 0;
+            background: #fff;
+            overflow: hidden;
+        }
+
+            #sectionSeven img {
+                max-width: 100%;
+                opacity: 0.5;
+                transition: 0.3s;
+                padding: 15px 0;
+            }
+
+                #sectionSeven img:hover {
+                    opacity: 1;
+                }
+
+        /* Pricing Section
+        --------------------------------*/
+        #sectionEight {
+            padding: 60px 0 60px 0;
+            overflow: hidden;
+        }
+
+            #sectionEight .box {
+                padding: 40px;
+                margin-bottom: 30px;
+                box-shadow: 0px 0px 30px rgba(73, 78, 92, 0.15);
+                background: #fff;
+                text-align: center;
+            }
+
+            #sectionEight h3 {
+                font-weight: 400;
+                margin-bottom: 15px;
+                font-size: 28px;
+            }
+
+            #sectionEight h4 {
+                font-size: 46px;
+                color: #663399;
+                font-weight: 300;
+            }
+
+                #sectionEight h4 sup {
+                    font-size: 20px;
+                    top: -20px;
+                }
+
+                #sectionEight h4 span {
+                    color: #bababa;
+                    font-size: 20px;
+                }
+
+            #sectionEight ul {
+                padding: 0;
+                list-style: none;
+                color: #999;
+                text-align: left;
+                line-height: 20px;
+            }
+
+                #sectionEight ul li {
+                    padding-bottom: 12px;
+                }
+
+                #sectionEight ul i {
+                    color: #663399;
+                    font-size: 18px;
+                    padding-right: 4px;
+                }
+
+            #sectionEight .get-started-btn {
+                background: #515e61;
+                display: inline-block;
+                padding: 6px 30px;
+                border-radius: 20px;
+                color: #fff;
+                transition: none;
+                font-size: 14px;
+                font-weight: 400;
+                font-family: "Montserrat", sans-serif;
+            }
+
+            #sectionEight .featured {
+                border: 2px solid #1dc8cd;
+            }
+
+                #sectionEight .featured .get-started-btn {
+                    background: linear-gradient(45deg, #1de099, #1dc8cd);
+                }
+
+        /* Frequently Asked Questions Section
+        --------------------------------*/
+        #sectionNine {
+            padding: 60px 0;
+            overflow: hidden;
+        }
+
+            #sectionNine #sectionNineList {
+                padding: 0;
+                list-style: none;
+            }
+
+                #sectionNine #sectionNineList li {
+                    border-bottom: 1px solid #ddd;
+                }
+
+                #sectionNine #sectionNineList a {
+                    padding: 18px 0;
+                    display: block;
+                    position: relative;
+                    font-family: "Montserrat", sans-serif;
+                    font-size: 22px;
+                    line-height: 1;
+                    font-weight: 300;
+                    padding-right: 20px;
+                }
+
+                #sectionNine #sectionNineList span {
+                    padding: 18px 0;
+                    display: block;
+                    position: relative;
+                    font-family: "Montserrat", sans-serif;
+                    font-size: 22px;
+                    line-height: 1;
+                    font-weight: 300;
+                    padding-right: 20px;
+                }
+
+                #sectionNine #sectionNineList i {
+                    font-size: 24px;
+                    position: absolute;
+                    right: 0;
+                    top: 16px;
+                }
+
+                #sectionNine #sectionNineList p {
+                    margin-bottom: 20px;
+                }
+
+        @@media (max-width: 768px) {
+            #sectionNine #sectionNineList a {
+                font-size: 18px;
+            }
+
+            #sectionNine #sectionNineList i {
+                top: 13px;
+            }
+        }
+
+        #sectionNine #sectionNineList a.collapse {
+            color: #1dc8cd;
+        }
+
+        #sectionNine #sectionNineList a.collapsed {
+            color: #000;
+        }
+
+            #sectionNine #sectionNineList a.collapsed i::before {
+                content: "\f2c7" !important;
+            }
+
+        /* Our Team Section
+        --------------------------------*/
+        #sectionTen {
+            padding: 60px 0;
+            overflow: hidden;
+        }
+
+            #sectionTen .sectionTenSubDiv {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+
+                #sectionTen .sectionTenSubDiv .pic {
+                    margin-bottom: 15px;
+                    overflow: hidden;
+                    height: 260px;
+                }
+
+                    #sectionTen .sectionTenSubDiv .pic img {
+                        max-width: 100%;
+                    }
+
+                #sectionTen .sectionTenSubDiv h4 {
+                    font-weight: 700;
+                    margin-bottom: 2px;
+                    font-size: 18px;
+                }
+
+                #sectionTen .sectionTenSubDiv span {
+                    font-style: italic;
+                    display: block;
+                    font-size: 13px;
+                }
+
+                #sectionTen .sectionTenSubDiv .sectionTenSubDivSubDiv {
+                    margin-top: 15px;
+                }
+
+                    #sectionTen .sectionTenSubDiv .sectionTenSubDivSubDiv a {
+                        color: #b3b3b3;
+                    }
+
+                        #sectionTen .sectionTenSubDiv .sectionTenSubDivSubDiv a:hover {
+                            color: #1dc8cd;
+                        }
+
+                    #sectionTen .sectionTenSubDiv .sectionTenSubDivSubDiv i {
+                        font-size: 18px;
+                        margin: 0 2px;
+                    }
+
+        /* Gallery Section
+        --------------------------------*/
+        #sectionEleven {
+            background: #fff;
+            padding: 60px 0 0 0;
+            overflow: hidden;
+        }
+
+            #sectionEleven .container-fluid {
+                padding: 0px;
+            }
+
+            /*     #sectionEleven .gallery-overlay {
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        bottom: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        opacity: 1;
+                        transition: all ease-in-out 0.4s;
+                    }*/
+
+            #sectionEleven .sectionElevenSubDiv {
+                overflow: hidden;
+                position: relative;
+                padding: 0;
+                vertical-align: middle;
+                text-align: center;
+            }
+
+                #sectionEleven .sectionElevenSubDiv img {
+                    transition: all ease-in-out 0.4s;
+                    width: 100%;
+                }
+
+                #sectionEleven .sectionElevenSubDiv:hover img {
+                    transform: scale(1.1);
+                }
+
+        /*   #sectionEleven .sectionElevenSubDiv:hover .gallery-overlay {
+                            opacity: 1;
+                            background: rgba(0, 0, 0, 0.7);
+                        }*/
+
+        /* Contact Section
+        --------------------------------*/
+        #sectionTwelve {
+            box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.1);
+            padding: 60px 0;
+            overflow: hidden;
+        }
+
+            #sectionTwelve .sectionTwelveOne h3 {
+                font-size: 36px;
+                margin: 0 0 10px 0;
+                padding: 0;
+                line-height: 1;
+                font-family: "Montserrat", sans-serif;
+                font-weight: 300;
+                letter-spacing: 3px;
+                text-transform: uppercase;
+                color: #663399;
+            }
+
+            #sectionTwelve .sectionTwelveOne p {
+                font-size: 14px;
+                line-height: 24px;
+                font-family: "Montserrat", sans-serif;
+                color: #888;
+            }
+
+            #sectionTwelve .sectionTwelveMedia {
+                padding-bottom: 20px;
+            }
+
+            #sectionTwelve .ssectionTwelveMedia a {
+                font-size: 18px;
+                display: inline-block;
+                background: #fff;
+                color: #1dc8cd;
+                line-height: 1;
+                padding: 8px 0;
+                margin-right: 4px;
+                border-radius: 50%;
+                text-align: center;
+                width: 36px;
+                height: 36px;
+                transition: 0.3s;
+                border: 1px solid #1dc8cd;
+            }
+
+            #sectionTwelve .sectionTwelveMedia a:hover {
+                background: #1dc8cd;
+                color: #fff;
+            }
+
+            #sectionTwelve .sectionTwelveDet {
+                color: #333333;
+            }
+
+                #sectionTwelve .sectionTwelveDet i {
+                    font-size: 32px;
+                    color: #1dc8cd;
+                    float: left;
+                    line-height: 1;
+                }
+
+                #sectionTwelve .sectionTwelveDet p {
+                    padding: 0 0 10px 42px;
+                    line-height: 28px;
+                    font-size: 14px;
+                }
+
+            #sectionTwelve .sectionTwelveAdditionalInfo .sectionTwelveAdditionalInfoSubDiv {
+                display: none;
+                color: red;
+                margin: 0 0 15px 0;
+                font-weight: 400;
+                font-size: 13px;
+            }
+
+            #sectionTwelve .sectionTwelveAdditionalInfo .sectionTwelveAdditionalInfoSubDiv2 {
+                display: none;
+                color: #fff;
+                background: #ed3c0d;
+                text-align: center;
+                padding: 15px;
+                font-weight: 600;
+            }
+
+            #sectionTwelve .sectionTwelveAdditionalInfo .sectionTwelveAdditionalInfoSubDiv22 {
+                display: none;
+                color: #fff;
+                background: #18d26e;
+                text-align: center;
+                padding: 15px;
+                font-weight: 600;
+            }
+
+            #sectionTwelve .sectionTwelveAdditionalInfo .sectionTwelveAdditionalInfoSubDiv02 {
+                display: none;
+                background: #fff;
+                text-align: center;
+                padding: 15px;
+            }
+
+                #sectionTwelve .sectionTwelveAdditionalInfo .sectionTwelveAdditionalInfoSubDiv02:before {
+                    content: "";
+                    display: inline-block;
+                    border-radius: 50%;
+                    width: 24px;
+                    height: 24px;
+                    margin: 0 10px -6px 0;
+                    border: 3px solid #18d26e;
+                    border-top-color: #eee;
+                    -webkit-animation: animate-loading 1s linear infinite;
+                    animation: animate-loading 1s linear infinite;
+                }
+
+            #sectionTwelve .sectionTwelveAdditionalInfo input, #sectionTwelve .sectionTwelveAdditionalInfo textarea {
+                border-radius: 0;
+                box-shadow: none;
+                font-size: 14px;
+            }
+
+                #sectionTwelve .sectionTwelveAdditionalInfo input::focus, #sectionTwelve .sectionTwelveAdditionalInfo textarea::focus {
+                    background-color: #1dc8cd;
+                }
+
+            #sectionTwelve .sectionTwelveAdditionalInfo button[type="submit"] {
+                background: linear-gradient(45deg, #1de099, #1dc8cd);
+                border: 0;
+                border-radius: 20px;
+                padding: 8px 30px;
+                color: #fff;
+            }
+
+                #sectionTwelve .sectionTwelveAdditionalInfo button[type="submit"]:hover {
+                    cursor: pointer;
+                }
+
+        @@-webkit-keyframes animate-loading {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @@keyframes animate-loading {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+
+    <script type="text/javascript">
+        var text = 0;
+        $(document).ready(function () {
+
+            var wHeight = $(window).height();
+            $('#Console').css({ "height": "332px", "width": "50%" });
+            window.setInterval(displayCT, Math.floor((Math.random() * 300) + 150));
+
+
+            //Smooth scrolling
+
+            // Add smooth scrolling to all links
+            $("a").on('click', function (event) {
+
+                // Make sure this.hash has a value before overriding default behavior
+                if (this.hash !== "") {
+                    // Prevent default anchor click behavior
+                    event.preventDefault();
+
+                    // Store hash
+                    var hash = this.hash;
+
+                    // Using jQuery's animate() method to add smooth page scroll
+                    // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+                    $('html, body').animate({
+                        scrollTop: $(hash).offset().top
+                    }, 900, function () {
+
+                        // Add hash (#) to URL when done scrolling (default click behavior)
+                        window.location.hash = hash;
+                    });
+                } // End if
+            });
+
+
+
+            $("#FRlanguage").click(function () {
+                $("#lAction").val(this.name);
+                this.closest('form').submit()
+            });
+            $("#ENlanguage").click(function () {
+                $("#lAction").val(this.name);
+                this.closest('form').submit()
+
+            });
+
+
+
+
+        });
+
+        function displayCT() {
+            text += 1;
+            if (text > 25) {
+                $("#Console").html("");
+                text = 0;
+            }
+            else {
+                if (text % 2 == 0) {
+                    $("#Console").append("<span style='font-size:8px'>> ------Build started: Project: WebApplication4, Configuration: Debug Any CPU------</span><br>");
+                }
+                else if (text % 3 == 0) {
+                    $("#Console").append("<span style='font-size:8px'>" + text + " > App -> C: \Users\a\source\repos\WebApplication4\WebApplication4\bin\WebApplication4.dll</span><br>");
+                }
+                else if (text % 4 == 0) {
+                    $("#Console").append("<span style='font-size:8px'>========== Build: 1 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========</span><br>");
+                }
+            }
+        }
+
+
+    </script>
+
+</head>
+
+<body id="home">
+
+    <!-- ======= Header ======= -->
+
+    <nav class="navbar navbar-default" style="background-color: #223043;">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"><img class="img-rounded" src="~/Images/logo8C.png" width="48" height="48" /></a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav" style="font-size:16px">
+                    <li><a href="#home" style="color:white">Accueil</a></li>
+                    <li><a href="#sectionThree" style="color:white">Caractéristiques</a></li>
+                    <li><a href="#sectionSix" style="color:white">Plus d'informations</a></li>
+                    <li><a href="#sectionFour" style="color:white">Aperçu technique</a></li>
+                    <li><a href="#sprbacklog" style="color:white">Sprint Backlog</a></li>
+                    <li><a href="#scrboard" style="color:white">Scrum Board</a></li>
+                    <li><a href="#rvelocity" style="color:white">Velocity</a></li>
+                    <li><a href="#sectionSeven" style="color:white">Le flux</a></li>
+                    <li><a href="#sectionEleven" style="color:white">Gallerie</a></li>
+                    <li><a href="#sectionNine" style="color:white">Fonctions</a></li>
+                    <li><a href="#sectionTwo" style="color:white">À propos de</a></li>
+                    <li><a href="#sectionTwelve" style="color:white">Soumettre un bug</a></li>
+                    <li><a href="#sectionEight" style="color:white">Prix</a></li>
+
+
+
+
+                    @*<li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Team <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" onclick="CreateNewteam();">Create new team</a></li>
+                            <li><a href="#" onclick="CreateNewMember();">Create new member</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li class="dropdown-header">Nav header</li>
+
+                        </ul>
+                    </li>*@
+                    @*<li><a href="/Client/Index">Clients</a></li>*@
+                    @*<li><a href="/ProductBacklog/Index">Epics</a></li>
+                    <li><a href="/ProductBacklog/Index">Product Backlog</a></li>
+                    <li><a href="/Sprint/Index">Sprint Backlog</a></li>*@
+                </ul>
+
+                <form id="logoutform" action="/Landing/Culture" enctype="multipart/form-data" method="post">
+                    <ul class="nav navbar-nav navbar-right">
+                        @*<li class="active"><a href="./">Default <span class="sr-only">(current)</span></a></li>
+        <li><a href="../navbar-static-top/">Static top</a></li>*@
+                        <li><a href="https://twitter.com/LiteScrum" style="color:indianred"><span style="font-size: 17px;display: inline-block;line-height: 1;position: relative;width:10%;"><i class="icon ion-social-twitter"></i></span></a></li>
+                        <li><a href="#" style="color:indianred" name="fr" id="FRlanguage" value="fr">FR</a></li>
+                        <li><a href="#" style="color:indianred" name="en" id="ENlanguage" value="en">EN</a></li>
+                    </ul>
+                    <input type="hidden" name="lAction" id="lAction" />
+                </form>
+            </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+    </nav>
+
+
+
+
+    <!--<!-- ======= sectionOne Section ======= -->
+    <section id="sectionOne">
+
+        <div class="sectionOne-text">
+            <h2>Bienvenue à Lite Scrum</h2>
+            <p>
+                Lite Scrum vous permet de gagner du temps dans vos tâches quotidiennes. Un exemple de tâche serait : "Aller à l'épicerie" ou "Ajouter une liste déroulante pour la sélection des préférences de style des utilisateurs de mon site". Lite Scrum n'est pas seulement destiné aux programmeurs, aux développeurs et aux équipes, il peut être utilisé par une seule personne, individuellement,
+                mais aussi par une équipe.<br />
+                <a href="/Login/Index" class="btnLoginOrRegister scrollto">
+                    Créer une équipe.Testez Lite Scrum.
+                </a>
+
+            </p>
+
+        
+        </div>
+
+        <div class="sectiononeshowcase">
+
+            <div class="sectiononetodo wow slideInLeft" data-wow-delay="0.2s" data-wow-duration="0.5s">
+                @*<img src="~/Images/product-screen-1.png" alt="">*@
+                <img src="~/Images/Landing/SectionOneDone.png" alt="">
+            </div>
+
+            <div class="sectiononeinprogress wow slideInLeft" data-wow-delay="0.4s" data-wow-duration="0.5s">
+                <img src="~/Images/Landing/SectionOneInProgress.png" alt="">
+                @*<img src="~/Images/product-screen-2.png" alt="">*@
+            </div>
+
+            <div class="sectiononedone wow slideInLeft" data-wow-delay="0.5s" data-wow-duration="0.5s">
+                <img src="~/Images/Landing/SectionOneTodo.png" alt="">
+                @*<img src="~/Images/product-screen-3.png" alt="">*@
+            </div>
+
+        </div>
+
+    </section><!-- End sectionOne Section -->
+
+    <main id="main">
+        <!-- ======= Featuress Section ======= -->
+        <section id="sectionThree">
+            <div class="container">
+
+
+
+                <div class="row">
+                    <div class="col-lg-12 offset-lg-3">
+                        <div class="hdrSection wow fadeIn" data-wow-duration="1s">
+                            <h3 class="section-title">Lite Scrum Caractéristiques</h3>
+                            <span class="section-divider"></span>
+                        </div>
+                    </div>
+                </div>
+                <span class="section-divider"></span>
+                <div class="row">
+
+                    <div class="col-lg-4 col-md-5 features-img">
+                        @*<img src="~/Images/product-features.png" alt="" class="wow fadeInLeft">*@
+                        <img src="~/Images/Responsive4.png" style="padding-top:60px" alt="" class="wow fadeInLeft">
+                    </div>
+
+                    <div class="col-lg-8 col-md-7 ">
+
+                        <div class="row">
+
+                            <div class="col-lg-6 col-md-6 box wow fadeInRight">
+                                <div class="icon"><i class="ion-qr-scanner"></i></div>
+                                <h4 class="title"><a href="">Réactif</a></h4>
+                                <p class="description">Accessible sur PC, MAC, tablettes et téléphones portables, avec la même interface ajustée en fonction de l'appareil que vous utilisez</p>
+                            </div>
+                            <div class="col-lg-6 col-md-6 box wow fadeInRight" data-wow-delay="0.1s">
+                                @*<ion-icon name="ellipsis-horizontal-outline"></ion-icon*@
+                                <div class="icon"><i class="ion-happy"></i></div>
+                                <h4 class="title"><a href="">Simple</a></h4>
+                                <p class="description">Il est de couleur claire, agréable pour la rétine et les yeux, ce qui vous permet de le regarder et de l'utiliser pendant longtemps.</p>
+                            </div>
+                            <div class="col-lg-6 col-md-6 box wow fadeInRight" data-wow-delay="0.2s">
+                                <div class="icon"><i class="ion-android-done"></i></div>
+                                <h4 class="title"><a href="">Droit au but</a></h4>
+                                <p class="description">Il est utilisé pour créer des tâches, les placer dans la liste TO DO ,IN PROGRESS ou DONE par un membre de l'équipe ou un créateur de l'équipe.La transparence est partout.</p>
+                            </div>
+                            <div class="col-lg-6 col-md-6 box wow fadeInRight" data-wow-delay="0.3s">
+                                <div class="icon"><i class="ion-ribbon-b"></i></div>
+                                <h4 class="title"><a href="">Basé sur les principes de Scrum</a></h4>
+                                <p class="description">
+                                    Engagement(planification du sprint), concentration(arriéré de produits), ouverture (tout est visible), respect(pour les personnes), courage(capacité à prendre des risques).
+                                    Plus d'informations ici <a href="https://www.scrumguides.org/index.html">Guide Scrum</a>
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section><!-- End Featuress Section -->
+        <!-- ======= More Features Section ======= -->
+        <section id="sectionSix" class="sctionwithbackground">
+            <div class="container">
+
+                <div class="hdrSection">
+                    <h3 class="section-title">Plus d'informations</h3>
+                    <span class="section-divider"></span>
+                    <p class="section-description">Lite Scrum est hébergé sur le cloud, disponible pour être hébergé dans des locaux à la demande, très transparent et facile à intégrer.</p>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-lg-6">
+                        <div class="box wow fadeInLeft">
+                            <div class="icon"><i class="ion-ios-cloud-upload-outline"></i></div>
+                            <h4 class="title"><a href="">Disponible sur le Cloud</a></h4>
+                            <p class="description">Lite Scrum est disponible sur le nuage. Hébergé sur le serveur IIS. Une application Web HTML5.</p>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="box wow fadeInRight">
+                            <div class="icon"><i class="ion-grid"></i></div>
+                            <h4 class="title"><a href="">Hébergement "On Pemise"</a></h4>
+                            <p class="description">Si vous souhaitez préserver la confidentialité de vos données et les héberger dans vos locaux, Lite Scrum vous aide également.</p>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="box wow fadeInLeft">
+                            <div class="icon"><i class="ion-ios-color-filter-outline"></i></div>
+                            <h4 class="title"><a href="">Transparence</a></h4>
+                            <p class="description">Si un membre de l'équipe n'en est pas le créateur, il peut également créer des clients, des épopées et des arriérés de produits. Transparence est la clé.</p>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="box wow fadeInRight">
+                            <div class="icon"><i class="ion-ios-contact"></i></div>
+                            <h4 class="title"><a href="">Enregistrement facile</a></h4>
+                            <p class="description">Lorsque vous vous inscrivez, vous créez en fait une équipe dans Lite Scrum, et vous devenez automatiquement Team Creator. Ensuite, vous pouvez directement passer au travail.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section><!-- End More Features Section -->
+        <!-- ======= Advanced Featuress Section ======= -->
+        <section id="sectionFour">
+
+            <div class="features-row sctionwithbackground">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-6 text-center">
+                            @*<img class="advanced-feature-img-right wow fadeInRight" src="~/Images/advanced-feature-1.jpg" alt="">*@
+
+                            <img src="~/Images/technology_logo.png" style="width:300px; height:240px" class="advanced-feature-img-right wow fadeInRight">
+                        </div>
+                        <div class="col-6">
+                            <div class="wow fadeInLeft">
+                                <h2>Aperçu technique de base</h2>
+                                <div class="icon"><i class="ion-qr-scanner"></i></div>
+                                @*<div><i class="ion-ios-photos wow fadeInRight icon" data-wow-duration="0.5s"></i></div>*@
+                                <p class="wow fadeInRight" data-wow-duration="0.5s">Lite Scrum utilise SQL Server comme stockage de base de données pour stocker des données telles que les individus, les équipes, leurs tâches, les sprints, les arriérés de produits, les épopées et toutes leurs relations.</p>
+                                <i class="ion-ios-gear wow fadeInRight" data-wow-delay="0.2s" data-wow-duration="0.5s"></i>
+                                <p class="wow fadeInRight" data-wow-delay="0.2s" data-wow-duration="0.5s">La logique d'application proprement dite est hébergée sur le serveur IIS (Internet Information Services) avec ASP.NET MVC, LINQ et C# en son cœur</p>
+                                <i class="ion-monitor wow fadeInRight" data-wow-delay="0.4" data-wow-duration="0.5s"></i>
+                                <p class="wow fadeInRight" data-wow-delay="0.4s" data-wow-duration="0.5s">Pour la couche de présentation, Lite Scrum utilise des techniques de "Responsive Design", "bootstrap" et "Cascading Style Sheets"</p>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="features-row" id="sprbacklog">
+                <div class="container">
+
+                    <div class="row">
+                        <div class="col-6 text-center">
+                            <img src="~/Images/LandingProduct/Sprint.png" class="advanced-feature-img-left wow fadeInRight" alt="" style="width:550px;height:350px">
+
+                        </div>
+                        <div class="col-6">
+                            <div class="wow fadeInRight">
+                                <h2>Écran Sprint confortable et multi-utilisateurs et Sprint Backlog</h2>
+                                <i class="ion-ios-paper-outline" class="wow fadeInRight" data-wow-duration="0.5s"></i>
+                                <p class="wow fadeInRight" data-wow-duration="0.5s">Les sprints peuvent être archivés</p>
+                                <i class="ion-ios-color-filter-outline wow fadeInRight" data-wow-delay="0.2s" data-wow-duration="0.5s"></i>
+                                <p class="wow fadeInRight" data-wow-delay="0.2s" data-wow-duration="0.5s">Chacun peut attribuer une tâche à quelqu'un d'autre</p>
+                                <i class="ion-ios-barcode-outline wow fadeInRight" data-wow-delay="0.4" data-wow-duration="0.5s"></i>
+                                <p class="wow fadeInRight" data-wow-delay="0.4s" data-wow-duration="0.5s">Plus de douze colonnes de tâches réactives dans une pile de rangées pour une vue mobile.</p>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+                </div>
+            </div>
+
+            <div class="features-row sctionwithbackground" id="scrboard">
+                <div class="container">
+
+
+                    @*<div class="row">
+                        <div class="col-12">
+                            <img class="advanced-feature-img-right wow fadeInRight" src="~/Images/advanced-feature-3.jpg" alt="">
+                            <div class="wow fadeInLeft">
+                                <h2>Duis aute irure dolor in reprehenderit in voluptate velit esse</h2>
+                                <h3>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</h3>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam</p>
+                                <i class="ion-ios-albums-outline"></i>
+                                <p>Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                            </div>
+                        </div>
+                    </div>*@
+
+
+                    <div class="row">
+                        <div class="col-6 text-center">
+                            @*<img class="advanced-feature-img-right wow fadeInRight" src="~/Images/advanced-feature-3.jpg" alt="">*@
+                            <img class="advanced-feature-img-right wow fadeInRight" src="~/Images/LandingProduct/ScrumLandingPage.png" style="width:550px;height:350px" />
+                        </div>
+                        <div class="col-6">
+                            <div class="wow fadeInLeft">
+                                <h2>Page d'atterrissage du Lite Scrum Board</h2>
+                                <h3>Une conception simple mais solide qui vous permet de vous concentrer sur votre travail</h3>
+                                <p>Il est facile de faire passer les tâches individuelles de TODO à INPROGRES à DONE</p>
+                                <i class="ion-ios-albums-outline"></i>
+                                <p>
+                                    Vous pouvez créer un nouvel élément individuel, dès la page d'accueil, en sélectionnant le client existant approprié, l'épopée et l'arriéré de produits. Il est très facile de déplacer des articles entre les étapes. Vous pouvez vérifier les détails de chaque article en cliquant sur le bouton de lien Détails. Les boutons sont cachés autant que possible afin de maintenir l'attention et la concentration sur les points de travail.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+
+            <div class="features-row" id="rvelocity">
+                <div class="container">
+
+                    <div class="row">
+                        <div class="col-6 text-center">
+                            <img src="~/Images/Velocity/Velocityfr.png" class="advanced-feature-img-left wow fadeInRight" alt="" style="width:550px;height:350px">
+                        </div>
+                        <div class="col-6">
+                            <div class="wow fadeInRight">
+                                <h2>Velocity dans Lite Scrum</h2>
+                                <i class="ion-ios-albums-outline"></i>
+                                <p>
+                                    Sprint Velocity est calculée en divisant le nombre d'éléments DONE par le nombre de sprints, après chaque sprint qui est considéré comme terminé.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </section><!-- End Advanced Featuress Section -->
+        <!-- ======= Call To Action Section ======= -->
+        <section id="sectionFive">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-9 text-center text-lg-left">
+                        <h3 class="cta-title">Test Lite Scrum. Créer une équipe</h3>
+                        <p class="cta-text">
+                            En vous inscrivant, vous créez une équipe dès le début. Il s'agit d'un portail de test. Toutes les données sont effacées après un certain temps, alors utilisez-le uniquement pour tester et voir comment il fonctionne.
+                            Si vous le souhaitez, plusieurs options sont disponibles, notamment l'hébergement en nuage et l'hébergement sur place, où vous contrôlez tout, et les données sont entièrement à vous, hébergées sur votre propre serveur.
+                        </p>
+                    </div>
+                    <div class="col-lg-3 createAccountButton-container text-center">
+                        <a class="createAccountButton align-middle" href="/Login/Index">
+                            Créer une équipe.Testez Lite Scrum.
+                        </a>
+                        @*<a href="/Login/Index" class="btnLoginOrRegister scrollto">Create a team.Test Lite Scrum.</a>*@
+                    </div>
+                </div>
+
+            </div>
+        </section><!-- End Call To Action Section -->
+        <!-- ======= Clients Section ======= -->
+        <section id="sectionSeven">
+            <div class="container">
+
+                <div class="row wow fadeInUp">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <img src="~/Images/BottomFlow/bottom_Flow_Client.png" />
+                            </div>
+                            <div class="col-md-3">
+                                <img src="~/Images/BottomFlow/bottom_Flow_Right_Arrow.png" />
+                            </div>
+                            <div class="col-md-3">
+                                <img src="~/Images/BottomFlow/bottom_Flow_Epic.png" />
+                            </div>
+                            <div class="col-md-3">
+                                <img src="~/Images/BottomFlow/bottom_Flow_Right_Arrow.png" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <img src="~/Images/BottomFlow/bottom_Flow_Product_Backlog.png" />
+                            </div>
+                            <div class="col-md-4">
+                                <img src="~/Images/BottomFlow/bottom_Flow_Right_Arrow.png" />
+                            </div>
+                            <div class="col-md-4">
+                                <img src="~/Images/BottomFlow/bottom_Flow_Item.png" />
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    @*<div class="col-md-2">
+                        <img src="~/Images/BottomFlow/bottom_Flow_Client.png" />
+                    </div>
+
+                    <div class="col-md-2">
+                        <img src="~/Images/BottomFlow/bottom_Flow_Right_Arrow.png" />
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <img src="~/Images/BottomFlow/bottom_Flow_Epic.png" />
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <img src="~/Images/BottomFlow/bottom_Flow_Right_Arrow.png" />
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <img src="~/Images/BottomFlow/bottom_Flow_Product_Backlog.png" />
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="row wow fadeInUp">
+                            <div class="col-md-6">
+                                <img src="~/Images/BottomFlow/bottom_Flow_Right_Arrow.png" />
+                            </div>
+                            <div class="col-md-6">
+                                <img src="~/Images/BottomFlow/bottom_Flow_Item.png" />
+                            </div>
+                        </div>
+                    </div>*@
+
+
+                </div>
+            </div>
+        </section><!-- End Clients Section -->
+        <!-- ======= Gallery Section ======= -->
+        <section id="sectionEleven">
+            <div class="container-fluid">
+                <div class="hdrSection">
+                    <h3 class="section-title">Gallerie</h3>
+                    <span class="section-divider"></span>
+                    <p class="section-description"></p>
+                </div>
+
+                <div class="row no-gutters">
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="sectionElevenSubDiv wow fadeInUp">
+                            <a href="~/Images/LandingProduct/fr/Login-new-team-creator_fr.png" data-gall="portfolioGallery" class="venobox">
+                                <img src="~/Images/LandingProduct/fr/Login-new-team-creator_fr.png" alt="" style="width:300px;height:500px">
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="sectionElevenSubDiv wow fadeInUp">
+                            <a href="~/Images/LandingProduct/fr/Login-screen_fr.png" data-gall="portfolioGallery" class="venobox">
+                                <img src="~/Images/LandingProduct/fr/Login-screen_fr.png" alt="" style="width:300px;height:500px">
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="sectionElevenSubDiv wow fadeInUp">
+                            <a href="~/Images/LandingProduct/fr/Clients_fr.png" data-gall="portfolioGallery" class="venobox">
+                                <img src="~/Images/LandingProduct/fr/Clients_fr.png" alt="" style="width:300px;height:500px">
+                            </a>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="sectionElevenSubDiv wow fadeInUp">
+                            <a href="~/Images/LandingProduct/fr/Main-Scrum-Board-Items-2_fr.png" data-gall="portfolioGallery" class="venobox">
+                                <img src="~/Images/LandingProduct/fr/Main-Scrum-Board-Items-2_fr.png" alt="" style="width:300px;height:500px">
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="sectionElevenSubDiv wow fadeInUp">
+                            <a href="~/Images/LandingProduct/fr/Main-Scrum-Board-Create-New-Team_fr.png" data-gall="portfolioGallery" class="venobox">
+                                <img src="~/Images/LandingProduct/fr/Main-Scrum-Board-Create-New-Team_fr.png" alt="" style="width:300px;height:500px">
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="sectionElevenSubDiv wow fadeInUp">
+                            <a href="~/Images/LandingProduct/fr/Main-Scrum-Board-new-member_fr.png" data-gall="portfolioGallery" class="venobox">
+                                <img src="~/Images/LandingProduct/fr/Main-Scrum-Board-new-member_fr.png" alt="" style="width:300px;height:500px">
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section><!-- End Gallery Section -->
+        <!-- ======= Frequently Asked Questions Section ======= -->
+        <section id="sectionNine">
+            <div class="container">
+
+                <div class="hdrSection">
+                    <h3 class="section-title">Les choses que Lite Scrum permet à faire</h3>
+                    <span class="section-divider"></span>
+                    <p class="section-description">Voici une liste de choses que Lite Scrum fait très bien</p>
+                </div>
+
+                <ul id="sectionNineList" class="wow fadeInUp">
+                    <li>
+                        <span>
+                            Garder une trace de ce que vous voulez faire
+                        </span>
+                    </li>
+
+                    <li>
+                        <span>Garder une trace de ce que vous faites en ce moment</span>
+
+                    </li>
+
+                    <li>
+                        <span>Garder une trace des choses que vous avez fini de faire</span>
+                    </li>
+
+                    <li>
+                        <span>Déplacer les mêmes choses, de TODO , à INPROGRESS , à DONE</span>
+
+                    </li>
+
+                    <li>
+                        <span>Transférer les tâches au responsable de l'assurance qualité</span>
+
+                    </li>
+
+                    <li>
+                        <span>Adhérer aux idéologies de base de Scrum</span>
+
+                    </li>
+
+                    <li>
+                        <span>Garantir l'ouverture et la transparence</span>
+
+                    </li>
+
+                    <li>
+                        <span>Aider à atteindre l'hyperproductivité</span>
+
+                    </li>
+
+                    <li>
+                        <span>Voir le progrès de votre équipe dans le Scrum Board</span>
+
+                    </li>
+
+                    <li>
+                        <span>Permettre à tous les membres de créer des articles individuels à partir d'un Product Backlog particulier et les attribuer à la personne qui fait partie de la même équipe.</span>
+
+                    </li>
+
+                    <li>
+                        <span>Permettre aux membres de l'équipe de créer des tâches individuelles et de les assigner à partir de leur Scrum Board personnel.</span>
+
+                    </li>
+
+                    <li>
+                        <span>Donner à l'utilisateur le choix de déplacer sa tâche vers l'AQ ou de sauter l'AQ et de la déplacer directement vers FAIT. Ceci est utile pour une équipe composée d'une seule personne ou pour les équipes qui n'ont pas de personnel d'assurance qualité. Ex : Achat dans un magasin , Organisateur de mariage .</span>
+
+                    </li>
+                    <li>
+                        <span>Ajouter ou créer, supprimer et modifier de nouveaux clients</span>
+
+                    </li>
+                    <li>
+                        <span>Ajouter ou créer, supprimer et modifier de nouvelles Epics</span>
+
+                    </li>
+                    <li>
+                        <span>Ajouter ou créer, supprimer et modifier de nouveaux Product Backlogs</span>
+
+                    </li>
+                    <li>
+                        <span>Ajouter ou créer, supprimer et modifier de nouvelles tâches individuelles</span>
+
+                    </li>
+
+
+                </ul>
+
+            </div>
+        </section><!-- End Frequently Asked Questions Section -->
+        <!-- ======= About Section ======= -->
+        <section id="sectionTwo" class="sctionwithbackground">
+            <div class="container-fluid">
+                <div class="hdrSection">
+                    <h3 class="section-title">À propos</h3>
+                    <span class="section-divider"></span>
+                    <p class="section-description">
+                        Je suis un développeur de logiciels expérimenté, avec une expérience confirmée dans le secteur des technologies de l'information,
+                        des logiciels et des services. Compétences en "Responsive Design", API externe, C#, XMLHTTP, .NET Framework, HTML5, JQuery, CSS et PHP.
+                        Solide professionnel de l'ingénierie.
+                    </p>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6 about-img wow fadeInLeft text-center align-middle">
+                        @*<img src="~/Images/about-img.jpg" alt="">*@
+                        @*<img class="img-rounded" src="~/Images/logo8C.png" style="width:100%;height:100%" alt="">*@
+                        <div class="text-center img-fluid" style="width:100%;height:100%">
+                            <img src="~/Images/jinan.JPG" class="img-rounded" style="width:200px;height:250px;padding-top:60px" />
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 content wow fadeInRight">
+                        <p>
+                            &nbsp;
+                        </p>
+
+
+                        <ul>
+                            <li><i style="font-size:36px" class="ion-social-linkedin"></i> <a href="https://www.linkedin.com/in/jinankordab/" target="_blank">Mon profil LinkedIn</a></li>
+                            <li><i style="font-size:36px" class="ion-social-wordpress-outline"></i> <a href="https://thoughtsonprogramming.wordpress.com/" target="_blank">Réflexions sur la programmation.</a></li>
+                            <li><i style="font-size:36px" class="ion-social-youtube"></i> <a href="https://www.youtube.com/channel/UCVZVmlbqjfyv9MtFf97hdog/videos" target="_blank">Ma chaîne de vidéos Youtube</a></li>
+                            <li><i style="font-size:36px" class="ion-social-github"></i> <a href="https://github.com/thoughtsonprogramming" target="_blank">Mon profil github</a></li>
+
+                        </ul>
+
+                    </div>
+                </div>
+
+            </div>
+        </section><!-- End About Section -->
+        <!-- ======= Articles Section ======= -->
+        <section id="sectionArticles" class="sctionwithbackground">
+            <div class="container">
+
+                <div class="hdrSection">
+                    <h3 class="section-title">Articles</h3>
+                    <span class="section-divider"></span>
+                    <h5 class="section-description">Un bref aperçu de quelques articles que j'ai écrits</h5>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-lg-6">
+                        <div class="box wow fadeInLeft">
+                            <div class="icon"><i class="ion-social-wordpress"></i></div>
+                            <p class="description">SignalR - Sélection de l'utilisateur en ligne, connecté ou non, à qui envoyer un message.(En anglais)</p>
+                            <h4 class="title"><a href="https://thoughtsonprogramming.wordpress.com/2018/07/02/signalr-selecting-which-online-userlogged-in-or-notto-send-message-to-how-to-practical-guide/">Visitez le site</a></h4>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="box wow fadeInRight">
+                            <div class="icon"><i class="ion-social-wordpress"></i></div>
+                            <p class="description">Affichage de Spinner dans l'application ASP.NET MVC pendant le téléchargement du fichier, plus le temps qu'il a fallu pour l'obtenir.(En anglais)</p>
+                            <h4 class="title"><a href="https://thoughtsonprogramming.wordpress.com/2018/11/11/displaying-spinner-in-asp-net-mvc-app-while-file-is-downloading-plus-getting-time-it-took/">Visitez le site</a></h4>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="box wow fadeInLeft">
+                            <div class="icon"><i class="ion-social-wordpress"></i></div>
+                            <p class="description">Un menu de navigation dynamique ASP.NET MVC (En anglais)</p>
+                            <h4 class="title"><a href="https://thoughtsonprogramming.wordpress.com/2018/02/27/a-nice-asp-net-mvc-navigation-menu/">Visitez le site</a></h4>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="box wow fadeInRight">
+                            <div class="icon"><i class="ion-social-wordpress"></i></div>
+                            <p class="description">Comment générer des fichiers PDF et des rapports à partir de HTML (En anglais)</p>
+                            <h4 class="title"><a href="https://thoughtsonprogramming.wordpress.com/2018/11/03/how-to-generate-pdf-files-and-reports-from-html/">Visitez le site</a></h4>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+
+                    <div class="col-lg-6">
+                        <div class="box wow fadeInLeft">
+                            <div class="icon"><i class="ion-social-wordpress"></i></div>
+                            <p class="description">Configuration de fogbugz avec tortoisesvn + subversion (En anglais)</p>
+                            <h4 class="title"><a href="https://thoughtsonprogramming.wordpress.com/2019/03/26/configuring-fogbugz-with-tortoisesvn-subversion/">Visitez le site</a></h4>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="box wow fadeInRight">
+                            <div class="icon"><i class="ion-social-wordpress"></i></div>
+                            <p class="description">Création d'un hyperlien [a href='//'> Cliquez ici ] (En anglais)</p>
+                            <h4 class="title"><a href="https://thoughtsonprogramming.wordpress.com/2018/10/04/creating-hyperlink-a-href-click-here/">Visitez le site</a></h4>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="box wow fadeInLeft">
+                            <div class="icon"><i class="ion-social-wordpress"></i></div>
+                            <p class="description">Modèle de toile sensible aux séquences de Fibonacci - La spirale d'or (En anglais)</p>
+                            <h4 class="title"><a href="https://thoughtsonprogramming.wordpress.com/2018/11/04/fibonacci-sequence-responsive-web-template-the-golden-spiral/">Visitez le site</a></h4>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="box wow fadeInRight">
+                            <div class="icon"><i class="ion-social-wordpress"></i></div>
+
+                            <p class="description">Comment imprimer des sections séparées de votre page web, et non la page entière. (En anglais)</p>
+                            <h4 class="title"><a href="hhttps://thoughtsonprogramming.wordpress.com/2019/06/02/how-to-print-separate-sections-of-your-web-page/">Visitez le site</a></h4>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+
+
+
+
+            </div>
+        </section><!-- End Articles Section -->
+        <!-- ======= Pricing Section ======= -->
+        <section id="sectionEight" class="sctionwithbackground">
+            <div class="container">
+
+                <div class="hdrSection">
+                    <h3 class="section-title">Pricing</h3>
+                    <span class="section-divider"></span>
+                    @*<p class="section-description">The section below shows all pricing options for Lite Scrum</p>*@
+                </div>
+
+                <div class="row">
+
+                    <div class="col-lg-6 col-md-6">
+                        <div class="box wow fadeInLeft">
+                            <h3>Gratuit</h3>
+                            <h4><sup>$</sup>0 CAD<span> mois</span></h4>
+                            <ul>
+                                <li><i class="ion-android-checkmark-circle"></i> Cloud hosting</li>
+                            </ul>
+                            <table><tr><th>Si vous utilisez Lite Scrum et que vous l'aimez, soyez gentil et faites un don. Ou achetez-moi du café.</th></tr></table>
+                            <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                                <input type="hidden" name="cmd" value="_donations" />
+                                <input type="hidden" name="business" value="YJR2AA6NRAFYQ" />
+                                <input type="hidden" name="currency_code" value="CAD" />
+                                <input type="image" src="https://www.paypalobjects.com/fr_CA/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Bouton Faire un don avec PayPal" />
+                                <img alt="" border="0" src="https://www.paypal.com/fr_CA/i/scr/pixel.gif" width="1" height="1" />
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-md-6">
+                        <div class="box wow fadeInLeft">
+                            <h3>On Premise Hosting</h3>
+                            <ul>
+                                <li><i class="ion-android-checkmark-circle"></i>Base de données</li>
+                                <li><i class="ion-android-checkmark-circle"></i>Application</li>
+                            </ul>
+                            <table><tr><th>Envoyez un courriel à:&nbsp;<a href="mailto:postmaster@lite-scrum.com">postmaster@lite-scrum.com</a> </th></tr></table>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </section><!-- End Pricing Section -->
+        <!-- ======= Contact Section ======= -->
+        <section id="sectionTwelve">
+            <div class="container">
+                <div class="row wow fadeInUp">
+
+                    <div class="col-lg-12 col-md-12">
+                        <div class="sectionTwelveOne">
+                            <h3>Contactez</h3>
+                            <p>Pour toute demande ou question, veuillez envoyer un courriel à:</p>
+                            <div class="sectionTwelveMedia">
+                                @*<a href="#" class="twitter"><i class="ion ion-social-twitch-outline"></i>asdads</a>
+            <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
+            <a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
+            <a href="#" class="google-plus"><i class="fa fa-google-plus"></i></a>
+            <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>*@
+                                <div>
+
+                                    <p style="font-weight:bold"> <i class="ion-ios-email-outline"></i>&nbsp;<a href="mailto:postmaster@lite-scrum.com">postmaster@lite-scrum.com</a></p>
+                                </div>
+
+
+                            </div>
+
+                            <p>Pour soumettre un bogue, veuillez envoyer un courriel avec tous les détails à:</p>
+                            <div class="sectionTwelveMedia">
+                                @*<a href="#" class="twitter"><i class="ion ion-social-twitch-outline"></i>asdads</a>
+            <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
+            <a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
+            <a href="#" class="google-plus"><i class="fa fa-google-plus"></i></a>
+            <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>*@
+                                <div>
+
+                                    <p style="font-weight:bold">  <i class="ion-ios-email-outline"></i>&nbsp;<a href="mailto:postmaster@lite-scrum.com">postmaster@lite-scrum.com</a></p>
+                                </div>
+
+
+                            </div>
+
+
+                            <p>Tweet à Lite Scrum sur Twitter</p>
+                            <div class="sectionTwelveMedia">
+
+                                <div>
+
+                                    <a href="https://twitter.com/intent/tweet?screen_name=LiteScrum&ref_src=twsrc%5Etfw" class="twitter-mention-button" data-show-count="false">Tweet à @Html.Raw("<font>@LiteScrum</font>")</a>
+                                    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    @*<div class="col-lg-3 col-md-4">
+                        <div class="sectionTwelveDet">
+                            <div>
+                                <i class="ion-ios-location-outline"></i>
+                                <p>A108 Adam Street<br>New York, NY 535022</p>
+                            </div>
+
+                            <div>
+                                <i class="ion-ios-email-outline"></i>
+                                <p>info@example.com</p>
+                            </div>
+
+                            <div>
+                                <i class="ion-ios-telephone-outline"></i>
+                                <p>+1 5589 55488 55s</p>
+                            </div>
+
+                        </div>
+                    </div>*@
+
+                    @*<div class="col-lg-5 col-md-8">
+                        <div class="form">
+                            <form action="forms/contact.php" method="post" role="form" class="sectionTwelveAdditionalInfo">
+                                <div class="form-row">
+                                    <div class="form-group col-lg-6">
+                                        <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+                                        <div class="sectionTwelveAdditionalInfoSubDiv"></div>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email">
+                                        <div class="sectionTwelveAdditionalInfoSubDiv"></div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject">
+                                    <div class="sectionTwelveAdditionalInfoSubDiv"></div>
+                                </div>
+                                <div class="form-group">
+                                    <textarea class="form-control" name="message" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="Message"></textarea>
+                                    <div class="sectionTwelveAdditionalInfoSubDiv"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="sectionTwelveAdditionalInfoSubDiv02">Loading</div>
+                                    <div class="sectionTwelveAdditionalInfoSubDiv2"></div>
+                                    <div class="sectionTwelveAdditionalInfoSubDiv22">Your message has been sent. Thank you!</div>
+                                </div>
+                                <div class="text-center"><button type="submit" title="Send Message">Send Message</button></div>
+                            </form>
+                        </div>
+                    </div>*@
+
+                </div>
+
+            </div>
+        </section><!-- End Contact Section -->
+
+
+        <a href="#" class="scrollTop" style="text-align: center;padding-right:20px"><span style='font-size:35px;'>&#8679;</span></a>
+    </main><!-- End #main -->
+    <!-- ======= Footer ======= -->
+
+
+    <script src="~/Scripts/Landing/main.js"></script>
+</body>
+
+</html>
+
+@RenderBody()

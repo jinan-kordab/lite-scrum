@@ -1,0 +1,364 @@
+﻿@model WebApplication4.Models.AuthResponse
+
+
+@{
+    Layout = "~/Views/Shared/fr/_LayoutLoginfr.cshtml";
+}
+
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<style type="text/css">
+    body, html {
+        height: 100%;
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    .bg {
+        /* The image used */
+        /*background-image: url("../../Images/IMG_0345.jpg");*/
+        /* Full height */
+        /*height: 100%;*/
+        /* Center and scale the image nicely */
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+</style>
+
+
+@*<div class="container-fluid">
+
+        <div class="row">
+            <div class="col-lg-4 col-md-10 col-sm-11">
+                <div class="jumbotron" id="Console" style="background-color:darkblue;color:aquamarine;height:100%">
+
+                </div>
+            </div>
+
+            <div class="col-lg-8 text-right"><img src="~/Images/Responsive4.png" style="width:320px; height:215px" /></div>
+        </div>
+
+    </div>*@
+
+<div class="bg">
+    <!-- Register New User Modal -->
+    <div class="modal" id="registrationModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <div class="row">
+                        <div class="col-md-12 text-left ">
+                            <p style="font-size:x-large;font-weight:600;float:left">Nouveau créateur d'équipe</p>
+                            <p style="font-size:small;font-weight:600;float:right">
+                                <button type="button"
+                                        aria-hidden="true"
+                                        data-dismiss="modal"
+                                        aria-label="Close"
+                                        class="close"
+                                        style="width:30px;height:30px;"
+                                        onclick="ReturnToLogin();">
+                                    &times;
+                                </button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form id="registrationForm" action="/Login/RegisterNewTeam" enctype="multipart/form-data" method="post">
+                        <div class="form-group">
+                            <label for="firstName">Nom de l'équipe</label>
+                            <input class="form-control" type="text" id="teamName" required maxlength="23" name="TEAMNAME" aria-describedby="teamHelp" placeholder="Nom de l'équipe" onblur="CheckTeamNameExistance(this.value);">
+                            <small id="itemTitleHelp1" class="form-text text-muted">Veuillez entrer le nom de votre équipe.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="firstName">Pseudonyme</label>
+                            <input class="form-control" type="text" id="nickName" required maxlength="23" name="NICKNAME" aria-describedby="emailHelp" placeholder="Pseudonyme" onblur="CheckNickName(this.value);">
+                            <small id="itemTitleHelp1" class="form-text text-muted">Veuillez entrer votre pseudonyme.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="firstName">Mot de passe</label>
+                            <input class="form-control" type="password" id="PASSWORD" required name="PASSWORD" aria-describedby="emailHelp" placeholder="Mot de passe">
+                            <small id="itemTitleHelp1" class="form-text text-muted">Veuillez entrer votre mot de passe</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="firstName">Confirmer le mot de passe</label>
+                            <input class="form-control" type="password" onblur="CheckEnteredPasswords();" id="CONFIRMPASSWORD" required name="CONFIRMPASSWORD" aria-describedby="emailHelp" placeholder="Confirmer le mot de passe">
+                            <small id="itemTitleHelp1" class="form-text text-muted">Veuillez confirmer votre mot de passe</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="firstName">Prénom</label>
+                            <input class="form-control" type="text" id="firstName" required name="FIRSTNAME" aria-describedby="emailHelp" placeholder="Prénom">
+                            <small id="itemTitleHelp2" class="form-text text-muted">Veuillez entrer votre prénom.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Nom de famille</label>
+                            <input class="form-control" type="text" id="lastName" required name="LASTNAME" placeholder="Nom de famille">
+                            <small id="itemDateHelp3" class="form-text text-muted">Veuillez entrer votre nom de famille.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Courriel</label>
+                            <input class="form-control" type="text" required id="email" name="EMAIL" placeholder="Courriel">
+                            <small id="itemDateHelp4" class="form-text text-muted">Veuillez entrer votre courriel.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="itemCreationDate">Date d'enregistrement</label>
+                            <input class="form-control" type="text" readonly="readonly" id="registrationDate" name="REGISTRATIONDATE">
+                            <small id="itemDateHelp5" class="form-text text-muted">Date d'enregistrement</small>
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Photo de profil<small>La taille maximale autorisée du fichier est de 500 Ko. Merci.</small>
+                                <input type="file" id="regattachments" class="btn-warning" name="PROFILEPICTURE" style="float:right;line-height: 0.5;" size="10">
+                                <button type="button" class="btn btn-warning" id="detailsResetButton" style="float:right;line-height: 0.5;" onclick="ResetRegistrationUpload();">Réinitialiser</button>
+
+                            </li>
+                        </ul>
+
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="ReturnToLogin();">Annuler</button>
+                            <button class="btn btn-danger" onclick="ResetRegForm();">Réinitialiser ce formulaire</button>
+                            <button type="submit" class="btn btn-primary" id="btnSubmitNewRegItem">Enregistrer les modifications</button>
+                        </div>
+                    </form>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal " data-backdrop="static" data-keyboard="false" id="LoginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
+     style="color:white">
+
+
+    <div class="modal-dialog bg-dark text-light" role="document">
+        <div class="modal-content border-info rounded" style="background-image: linear-gradient(to right top, #00063f, #332f60, #605a83, #8e89a7, #bdbacc, #d0cfdd, #e4e5ed, #f9fafe, #f3f6fd, #ebf3fc, #e2f0fa, #d9edf7); ">
+            @*https://mycolor.space/gradient?ori=circle&hex=%23AFA8BA&hex2=%23F5B0A2&sub=1*@
+            <div class="modal-header">
+                <div class="row">
+                    <div class="col-md-12 text-left ">
+                        <p style="font-size:x-large;font-weight:600;float:left">CONNEXION</p>
+                        <p style="font-size:small;font-weight:600;float:right">
+                            @*<button type="button"
+                                        aria-hidden="true"
+                                        data-dismiss="modal"
+                                        aria-label="Close"
+                                        class="close"
+                                        style="width:30px;height:30px;">
+                                    &times;
+                                </button>*@
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <form id="newItem" action="/Login/LoginPerson" enctype="multipart/form-data" method="post">
+                    <div class="form-group">
+                        <label for="itemTitle"><span class="glyphicon glyphicon-user "></span>&nbsp;Pseudonyme</label>
+                        <input class="form-control" type="text" id="userName" required maxlength="23" name="userName" aria-describedby="emailHelp" placeholder="Veuillez entrer votre pseudonyme" style="background-image: linear-gradient(to left bottom, #e0eafc, #dce7fa, #d8e4f8, #d3e1f5, #cfdef3);">
+                        <small id="itemTitleHelp" class="form-text text-muted">Votre nom d'utilisateur</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemCreationDate"><span class="glyphicon glyphicon-th"></span>&nbsp;Mot de passe</label>
+
+                        <input class="form-control" type="password" id="userPassword" name="userPassword" style="font-size: 16px;background-image: linear-gradient(to left bottom, #e0eafc, #dce7fa, #d8e4f8, #d3e1f5, #cfdef3);" />
+                        <small id="itemDateHelp" class="form-text text-muted">Votre mot de passe</small>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" onclick="ResetPassword()" style="float:left;color:white;border-bottom:2px dotted">J'ai oublié mon mot de passe</a>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="NewUserRegister();">S'inscrire</button>
+                        <button type="submit" class="btn btn-primary" id="btnSubmitNewItem">Connexion</button>
+                    </div>
+                    <div class="modal-footer" style="text-align:center">
+                        @if (Model != null)
+                        {
+                            if (Model.InvalidLogin != null)
+                            {
+                                <font style="color:red">@Html.Raw(Model.InvalidLogin.ToString())</font>
+                            }
+
+                        }
+                    </div>
+                </form>
+
+                <div class="well well-lg bg-success text-info" style="background-image: linear-gradient(to left bottom, #e0eafc, #dce7fa, #d8e4f8, #d3e1f5, #cfdef3);">
+                    <span class="glyphicon glyphicon-cog"></span>
+                    @*background-image: linear-gradient(to left bottom, #e0eafc, #dce7fa, #d8e4f8, #d3e1f5, #cfdef3);*@
+                    Lors de l'inscription, vous créez automatiquement une équipe, avec un seul membre, qui est vous-même. Une fois à l'intérieur, vous pouvez ajouter des personnes à votre nouvelle équipe ou en créer une nouvelle avec de nouveaux membres.
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+<!-- Reset Password -->
+<div class="modal " data-backdrop="static" data-keyboard="false" id="ResetPasswordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="color:white;">
+    <div class="modal-dialog bg-dark text-light" role="document">
+        <div class="modal-content  rounded-0" style="background-image: linear-gradient(to right top, #00063f, #332f60, #605a83, #8e89a7, #bdbacc, #d0cfdd, #e4e5ed, #f9fafe, #f3f6fd, #ebf3fc, #e2f0fa, #d9edf7); ">
+            <div class="modal-header">
+                <div class="row">
+                    <div class="col-md-12 text-left ">
+                        <p style="font-size:x-large;font-weight:600;float:left">Réinitialisation du mot de passe</p>
+                        <p style="font-size:small;font-weight:600;float:right">
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <form id="newItem" action="/Login/ResetPasswordLink " enctype="multipart/form-data" method="post">
+                    <div class="form-group">
+                        <label for="itemTitle"><span class="glyphicon glyphicon-user "></span>&nbsp;Pseudonyme</label>
+                        <input class="form-control" type="text" id="userName" required maxlength="23" name="NICKNAME" aria-describedby="emailHelp" placeholder="Veuillez entrer le pseudonyme" style="background-image: linear-gradient(to left bottom, #e0eafc, #dce7fa, #d8e4f8, #d3e1f5, #cfdef3);">
+                        <small id="itemTitleHelp" class="form-text text-muted">Veuillez entrer le pseudonyme que vous avez utilisé pour l'enregistrement.</small>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Fermer</button>
+                        <button type="submit" class="btn btn-primary" id="btnSubmitNewItem">Envoyer le lien de réinitialisation du mot de passe</button>
+                    </div>
+
+                </form>
+                <div class="well well-lg bg-success text-info" style="background-image: linear-gradient(to left bottom, #e0eafc, #dce7fa, #d8e4f8, #d3e1f5, #cfdef3);">
+                    <span class="glyphicon glyphicon-cog"></span>
+                    Veuillez vérifier votre adresse électronique pour le lien de réinitialisation du mot de passe. Cliquez sur ce lien et vous pourrez réinitialiser votre mot de passe en toute sécurité. Les données sont cryptées.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quotes Modal -->
+<div class="modal" id="quotesModal">
+    <div class="modal-dialog modal-lg" style="width:100%;height:100%">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <div class="row">
+                    <div class="col-md-12 text-left ">
+                        <p style="font-size:x-large;font-weight:600;float:left">Quelques citations intéressantes</p>
+                        <p style="font-size:small;font-weight:600;float:right">
+                            <button type="button"
+                                    aria-hidden="true"
+                                    data-dismiss="modal"
+                                    aria-label="Close"
+                                    class="close"
+                                    style="width:30px;height:30px;">
+                                &times;
+                            </button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="container" style="width:100%">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="card" style="width:100%;margin:20px 0 24px 0;">
+                                <img class="card-img-top img-responsive" src="~/Images/c1.JPG" alt="image" style="width:100%">
+                                <div class="card-body">
+                                    <h4 class="card-title">L'avenir de Scrum - 2005</h4>
+                                    <p class="card-text">Scrum a créé un environnement stable qui s'adapte très bien au changement.</p>
+                                    @*<a href="javascript:void(0)" class="btn btn-primary">See Profile</a>*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="card" style="width:100%;margin:20px 0 24px 0">
+                                <img class="card-img-top" src="~/Images/c2.JPG" alt="image" style="width:100%">
+                                <div class="card-body">
+                                    <h4 class="card-title">Product Backlog</h4>
+                                    <p class="card-text">
+                                        Les articles de Product Backlog en attente doivent être effectués un par un
+                                        par toute l'équipe, de haut en bas, et ne passer à la suivante que lorsqu'elle est testée.
+                                    </p>
+                                    @*<a href="javascript:void(0)" class="btn btn-primary">See Profile</a>*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="card" style="width:100%;margin:20px 0 24px 0">
+                                <img class="card-img-top" src="~/Images/c3.JPG" alt="image" style="width:100%">
+                                <div class="card-body">
+                                    <h4 class="card-title">Sprint Backlog</h4>
+                                    <p class="card-text">Rendre visible tout le travail que l'équipe de développement identifie</p>
+                                    @*<a href="javascript:void(0)" class="btn btn-primary">See Profile</a>*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="card" style="width:100%;margin:20px 0 24px 0">
+                                <img class="card-img-top" src="~/Images/c4.JPG" alt="image" style="width:100%">
+                                <div class="card-body">
+                                    <h4 class="card-title">Les cases horaires</h4>
+                                    <p class="card-text">Les cases de temps sont le temps "le PLUS" ou "le MAXIMUM" alloué pour terminer.</p>
+                                    @*<a href="javascript:void(0)" class="btn btn-primary">See Profile</a>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container p-3 my-3 bg-dark text-white">
+                    <h1>Le problème de l'arrêt cosmique</h1>
+                    <blockquote class="blockquote text-left">
+                        <p class="mb-0">
+                            Si l'arriéré de Scrum n'est pas clair, arrêtez-le. C'est la même chose qu'un problème qui s'est produit dans le passé dans l'une des
+                            des universités où 300 mhz perturbent un ordinateur toutes les deux semaines. Ils ne savaient pas pourquoi. Finalement, ils ont découvert qu'il
+                            était due à une tension de bascule, qui était dans un état indéterminé.
+                        </p>
+                        <footer class="blockquote-footer">Source: Google Tech Talks - Jeff Sutherland</footer>
+                    </blockquote>
+                </div>
+                <div class="container p-3 my-3 bg-dark text-white">
+                    <h1>Obstacles</h1>
+                    <blockquote class="blockquote text-left">
+                        <p class="mb-0">
+                            Un bon Scrum Master élimine très rapidement tous les obstacles d'une équipe. Les petits et moyens obstacles peuvent prendre jusqu'à une heure
+                            . Gros obstacles un jour maximum.
+                        </p>
+                        <footer class="blockquote-footer">Source: Google Tech Talks - Jeff Sutherland</footer>
+                    </blockquote>
+
+
+                </div>
+                <div class="container p-3 my-3 bg-dark text-white">
+                    <h1>Hyperproductivité</h1>
+
+                    <blockquote class="blockquote text-left">
+                        <p class="mb-0">
+                            L'hyperproductivité est une cible. Les équipes qui utilisent l'approche de démarrage rapide, augmentent la vitesse de l'équipe.
+                        </p>
+                        <footer class="blockquote-footer">Source: Google Tech Talks - Jeff Sutherland</footer>
+                    </blockquote>
+
+                </div>
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+

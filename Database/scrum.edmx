@@ -1,0 +1,1086 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SQL2012_1020727_scrumModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ATTACHMENT">
+          <Key>
+            <PropertyRef Name="ATTITEMID" />
+          </Key>
+          <Property Name="ATTITEMID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ATTACHMENTNAME" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ATTACHMENTTYPE" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ATTACHMENTLENGTH" Type="bigint" Nullable="false" />
+          <Property Name="ATTACHMENTCONTENT" Type="varbinary(max)" Nullable="false" />
+          <Property Name="FKITEMID" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CLIENT">
+          <Key>
+            <PropertyRef Name="CLIENTID" />
+          </Key>
+          <Property Name="CLIENTID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CLIENTNAME" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CLIENTLOCATION" Type="nvarchar(max)" />
+          <Property Name="CLIENTDESCRIPTION" Type="nvarchar(max)" />
+          <Property Name="CLIENTPHONENUMBER" Type="nvarchar" MaxLength="50" />
+          <Property Name="ATTACHMENTSCOUNT" Type="int" Nullable="false" />
+          <Property Name="FKPERSONID" Type="bigint" />
+        </EntityType>
+        <EntityType Name="CLIENTATTACHMENT">
+          <Key>
+            <PropertyRef Name="CATTACHMENTID" />
+          </Key>
+          <Property Name="CATTACHMENTID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CATTACHMENTNAME" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CATTACHMENTTYPE" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CATTACHMENTLENGTH" Type="bigint" Nullable="false" />
+          <Property Name="CATTACHMENTCONTENT" Type="varbinary(max)" Nullable="false" />
+          <Property Name="FKCLIENTID" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EPIC">
+          <Key>
+            <PropertyRef Name="EPICID" />
+          </Key>
+          <Property Name="EPICID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EPICTITLE" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="EPICDESCRIPTION" Type="nvarchar(max)" />
+          <Property Name="FKCLIENTID" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HYPERLINK">
+          <Key>
+            <PropertyRef Name="LINKITEMID" />
+          </Key>
+          <Property Name="LINKITEMID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LINKDESCRIPTION" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LINKBODY" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FKITEMID" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ITEM">
+          <Key>
+            <PropertyRef Name="ITEMID" />
+          </Key>
+          <Property Name="ITEMID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ITEMTITLE" Type="nvarchar" MaxLength="23" Nullable="false" />
+          <Property Name="CREATIONDATE" Type="datetime" Nullable="false" />
+          <Property Name="ATTACHMENTSCOUNT" Type="int" Nullable="false" />
+          <Property Name="LINKCOUNT" Type="int" Nullable="false" />
+          <Property Name="ITEMNOTES" Type="nvarchar(max)" />
+          <Property Name="ITEMLOCATION" Type="nvarchar" MaxLength="10" />
+          <Property Name="FKPERSONID" Type="bigint" Nullable="false" />
+          <Property Name="FKPRODUCTBACKLOGID" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LOG">
+          <Key>
+            <PropertyRef Name="LogId" />
+          </Key>
+          <Property Name="LogId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CONTROLLER" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="EXCEPTION" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="STACKTRACE" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="EXDATETIME" Type="datetime" Nullable="false" />
+          <Property Name="USERID" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PBATTACHMENT">
+          <Key>
+            <PropertyRef Name="PBATTITEMID" />
+          </Key>
+          <Property Name="PBATTITEMID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PBATTACHMENTNAME" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PBATTACHMENTTYPE" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PBATTACHMENTLENGTH" Type="bigint" Nullable="false" />
+          <Property Name="PBATTACHMENTCONTENT" Type="varbinary(max)" Nullable="false" />
+          <Property Name="PBFKPRODUCTBACKLOG" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PBHYPERLINK">
+          <Key>
+            <PropertyRef Name="PBLINKITEMID" />
+          </Key>
+          <Property Name="PBLINKITEMID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PBLINKDESCRIPTION" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PBLINKBODY" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PBFKPBACKLOG" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PERSON">
+          <Key>
+            <PropertyRef Name="USERID" />
+          </Key>
+          <Property Name="USERID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NICKNAME" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FIRSTNAME" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LASTNAME" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="EMAIL" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="REGISTRATIONDATE" Type="datetime" Nullable="false" />
+          <Property Name="PROFILEPICTURE" Type="varbinary(max)" />
+          <Property Name="PASSWORD" Type="nvarchar(max)" />
+          <Property Name="PKEY" Type="varbinary(max)" />
+          <Property Name="PIV" Type="varbinary(max)" />
+          <Property Name="ISTEAMCREATOR" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PICTURE">
+          <Key>
+            <PropertyRef Name="PERSONPICTUREID" />
+          </Key>
+          <Property Name="PERSONPICTUREID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PERSONPICTURENAME" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PERSONPICTURETYPE" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PERSONPICTURELENGTH" Type="bigint" Nullable="false" />
+          <Property Name="PERSONPICTURECONTENT" Type="varbinary(max)" Nullable="false" />
+          <Property Name="FKPERSONID" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PRODUCTBACKLOG">
+          <Key>
+            <PropertyRef Name="ITEMID" />
+          </Key>
+          <Property Name="ITEMID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ITEMTITLE" Type="nvarchar" MaxLength="23" Nullable="false" />
+          <Property Name="CREATIONDATE" Type="datetime" Nullable="false" />
+          <Property Name="ATTACHMENTSCOUNT" Type="int" Nullable="false" />
+          <Property Name="LINKCOUNT" Type="int" Nullable="false" />
+          <Property Name="ITEMNOTES" Type="nvarchar(max)" />
+          <Property Name="ITEMLOCATION" Type="nvarchar" MaxLength="10" />
+          <Property Name="FKEPICID" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RequestStat">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IP" Type="nvarchar(max)" />
+          <Property Name="browser" Type="nvarchar(max)" />
+          <Property Name="platform" Type="nvarchar(max)" />
+          <Property Name="ClientInnerWidth" Type="nvarchar(max)" />
+          <Property Name="ClientInnerHeight" Type="nvarchar(max)" />
+          <Property Name="ClientUserAgent" Type="nvarchar(max)" />
+          <Property Name="ClientScreenWidth" Type="nvarchar(max)" />
+          <Property Name="ClientScreenHeight" Type="nvarchar(max)" />
+          <Property Name="ClientScreenAvailableWidth" Type="nvarchar(max)" />
+          <Property Name="ClientSreenAvailableHeight" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="SPRINTARCHIVE">
+          <Key>
+            <PropertyRef Name="SPRINTARCHIVEID" />
+          </Key>
+          <Property Name="SPRINTARCHIVEID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SPRINTARCHIVESTARTDATE" Type="datetime" Nullable="false" />
+          <Property Name="SPRINTARCHIVEENDDATE" Type="datetime" Nullable="false" />
+          <Property Name="FKCLIENTID" Type="bigint" Nullable="false" />
+          <Property Name="FKEPICID" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SPRINTARCHIVEBACKLOG">
+          <Key>
+            <PropertyRef Name="SPRINTARCHIVEBACKLOGID" />
+          </Key>
+          <Property Name="SPRINTARCHIVEBACKLOGID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FKSPRINTARCHIVE" Type="bigint" Nullable="false" />
+          <Property Name="FKBACKLOGID" Type="bigint" Nullable="false" />
+          <Property Name="FKBACKLOGEPICID" Type="bigint" />
+        </EntityType>
+        <EntityType Name="TEAM">
+          <Key>
+            <PropertyRef Name="TEAMID" />
+          </Key>
+          <Property Name="TEAMID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TEAMNAME" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FKPERSONID" Type="bigint" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_CLIENT_CLIENT">
+          <End Role="CLIENT" Type="Self.CLIENT" Multiplicity="1" />
+          <End Role="CLIENT1" Type="Self.CLIENT" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="CLIENT">
+              <PropertyRef Name="CLIENTID" />
+            </Principal>
+            <Dependent Role="CLIENT1">
+              <PropertyRef Name="CLIENTID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CLIENTATTACHMENT_CLIENT">
+          <End Role="CLIENT" Type="Self.CLIENT" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CLIENTATTACHMENT" Type="Self.CLIENTATTACHMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CLIENT">
+              <PropertyRef Name="CLIENTID" />
+            </Principal>
+            <Dependent Role="CLIENTATTACHMENT">
+              <PropertyRef Name="FKCLIENTID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EPIC_CLIENT">
+          <End Role="CLIENT" Type="Self.CLIENT" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EPIC" Type="Self.EPIC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CLIENT">
+              <PropertyRef Name="CLIENTID" />
+            </Principal>
+            <Dependent Role="EPIC">
+              <PropertyRef Name="FKCLIENTID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HYPERLINK_ITEM">
+          <End Role="ITEM" Type="Self.ITEM" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="HYPERLINK" Type="Self.HYPERLINK" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ITEM">
+              <PropertyRef Name="ITEMID" />
+            </Principal>
+            <Dependent Role="HYPERLINK">
+              <PropertyRef Name="FKITEMID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ITEM_PERSON">
+          <End Role="PERSON" Type="Self.PERSON" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ITEM" Type="Self.ITEM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSON">
+              <PropertyRef Name="USERID" />
+            </Principal>
+            <Dependent Role="ITEM">
+              <PropertyRef Name="FKPERSONID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ITEM_PRODUCTBACKLOG">
+          <End Role="PRODUCTBACKLOG" Type="Self.PRODUCTBACKLOG" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ITEM" Type="Self.ITEM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTBACKLOG">
+              <PropertyRef Name="ITEMID" />
+            </Principal>
+            <Dependent Role="ITEM">
+              <PropertyRef Name="FKPRODUCTBACKLOGID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PBHYPERLINK_PRODUCTBACKLOG">
+          <End Role="PRODUCTBACKLOG" Type="Self.PRODUCTBACKLOG" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PBHYPERLINK" Type="Self.PBHYPERLINK" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTBACKLOG">
+              <PropertyRef Name="ITEMID" />
+            </Principal>
+            <Dependent Role="PBHYPERLINK">
+              <PropertyRef Name="PBFKPBACKLOG" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PICTURE_PERSON">
+          <End Role="PERSON" Type="Self.PERSON" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PICTURE" Type="Self.PICTURE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSON">
+              <PropertyRef Name="USERID" />
+            </Principal>
+            <Dependent Role="PICTURE">
+              <PropertyRef Name="FKPERSONID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUCTBACKLOG_EPIC">
+          <End Role="EPIC" Type="Self.EPIC" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PRODUCTBACKLOG" Type="Self.PRODUCTBACKLOG" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EPIC">
+              <PropertyRef Name="EPICID" />
+            </Principal>
+            <Dependent Role="PRODUCTBACKLOG">
+              <PropertyRef Name="FKEPICID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SPRINTARCHIVE_CLIENT">
+          <End Role="CLIENT" Type="Self.CLIENT" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SPRINTARCHIVE" Type="Self.SPRINTARCHIVE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CLIENT">
+              <PropertyRef Name="CLIENTID" />
+            </Principal>
+            <Dependent Role="SPRINTARCHIVE">
+              <PropertyRef Name="FKCLIENTID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SPRINTARCHIVEBACKLOG_SPRINTARCHIVE">
+          <End Role="SPRINTARCHIVE" Type="Self.SPRINTARCHIVE" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SPRINTARCHIVEBACKLOG" Type="Self.SPRINTARCHIVEBACKLOG" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SPRINTARCHIVE">
+              <PropertyRef Name="SPRINTARCHIVEID" />
+            </Principal>
+            <Dependent Role="SPRINTARCHIVEBACKLOG">
+              <PropertyRef Name="FKSPRINTARCHIVE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TEAM_PERSON">
+          <End Role="PERSON" Type="Self.PERSON" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TEAM" Type="Self.TEAM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSON">
+              <PropertyRef Name="USERID" />
+            </Principal>
+            <Dependent Role="TEAM">
+              <PropertyRef Name="FKPERSONID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SQL2012_1020727_scrumModelStoreContainer">
+          <EntitySet Name="ATTACHMENT" EntityType="Self.ATTACHMENT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CLIENT" EntityType="Self.CLIENT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CLIENTATTACHMENT" EntityType="Self.CLIENTATTACHMENT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EPIC" EntityType="Self.EPIC" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HYPERLINK" EntityType="Self.HYPERLINK" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ITEM" EntityType="Self.ITEM" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LOG" EntityType="Self.LOG" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PBATTACHMENT" EntityType="Self.PBATTACHMENT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PBHYPERLINK" EntityType="Self.PBHYPERLINK" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PERSON" EntityType="Self.PERSON" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PICTURE" EntityType="Self.PICTURE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PRODUCTBACKLOG" EntityType="Self.PRODUCTBACKLOG" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RequestStat" EntityType="Self.RequestStat" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SPRINTARCHIVE" EntityType="Self.SPRINTARCHIVE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SPRINTARCHIVEBACKLOG" EntityType="Self.SPRINTARCHIVEBACKLOG" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TEAM" EntityType="Self.TEAM" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CLIENT_CLIENT" Association="Self.FK_CLIENT_CLIENT">
+            <End Role="CLIENT" EntitySet="CLIENT" />
+            <End Role="CLIENT1" EntitySet="CLIENT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CLIENTATTACHMENT_CLIENT" Association="Self.FK_CLIENTATTACHMENT_CLIENT">
+            <End Role="CLIENT" EntitySet="CLIENT" />
+            <End Role="CLIENTATTACHMENT" EntitySet="CLIENTATTACHMENT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EPIC_CLIENT" Association="Self.FK_EPIC_CLIENT">
+            <End Role="CLIENT" EntitySet="CLIENT" />
+            <End Role="EPIC" EntitySet="EPIC" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HYPERLINK_ITEM" Association="Self.FK_HYPERLINK_ITEM">
+            <End Role="ITEM" EntitySet="ITEM" />
+            <End Role="HYPERLINK" EntitySet="HYPERLINK" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ITEM_PERSON" Association="Self.FK_ITEM_PERSON">
+            <End Role="PERSON" EntitySet="PERSON" />
+            <End Role="ITEM" EntitySet="ITEM" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ITEM_PRODUCTBACKLOG" Association="Self.FK_ITEM_PRODUCTBACKLOG">
+            <End Role="PRODUCTBACKLOG" EntitySet="PRODUCTBACKLOG" />
+            <End Role="ITEM" EntitySet="ITEM" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PBHYPERLINK_PRODUCTBACKLOG" Association="Self.FK_PBHYPERLINK_PRODUCTBACKLOG">
+            <End Role="PRODUCTBACKLOG" EntitySet="PRODUCTBACKLOG" />
+            <End Role="PBHYPERLINK" EntitySet="PBHYPERLINK" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PICTURE_PERSON" Association="Self.FK_PICTURE_PERSON">
+            <End Role="PERSON" EntitySet="PERSON" />
+            <End Role="PICTURE" EntitySet="PICTURE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCTBACKLOG_EPIC" Association="Self.FK_PRODUCTBACKLOG_EPIC">
+            <End Role="EPIC" EntitySet="EPIC" />
+            <End Role="PRODUCTBACKLOG" EntitySet="PRODUCTBACKLOG" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SPRINTARCHIVE_CLIENT" Association="Self.FK_SPRINTARCHIVE_CLIENT">
+            <End Role="CLIENT" EntitySet="CLIENT" />
+            <End Role="SPRINTARCHIVE" EntitySet="SPRINTARCHIVE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SPRINTARCHIVEBACKLOG_SPRINTARCHIVE" Association="Self.FK_SPRINTARCHIVEBACKLOG_SPRINTARCHIVE">
+            <End Role="SPRINTARCHIVE" EntitySet="SPRINTARCHIVE" />
+            <End Role="SPRINTARCHIVEBACKLOG" EntitySet="SPRINTARCHIVEBACKLOG" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TEAM_PERSON" Association="Self.FK_TEAM_PERSON">
+            <End Role="PERSON" EntitySet="PERSON" />
+            <End Role="TEAM" EntitySet="TEAM" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SQL2012_1020727_scrumModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ATTACHMENT">
+          <Key>
+            <PropertyRef Name="ATTITEMID" />
+          </Key>
+          <Property Name="ATTITEMID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ATTACHMENTNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ATTACHMENTTYPE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ATTACHMENTLENGTH" Type="Int64" Nullable="false" />
+          <Property Name="ATTACHMENTCONTENT" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="FKITEMID" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CLIENT">
+          <Key>
+            <PropertyRef Name="CLIENTID" />
+          </Key>
+          <Property Name="CLIENTID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CLIENTNAME" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CLIENTLOCATION" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CLIENTDESCRIPTION" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CLIENTPHONENUMBER" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ATTACHMENTSCOUNT" Type="Int32" Nullable="false" />
+          <Property Name="FKPERSONID" Type="Int64" />
+          <NavigationProperty Name="CLIENT1" Relationship="Self.FK_CLIENT_CLIENT" FromRole="CLIENT" ToRole="CLIENT1" />
+          <NavigationProperty Name="CLIENT2" Relationship="Self.FK_CLIENT_CLIENT" FromRole="CLIENT1" ToRole="CLIENT" />
+          <NavigationProperty Name="CLIENTATTACHMENTs" Relationship="Self.FK_CLIENTATTACHMENT_CLIENT" FromRole="CLIENT" ToRole="CLIENTATTACHMENT" />
+          <NavigationProperty Name="EPICs" Relationship="Self.FK_EPIC_CLIENT" FromRole="CLIENT" ToRole="EPIC" />
+          <NavigationProperty Name="SPRINTARCHIVEs" Relationship="Self.FK_SPRINTARCHIVE_CLIENT" FromRole="CLIENT" ToRole="SPRINTARCHIVE" />
+        </EntityType>
+        <EntityType Name="CLIENTATTACHMENT">
+          <Key>
+            <PropertyRef Name="CATTACHMENTID" />
+          </Key>
+          <Property Name="CATTACHMENTID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CATTACHMENTNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CATTACHMENTTYPE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CATTACHMENTLENGTH" Type="Int64" Nullable="false" />
+          <Property Name="CATTACHMENTCONTENT" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="FKCLIENTID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="CLIENT" Relationship="Self.FK_CLIENTATTACHMENT_CLIENT" FromRole="CLIENTATTACHMENT" ToRole="CLIENT" />
+        </EntityType>
+        <EntityType Name="EPIC">
+          <Key>
+            <PropertyRef Name="EPICID" />
+          </Key>
+          <Property Name="EPICID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EPICTITLE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EPICDESCRIPTION" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FKCLIENTID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="CLIENT" Relationship="Self.FK_EPIC_CLIENT" FromRole="EPIC" ToRole="CLIENT" />
+          <NavigationProperty Name="PRODUCTBACKLOGs" Relationship="Self.FK_PRODUCTBACKLOG_EPIC" FromRole="EPIC" ToRole="PRODUCTBACKLOG" />
+        </EntityType>
+        <EntityType Name="HYPERLINK">
+          <Key>
+            <PropertyRef Name="LINKITEMID" />
+          </Key>
+          <Property Name="LINKITEMID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LINKDESCRIPTION" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LINKBODY" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FKITEMID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="ITEM" Relationship="Self.FK_HYPERLINK_ITEM" FromRole="HYPERLINK" ToRole="ITEM" />
+        </EntityType>
+        <EntityType Name="ITEM">
+          <Key>
+            <PropertyRef Name="ITEMID" />
+          </Key>
+          <Property Name="ITEMID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ITEMTITLE" Type="String" MaxLength="23" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CREATIONDATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ATTACHMENTSCOUNT" Type="Int32" Nullable="false" />
+          <Property Name="LINKCOUNT" Type="Int32" Nullable="false" />
+          <Property Name="ITEMNOTES" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ITEMLOCATION" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="FKPERSONID" Type="Int64" Nullable="false" />
+          <Property Name="FKPRODUCTBACKLOGID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="HYPERLINKs" Relationship="Self.FK_HYPERLINK_ITEM" FromRole="ITEM" ToRole="HYPERLINK" />
+          <NavigationProperty Name="PERSON" Relationship="Self.FK_ITEM_PERSON" FromRole="ITEM" ToRole="PERSON" />
+          <NavigationProperty Name="PRODUCTBACKLOG" Relationship="Self.FK_ITEM_PRODUCTBACKLOG" FromRole="ITEM" ToRole="PRODUCTBACKLOG" />
+        </EntityType>
+        <EntityType Name="LOG">
+          <Key>
+            <PropertyRef Name="LogId" />
+          </Key>
+          <Property Name="LogId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CONTROLLER" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EXCEPTION" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="STACKTRACE" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EXDATETIME" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="USERID" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PBATTACHMENT">
+          <Key>
+            <PropertyRef Name="PBATTITEMID" />
+          </Key>
+          <Property Name="PBATTITEMID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PBATTACHMENTNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PBATTACHMENTTYPE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PBATTACHMENTLENGTH" Type="Int64" Nullable="false" />
+          <Property Name="PBATTACHMENTCONTENT" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="PBFKPRODUCTBACKLOG" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PBHYPERLINK">
+          <Key>
+            <PropertyRef Name="PBLINKITEMID" />
+          </Key>
+          <Property Name="PBLINKITEMID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PBLINKDESCRIPTION" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PBLINKBODY" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PBFKPBACKLOG" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="PRODUCTBACKLOG" Relationship="Self.FK_PBHYPERLINK_PRODUCTBACKLOG" FromRole="PBHYPERLINK" ToRole="PRODUCTBACKLOG" />
+        </EntityType>
+        <EntityType Name="PERSON">
+          <Key>
+            <PropertyRef Name="USERID" />
+          </Key>
+          <Property Name="USERID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NICKNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FIRSTNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LASTNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EMAIL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="REGISTRATIONDATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PROFILEPICTURE" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="PASSWORD" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PKEY" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="PIV" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="ISTEAMCREATOR" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ITEMs" Relationship="Self.FK_ITEM_PERSON" FromRole="PERSON" ToRole="ITEM" />
+          <NavigationProperty Name="PICTUREs" Relationship="Self.FK_PICTURE_PERSON" FromRole="PERSON" ToRole="PICTURE" />
+          <NavigationProperty Name="TEAMs" Relationship="Self.FK_TEAM_PERSON" FromRole="PERSON" ToRole="TEAM" />
+        </EntityType>
+        <EntityType Name="PICTURE">
+          <Key>
+            <PropertyRef Name="PERSONPICTUREID" />
+          </Key>
+          <Property Name="PERSONPICTUREID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PERSONPICTURENAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PERSONPICTURETYPE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PERSONPICTURELENGTH" Type="Int64" Nullable="false" />
+          <Property Name="PERSONPICTURECONTENT" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="FKPERSONID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="PERSON" Relationship="Self.FK_PICTURE_PERSON" FromRole="PICTURE" ToRole="PERSON" />
+        </EntityType>
+        <EntityType Name="PRODUCTBACKLOG">
+          <Key>
+            <PropertyRef Name="ITEMID" />
+          </Key>
+          <Property Name="ITEMID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ITEMTITLE" Type="String" MaxLength="23" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CREATIONDATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ATTACHMENTSCOUNT" Type="Int32" Nullable="false" />
+          <Property Name="LINKCOUNT" Type="Int32" Nullable="false" />
+          <Property Name="ITEMNOTES" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ITEMLOCATION" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="FKEPICID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="EPIC" Relationship="Self.FK_PRODUCTBACKLOG_EPIC" FromRole="PRODUCTBACKLOG" ToRole="EPIC" />
+          <NavigationProperty Name="ITEMs" Relationship="Self.FK_ITEM_PRODUCTBACKLOG" FromRole="PRODUCTBACKLOG" ToRole="ITEM" />
+          <NavigationProperty Name="PBHYPERLINKs" Relationship="Self.FK_PBHYPERLINK_PRODUCTBACKLOG" FromRole="PRODUCTBACKLOG" ToRole="PBHYPERLINK" />
+        </EntityType>
+        <EntityType Name="RequestStat">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IP" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="browser" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="platform" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClientInnerWidth" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClientInnerHeight" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClientUserAgent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClientScreenWidth" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClientScreenHeight" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClientScreenAvailableWidth" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClientSreenAvailableHeight" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="SPRINTARCHIVE">
+          <Key>
+            <PropertyRef Name="SPRINTARCHIVEID" />
+          </Key>
+          <Property Name="SPRINTARCHIVEID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SPRINTARCHIVESTARTDATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="SPRINTARCHIVEENDDATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FKCLIENTID" Type="Int64" Nullable="false" />
+          <Property Name="FKEPICID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="CLIENT" Relationship="Self.FK_SPRINTARCHIVE_CLIENT" FromRole="SPRINTARCHIVE" ToRole="CLIENT" />
+          <NavigationProperty Name="SPRINTARCHIVEBACKLOGs" Relationship="Self.FK_SPRINTARCHIVEBACKLOG_SPRINTARCHIVE" FromRole="SPRINTARCHIVE" ToRole="SPRINTARCHIVEBACKLOG" />
+        </EntityType>
+        <EntityType Name="SPRINTARCHIVEBACKLOG">
+          <Key>
+            <PropertyRef Name="SPRINTARCHIVEBACKLOGID" />
+          </Key>
+          <Property Name="SPRINTARCHIVEBACKLOGID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FKSPRINTARCHIVE" Type="Int64" Nullable="false" />
+          <Property Name="FKBACKLOGID" Type="Int64" Nullable="false" />
+          <Property Name="FKBACKLOGEPICID" Type="Int64" />
+          <NavigationProperty Name="SPRINTARCHIVE" Relationship="Self.FK_SPRINTARCHIVEBACKLOG_SPRINTARCHIVE" FromRole="SPRINTARCHIVEBACKLOG" ToRole="SPRINTARCHIVE" />
+        </EntityType>
+        <EntityType Name="TEAM">
+          <Key>
+            <PropertyRef Name="TEAMID" />
+          </Key>
+          <Property Name="TEAMID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TEAMNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FKPERSONID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="PERSON" Relationship="Self.FK_TEAM_PERSON" FromRole="TEAM" ToRole="PERSON" />
+        </EntityType>
+        <Association Name="FK_CLIENT_CLIENT">
+          <End Role="CLIENT" Type="Self.CLIENT" Multiplicity="1" />
+          <End Role="CLIENT1" Type="Self.CLIENT" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="CLIENT">
+              <PropertyRef Name="CLIENTID" />
+            </Principal>
+            <Dependent Role="CLIENT1">
+              <PropertyRef Name="CLIENTID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CLIENTATTACHMENT_CLIENT">
+          <End Role="CLIENT" Type="Self.CLIENT" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CLIENTATTACHMENT" Type="Self.CLIENTATTACHMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CLIENT">
+              <PropertyRef Name="CLIENTID" />
+            </Principal>
+            <Dependent Role="CLIENTATTACHMENT">
+              <PropertyRef Name="FKCLIENTID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EPIC_CLIENT">
+          <End Role="CLIENT" Type="Self.CLIENT" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EPIC" Type="Self.EPIC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CLIENT">
+              <PropertyRef Name="CLIENTID" />
+            </Principal>
+            <Dependent Role="EPIC">
+              <PropertyRef Name="FKCLIENTID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SPRINTARCHIVE_CLIENT">
+          <End Role="CLIENT" Type="Self.CLIENT" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SPRINTARCHIVE" Type="Self.SPRINTARCHIVE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CLIENT">
+              <PropertyRef Name="CLIENTID" />
+            </Principal>
+            <Dependent Role="SPRINTARCHIVE">
+              <PropertyRef Name="FKCLIENTID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUCTBACKLOG_EPIC">
+          <End Role="EPIC" Type="Self.EPIC" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PRODUCTBACKLOG" Type="Self.PRODUCTBACKLOG" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EPIC">
+              <PropertyRef Name="EPICID" />
+            </Principal>
+            <Dependent Role="PRODUCTBACKLOG">
+              <PropertyRef Name="FKEPICID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HYPERLINK_ITEM">
+          <End Role="ITEM" Type="Self.ITEM" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="HYPERLINK" Type="Self.HYPERLINK" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ITEM">
+              <PropertyRef Name="ITEMID" />
+            </Principal>
+            <Dependent Role="HYPERLINK">
+              <PropertyRef Name="FKITEMID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ITEM_PERSON">
+          <End Role="PERSON" Type="Self.PERSON" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ITEM" Type="Self.ITEM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSON">
+              <PropertyRef Name="USERID" />
+            </Principal>
+            <Dependent Role="ITEM">
+              <PropertyRef Name="FKPERSONID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ITEM_PRODUCTBACKLOG">
+          <End Role="PRODUCTBACKLOG" Type="Self.PRODUCTBACKLOG" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ITEM" Type="Self.ITEM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTBACKLOG">
+              <PropertyRef Name="ITEMID" />
+            </Principal>
+            <Dependent Role="ITEM">
+              <PropertyRef Name="FKPRODUCTBACKLOGID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PBHYPERLINK_PRODUCTBACKLOG">
+          <End Role="PRODUCTBACKLOG" Type="Self.PRODUCTBACKLOG" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PBHYPERLINK" Type="Self.PBHYPERLINK" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTBACKLOG">
+              <PropertyRef Name="ITEMID" />
+            </Principal>
+            <Dependent Role="PBHYPERLINK">
+              <PropertyRef Name="PBFKPBACKLOG" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PICTURE_PERSON">
+          <End Role="PERSON" Type="Self.PERSON" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PICTURE" Type="Self.PICTURE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSON">
+              <PropertyRef Name="USERID" />
+            </Principal>
+            <Dependent Role="PICTURE">
+              <PropertyRef Name="FKPERSONID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TEAM_PERSON">
+          <End Role="PERSON" Type="Self.PERSON" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TEAM" Type="Self.TEAM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSON">
+              <PropertyRef Name="USERID" />
+            </Principal>
+            <Dependent Role="TEAM">
+              <PropertyRef Name="FKPERSONID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SPRINTARCHIVEBACKLOG_SPRINTARCHIVE">
+          <End Role="SPRINTARCHIVE" Type="Self.SPRINTARCHIVE" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SPRINTARCHIVEBACKLOG" Type="Self.SPRINTARCHIVEBACKLOG" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SPRINTARCHIVE">
+              <PropertyRef Name="SPRINTARCHIVEID" />
+            </Principal>
+            <Dependent Role="SPRINTARCHIVEBACKLOG">
+              <PropertyRef Name="FKSPRINTARCHIVE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SCRUMEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ATTACHMENTs" EntityType="Self.ATTACHMENT" />
+          <EntitySet Name="CLIENTs" EntityType="Self.CLIENT" />
+          <EntitySet Name="CLIENTATTACHMENTs" EntityType="Self.CLIENTATTACHMENT" />
+          <EntitySet Name="EPICs" EntityType="Self.EPIC" />
+          <EntitySet Name="HYPERLINKs" EntityType="Self.HYPERLINK" />
+          <EntitySet Name="ITEMs" EntityType="Self.ITEM" />
+          <EntitySet Name="LOGs" EntityType="Self.LOG" />
+          <EntitySet Name="PBATTACHMENTs" EntityType="Self.PBATTACHMENT" />
+          <EntitySet Name="PBHYPERLINKs" EntityType="Self.PBHYPERLINK" />
+          <EntitySet Name="People" EntityType="Self.PERSON" />
+          <EntitySet Name="PICTUREs" EntityType="Self.PICTURE" />
+          <EntitySet Name="PRODUCTBACKLOGs" EntityType="Self.PRODUCTBACKLOG" />
+          <EntitySet Name="RequestStats" EntityType="Self.RequestStat" />
+          <EntitySet Name="SPRINTARCHIVEs" EntityType="Self.SPRINTARCHIVE" />
+          <EntitySet Name="SPRINTARCHIVEBACKLOGs" EntityType="Self.SPRINTARCHIVEBACKLOG" />
+          <EntitySet Name="TEAMs" EntityType="Self.TEAM" />
+          <AssociationSet Name="FK_CLIENT_CLIENT" Association="Self.FK_CLIENT_CLIENT">
+            <End Role="CLIENT" EntitySet="CLIENTs" />
+            <End Role="CLIENT1" EntitySet="CLIENTs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CLIENTATTACHMENT_CLIENT" Association="Self.FK_CLIENTATTACHMENT_CLIENT">
+            <End Role="CLIENT" EntitySet="CLIENTs" />
+            <End Role="CLIENTATTACHMENT" EntitySet="CLIENTATTACHMENTs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EPIC_CLIENT" Association="Self.FK_EPIC_CLIENT">
+            <End Role="CLIENT" EntitySet="CLIENTs" />
+            <End Role="EPIC" EntitySet="EPICs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SPRINTARCHIVE_CLIENT" Association="Self.FK_SPRINTARCHIVE_CLIENT">
+            <End Role="CLIENT" EntitySet="CLIENTs" />
+            <End Role="SPRINTARCHIVE" EntitySet="SPRINTARCHIVEs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCTBACKLOG_EPIC" Association="Self.FK_PRODUCTBACKLOG_EPIC">
+            <End Role="EPIC" EntitySet="EPICs" />
+            <End Role="PRODUCTBACKLOG" EntitySet="PRODUCTBACKLOGs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HYPERLINK_ITEM" Association="Self.FK_HYPERLINK_ITEM">
+            <End Role="ITEM" EntitySet="ITEMs" />
+            <End Role="HYPERLINK" EntitySet="HYPERLINKs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ITEM_PERSON" Association="Self.FK_ITEM_PERSON">
+            <End Role="PERSON" EntitySet="People" />
+            <End Role="ITEM" EntitySet="ITEMs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ITEM_PRODUCTBACKLOG" Association="Self.FK_ITEM_PRODUCTBACKLOG">
+            <End Role="PRODUCTBACKLOG" EntitySet="PRODUCTBACKLOGs" />
+            <End Role="ITEM" EntitySet="ITEMs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PBHYPERLINK_PRODUCTBACKLOG" Association="Self.FK_PBHYPERLINK_PRODUCTBACKLOG">
+            <End Role="PRODUCTBACKLOG" EntitySet="PRODUCTBACKLOGs" />
+            <End Role="PBHYPERLINK" EntitySet="PBHYPERLINKs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PICTURE_PERSON" Association="Self.FK_PICTURE_PERSON">
+            <End Role="PERSON" EntitySet="People" />
+            <End Role="PICTURE" EntitySet="PICTUREs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TEAM_PERSON" Association="Self.FK_TEAM_PERSON">
+            <End Role="PERSON" EntitySet="People" />
+            <End Role="TEAM" EntitySet="TEAMs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SPRINTARCHIVEBACKLOG_SPRINTARCHIVE" Association="Self.FK_SPRINTARCHIVEBACKLOG_SPRINTARCHIVE">
+            <End Role="SPRINTARCHIVE" EntitySet="SPRINTARCHIVEs" />
+            <End Role="SPRINTARCHIVEBACKLOG" EntitySet="SPRINTARCHIVEBACKLOGs" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SQL2012_1020727_scrumModelStoreContainer" CdmEntityContainer="SCRUMEntities">
+          <EntitySetMapping Name="ATTACHMENTs">
+            <EntityTypeMapping TypeName="SQL2012_1020727_scrumModel.ATTACHMENT">
+              <MappingFragment StoreEntitySet="ATTACHMENT">
+                <ScalarProperty Name="ATTITEMID" ColumnName="ATTITEMID" />
+                <ScalarProperty Name="ATTACHMENTNAME" ColumnName="ATTACHMENTNAME" />
+                <ScalarProperty Name="ATTACHMENTTYPE" ColumnName="ATTACHMENTTYPE" />
+                <ScalarProperty Name="ATTACHMENTLENGTH" ColumnName="ATTACHMENTLENGTH" />
+                <ScalarProperty Name="ATTACHMENTCONTENT" ColumnName="ATTACHMENTCONTENT" />
+                <ScalarProperty Name="FKITEMID" ColumnName="FKITEMID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CLIENTs">
+            <EntityTypeMapping TypeName="SQL2012_1020727_scrumModel.CLIENT">
+              <MappingFragment StoreEntitySet="CLIENT">
+                <ScalarProperty Name="CLIENTID" ColumnName="CLIENTID" />
+                <ScalarProperty Name="CLIENTNAME" ColumnName="CLIENTNAME" />
+                <ScalarProperty Name="CLIENTLOCATION" ColumnName="CLIENTLOCATION" />
+                <ScalarProperty Name="CLIENTDESCRIPTION" ColumnName="CLIENTDESCRIPTION" />
+                <ScalarProperty Name="CLIENTPHONENUMBER" ColumnName="CLIENTPHONENUMBER" />
+                <ScalarProperty Name="ATTACHMENTSCOUNT" ColumnName="ATTACHMENTSCOUNT" />
+                <ScalarProperty Name="FKPERSONID" ColumnName="FKPERSONID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CLIENTATTACHMENTs">
+            <EntityTypeMapping TypeName="SQL2012_1020727_scrumModel.CLIENTATTACHMENT">
+              <MappingFragment StoreEntitySet="CLIENTATTACHMENT">
+                <ScalarProperty Name="CATTACHMENTID" ColumnName="CATTACHMENTID" />
+                <ScalarProperty Name="CATTACHMENTNAME" ColumnName="CATTACHMENTNAME" />
+                <ScalarProperty Name="CATTACHMENTTYPE" ColumnName="CATTACHMENTTYPE" />
+                <ScalarProperty Name="CATTACHMENTLENGTH" ColumnName="CATTACHMENTLENGTH" />
+                <ScalarProperty Name="CATTACHMENTCONTENT" ColumnName="CATTACHMENTCONTENT" />
+                <ScalarProperty Name="FKCLIENTID" ColumnName="FKCLIENTID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EPICs">
+            <EntityTypeMapping TypeName="SQL2012_1020727_scrumModel.EPIC">
+              <MappingFragment StoreEntitySet="EPIC">
+                <ScalarProperty Name="EPICID" ColumnName="EPICID" />
+                <ScalarProperty Name="EPICTITLE" ColumnName="EPICTITLE" />
+                <ScalarProperty Name="EPICDESCRIPTION" ColumnName="EPICDESCRIPTION" />
+                <ScalarProperty Name="FKCLIENTID" ColumnName="FKCLIENTID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HYPERLINKs">
+            <EntityTypeMapping TypeName="SQL2012_1020727_scrumModel.HYPERLINK">
+              <MappingFragment StoreEntitySet="HYPERLINK">
+                <ScalarProperty Name="LINKITEMID" ColumnName="LINKITEMID" />
+                <ScalarProperty Name="LINKDESCRIPTION" ColumnName="LINKDESCRIPTION" />
+                <ScalarProperty Name="LINKBODY" ColumnName="LINKBODY" />
+                <ScalarProperty Name="FKITEMID" ColumnName="FKITEMID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ITEMs">
+            <EntityTypeMapping TypeName="SQL2012_1020727_scrumModel.ITEM">
+              <MappingFragment StoreEntitySet="ITEM">
+                <ScalarProperty Name="ITEMID" ColumnName="ITEMID" />
+                <ScalarProperty Name="ITEMTITLE" ColumnName="ITEMTITLE" />
+                <ScalarProperty Name="CREATIONDATE" ColumnName="CREATIONDATE" />
+                <ScalarProperty Name="ATTACHMENTSCOUNT" ColumnName="ATTACHMENTSCOUNT" />
+                <ScalarProperty Name="LINKCOUNT" ColumnName="LINKCOUNT" />
+                <ScalarProperty Name="ITEMNOTES" ColumnName="ITEMNOTES" />
+                <ScalarProperty Name="ITEMLOCATION" ColumnName="ITEMLOCATION" />
+                <ScalarProperty Name="FKPERSONID" ColumnName="FKPERSONID" />
+                <ScalarProperty Name="FKPRODUCTBACKLOGID" ColumnName="FKPRODUCTBACKLOGID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LOGs">
+            <EntityTypeMapping TypeName="SQL2012_1020727_scrumModel.LOG">
+              <MappingFragment StoreEntitySet="LOG">
+                <ScalarProperty Name="LogId" ColumnName="LogId" />
+                <ScalarProperty Name="CONTROLLER" ColumnName="CONTROLLER" />
+                <ScalarProperty Name="EXCEPTION" ColumnName="EXCEPTION" />
+                <ScalarProperty Name="STACKTRACE" ColumnName="STACKTRACE" />
+                <ScalarProperty Name="EXDATETIME" ColumnName="EXDATETIME" />
+                <ScalarProperty Name="USERID" ColumnName="USERID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PBATTACHMENTs">
+            <EntityTypeMapping TypeName="SQL2012_1020727_scrumModel.PBATTACHMENT">
+              <MappingFragment StoreEntitySet="PBATTACHMENT">
+                <ScalarProperty Name="PBATTITEMID" ColumnName="PBATTITEMID" />
+                <ScalarProperty Name="PBATTACHMENTNAME" ColumnName="PBATTACHMENTNAME" />
+                <ScalarProperty Name="PBATTACHMENTTYPE" ColumnName="PBATTACHMENTTYPE" />
+                <ScalarProperty Name="PBATTACHMENTLENGTH" ColumnName="PBATTACHMENTLENGTH" />
+                <ScalarProperty Name="PBATTACHMENTCONTENT" ColumnName="PBATTACHMENTCONTENT" />
+                <ScalarProperty Name="PBFKPRODUCTBACKLOG" ColumnName="PBFKPRODUCTBACKLOG" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PBHYPERLINKs">
+            <EntityTypeMapping TypeName="SQL2012_1020727_scrumModel.PBHYPERLINK">
+              <MappingFragment StoreEntitySet="PBHYPERLINK">
+                <ScalarProperty Name="PBLINKITEMID" ColumnName="PBLINKITEMID" />
+                <ScalarProperty Name="PBLINKDESCRIPTION" ColumnName="PBLINKDESCRIPTION" />
+                <ScalarProperty Name="PBLINKBODY" ColumnName="PBLINKBODY" />
+                <ScalarProperty Name="PBFKPBACKLOG" ColumnName="PBFKPBACKLOG" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="People">
+            <EntityTypeMapping TypeName="SQL2012_1020727_scrumModel.PERSON">
+              <MappingFragment StoreEntitySet="PERSON">
+                <ScalarProperty Name="USERID" ColumnName="USERID" />
+                <ScalarProperty Name="NICKNAME" ColumnName="NICKNAME" />
+                <ScalarProperty Name="FIRSTNAME" ColumnName="FIRSTNAME" />
+                <ScalarProperty Name="LASTNAME" ColumnName="LASTNAME" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="REGISTRATIONDATE" ColumnName="REGISTRATIONDATE" />
+                <ScalarProperty Name="PROFILEPICTURE" ColumnName="PROFILEPICTURE" />
+                <ScalarProperty Name="PASSWORD" ColumnName="PASSWORD" />
+                <ScalarProperty Name="PKEY" ColumnName="PKEY" />
+                <ScalarProperty Name="PIV" ColumnName="PIV" />
+                <ScalarProperty Name="ISTEAMCREATOR" ColumnName="ISTEAMCREATOR" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PICTUREs">
+            <EntityTypeMapping TypeName="SQL2012_1020727_scrumModel.PICTURE">
+              <MappingFragment StoreEntitySet="PICTURE">
+                <ScalarProperty Name="PERSONPICTUREID" ColumnName="PERSONPICTUREID" />
+                <ScalarProperty Name="PERSONPICTURENAME" ColumnName="PERSONPICTURENAME" />
+                <ScalarProperty Name="PERSONPICTURETYPE" ColumnName="PERSONPICTURETYPE" />
+                <ScalarProperty Name="PERSONPICTURELENGTH" ColumnName="PERSONPICTURELENGTH" />
+                <ScalarProperty Name="PERSONPICTURECONTENT" ColumnName="PERSONPICTURECONTENT" />
+                <ScalarProperty Name="FKPERSONID" ColumnName="FKPERSONID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PRODUCTBACKLOGs">
+            <EntityTypeMapping TypeName="SQL2012_1020727_scrumModel.PRODUCTBACKLOG">
+              <MappingFragment StoreEntitySet="PRODUCTBACKLOG">
+                <ScalarProperty Name="ITEMID" ColumnName="ITEMID" />
+                <ScalarProperty Name="ITEMTITLE" ColumnName="ITEMTITLE" />
+                <ScalarProperty Name="CREATIONDATE" ColumnName="CREATIONDATE" />
+                <ScalarProperty Name="ATTACHMENTSCOUNT" ColumnName="ATTACHMENTSCOUNT" />
+                <ScalarProperty Name="LINKCOUNT" ColumnName="LINKCOUNT" />
+                <ScalarProperty Name="ITEMNOTES" ColumnName="ITEMNOTES" />
+                <ScalarProperty Name="ITEMLOCATION" ColumnName="ITEMLOCATION" />
+                <ScalarProperty Name="FKEPICID" ColumnName="FKEPICID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RequestStats">
+            <EntityTypeMapping TypeName="SQL2012_1020727_scrumModel.RequestStat">
+              <MappingFragment StoreEntitySet="RequestStat">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="IP" ColumnName="IP" />
+                <ScalarProperty Name="browser" ColumnName="browser" />
+                <ScalarProperty Name="platform" ColumnName="platform" />
+                <ScalarProperty Name="ClientInnerWidth" ColumnName="ClientInnerWidth" />
+                <ScalarProperty Name="ClientInnerHeight" ColumnName="ClientInnerHeight" />
+                <ScalarProperty Name="ClientUserAgent" ColumnName="ClientUserAgent" />
+                <ScalarProperty Name="ClientScreenWidth" ColumnName="ClientScreenWidth" />
+                <ScalarProperty Name="ClientScreenHeight" ColumnName="ClientScreenHeight" />
+                <ScalarProperty Name="ClientScreenAvailableWidth" ColumnName="ClientScreenAvailableWidth" />
+                <ScalarProperty Name="ClientSreenAvailableHeight" ColumnName="ClientSreenAvailableHeight" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SPRINTARCHIVEs">
+            <EntityTypeMapping TypeName="SQL2012_1020727_scrumModel.SPRINTARCHIVE">
+              <MappingFragment StoreEntitySet="SPRINTARCHIVE">
+                <ScalarProperty Name="SPRINTARCHIVEID" ColumnName="SPRINTARCHIVEID" />
+                <ScalarProperty Name="SPRINTARCHIVESTARTDATE" ColumnName="SPRINTARCHIVESTARTDATE" />
+                <ScalarProperty Name="SPRINTARCHIVEENDDATE" ColumnName="SPRINTARCHIVEENDDATE" />
+                <ScalarProperty Name="FKCLIENTID" ColumnName="FKCLIENTID" />
+                <ScalarProperty Name="FKEPICID" ColumnName="FKEPICID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SPRINTARCHIVEBACKLOGs">
+            <EntityTypeMapping TypeName="SQL2012_1020727_scrumModel.SPRINTARCHIVEBACKLOG">
+              <MappingFragment StoreEntitySet="SPRINTARCHIVEBACKLOG">
+                <ScalarProperty Name="SPRINTARCHIVEBACKLOGID" ColumnName="SPRINTARCHIVEBACKLOGID" />
+                <ScalarProperty Name="FKSPRINTARCHIVE" ColumnName="FKSPRINTARCHIVE" />
+                <ScalarProperty Name="FKBACKLOGID" ColumnName="FKBACKLOGID" />
+                <ScalarProperty Name="FKBACKLOGEPICID" ColumnName="FKBACKLOGEPICID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TEAMs">
+            <EntityTypeMapping TypeName="SQL2012_1020727_scrumModel.TEAM">
+              <MappingFragment StoreEntitySet="TEAM">
+                <ScalarProperty Name="TEAMID" ColumnName="TEAMID" />
+                <ScalarProperty Name="TEAMNAME" ColumnName="TEAMNAME" />
+                <ScalarProperty Name="FKPERSONID" ColumnName="FKPERSONID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
