@@ -262,3 +262,19 @@ Pick one Product Backlog that you want to add a task to, and click on three vert
 </ul>  
   
   </p>
+  <p>
+	<h5>Images</h5>
+	<p align="center">
+  <img src="/Images/MDfiles/Infographic-Lite-Scrum.png" alt="infographic"/>
+</p>
+<p align="center">
+  <img src="/Images/MDfiles/Scrum_Board.png" alt="scrum-board"/>
+</p>
+<p align="center">
+  <img src="/Images/MDfiles/iPad_Lite_Scrum.png" alt="ipadv"/>
+</p>
+<p align="center">
+  <img src="/Images/MDfiles/iPad_Lite_Scrum_h.png" alt="ipadh"/>
+</p>
+
+</p>
