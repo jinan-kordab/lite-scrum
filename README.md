@@ -55,7 +55,19 @@ Lite Scrum is not only for programmers, developers, and teams.It can be used by 
   <br>
   ex:<br>
 
-![Screenshot]([screenshot.png](https://github.com/jinan-kordab/lite-scrum/blob/master/Images/cs.png))
+<p align="center">
+  <img src="/Images/cs.png" alt="webconfig"/>
+</p>
+<br>
+
+Also, in the same WebConfig, you need to change your SMTP settings, if you want to keep the SMTP functionality. 
+It is mainly used to send email to reset password and registration confirmation.<br>
+<br>
+So to change the SMTP server of your choice, in the same web.config please find the appSettings section:<br>
+<img src="/Images/as.png" alt="smtpsettings"/>
   </p>
-  
+  <p>
+  <br>
+  After above steps are performed, start your project or navigate to it. 
+  </p>
   
