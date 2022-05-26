@@ -54,7 +54,8 @@ Lite Scrum is not only for programmers, developers, and teams.It can be used by 
   </ul>
   <br>
   ex:<br>
-![image](https://user-images.githubusercontent.com/36752411/170540408-62a86fa4-aef4-4409-be8c-3d379b97780d.png)
+
+![Screenshot]([screenshot.png](https://github.com/jinan-kordab/lite-scrum/blob/master/Images/cs.png))
   </p>
   
   
